@@ -9,7 +9,8 @@ export default class Servicio {
 
     async cargarIngredientes() {
         const response = await fetch('http://localhost:3000/ingredientes')
-        this.ingredientes.value = await response.json()
+        const data = await response.json()
+        this.ingredientes.value = data
     }
 
     async cargarTipos() {
@@ -52,5 +53,5 @@ export default class Servicio {
         this.ingredientes.value = this.ingredientes.value.map(i => i.id === ingrediente.id ? ingrediente : i)
     }
 
-    
+
 }
