@@ -12,17 +12,17 @@ const router = createRouter({
     {
       path: '/ingredientes',
       name: 'ingredientes',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/TodosIngredientesView.vue')
     },    
     {
       path: '/ingredientes/tipo',
       name: 'tipos',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/PorTipoView.vue')
     },    
     {
       path: '/ingredientes/panel',
       name: 'panel',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/PanelIngredientesView.vue')
     }
   ]
 })
