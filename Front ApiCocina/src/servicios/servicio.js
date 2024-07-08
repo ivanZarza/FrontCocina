@@ -1,26 +1,38 @@
 import { ref } from "vue"
 
-export default class Servicio {
+export default class ServicioIngredientes {
     constructor() {
         this.ingredientes = ref([])
         this.tipos = ref([])
         this.porTipo = ref({})
     }
 
-    async cargarIngredientes() {
-        const response = await fetch('http://localhost:3000/ingredientes')
-        const data = await response.json()
-        this.ingredientes.value = data
+    async cargarIngredientes({nombre = null, tipo = null, pagina = null} = {}) {
+        const url = new URL('http://localhost:3000/ingredientes')
+        if (nombre) {
+            url.searchParams.append('nombre', nombre)
+        }
+        if (tipo) {
+            url.searchParams.append('tipo', tipo)
+        }
+        if (pagina) {
+            url.searchParams.append('pagina', pagina)
+        }
+            const response = await fetch(url)
+            const data = await response.json()
+            this.ingredientes.value = data 
     }
 
     async cargarTipos() {
         const response = await fetch('http://localhost:3000/tipos')
-        this.tipos.value = await response.json()
+        const data = await response.json()
+        this.tipos.value = data
     }
 
-    async cargarPorTipo(tipo, pagina) {
-        const response = await fetch(`http://localhost:3000/ingredientes/tipo/${tipo}/${pagina}`)
-        this.porTipo.value = await response.json()
+    async cargarPorTipo(tipo) {
+        const response = await fetch(`http://localhost:3000/ingredientes/tipo/${tipo}`)
+        const data = await response.json()
+        this.porTipo.value = data
     }
 
 

@@ -1,27 +1,23 @@
 <script setup>
-import Servicio from '@/servicios/servicio'
+import ServicioIngredientes from '../servicios/servicio'
 
-const service = new Servicio()
-const ingredientes = service.cargarIngredientes()
+const service = new ServicioIngredientes()
+service.cargarIngredientes()
+const ingredientes = service.ingredientes
 
-
+console.log(service);
+console.log(ingredientes);
 </script>
 
 <template>
-<pre><code>{{ ingredientes }}</code></pre>
 
   <div class="about">
     <div class="wrapper">
-      <div v-for="ingrediente in ingredientes" :key="ingrediente.id" >
+      <div>
         <h1>Ingredientes</h1>
         <p>En esta sección podrás ver todos los ingredientes que tenemos disponibles para ti.</p>
-          <div class="card">
-            <h2>{{ ingrediente.id }}</h2>
-            <p>{{ ingrediente.name }}</p>
-            <p>{{ ingrediente.tipo }}</p>
-            <p>{{ ingrediente.principal }}</p>
-            <p>{{ ingrediente.acompañamiento }}</p>
-            <p>{{ ingrediente.condimento }}</p>
+          <div class="card" v-for="ingrediente in ingredientes" :key="ingrediente.id" >
+            <h3>{{ ingrediente.name }}</h3>
           </div>
       </div>
     </div>
