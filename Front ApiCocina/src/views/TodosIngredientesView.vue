@@ -2,11 +2,11 @@
 import ServicioIngredientes from '../servicios/servicio'
 
 const service = new ServicioIngredientes()
-service.cargarIngredientes()
+service.cargarIngredientes({pagina: 2}
+  
+)
 const ingredientes = service.ingredientes
 
-console.log(service);
-console.log(ingredientes);
 </script>
 
 <template>
