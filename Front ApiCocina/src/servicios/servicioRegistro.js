@@ -5,14 +5,18 @@ export default class ServicioRegistro {
     this.registros = ref([])
   }
 
-  async registrarUsuario(usuario) {
-    const url = new URL('/api/listadelacompra/registro')
+  async registrarUsuario( nombre,apellidos,contraseña) {
+    const url = new URL('http://localhost:3000/api/listadelacompra/registro')
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(usuario)
+      body: JSON.stringify({
+        nombre: `${nombre}`,
+        apellido: `${apellidos}`,
+        contraseña: `${contraseña}`,
+      })
     })
     this.registros.value.push(await response.json())}
 }
