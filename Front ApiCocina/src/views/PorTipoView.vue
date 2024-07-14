@@ -1,13 +1,11 @@
 <script setup>
-import { ref } from "vue"
-import ServicioIngredientes from '../servicios/servicio'
 
-const tipo = ref('carne')
-const pagina = ref(1)
+import ServicioIngredientes from '../servicios/servicioIngredientes'
+
 
 const service = new ServicioIngredientes()
-service .cargarPorTipo(tipo.value, pagina.value)
-const ingredientesPorTipo = service.porTipo
+service .cargarTipos()
+const clasesDeIngredientes = service.tipos
 
 </script>
 <template>
@@ -17,8 +15,8 @@ const ingredientesPorTipo = service.porTipo
       <div>
         <h1>Ingredientes</h1>
         <p>En esta sección podrás ver todos los ingredientes que tenemos disponibles para ti.</p>
-          <div class="card" v-for="ingrediente in ingredientesPorTipo" :key="ingrediente.id" >
-            <h3>{{ ingrediente.name }}</h3>
+          <div class="card" v-for="clases in clasesDeIngredientes" :key="clases.tipo" >
+            <h3>{{ clases.tipo }}</h3>
           </div>
       </div>
     </div>

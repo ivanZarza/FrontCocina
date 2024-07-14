@@ -1,10 +1,8 @@
 <script setup>
-import ServicioIngredientes from '../servicios/servicio'
+import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 const service = new ServicioIngredientes()
-service.cargarIngredientes({pagina: 2}
-  
-)
+service.cargarIngredientes({tipo: 'carne', pagina: 1})
 const ingredientes = service.ingredientes
 
 </script>
@@ -33,3 +31,4 @@ const ingredientes = service.ingredientes
   }
 }
 </style>
+../servicios/sercicioIngredientes
