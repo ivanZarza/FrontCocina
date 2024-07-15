@@ -5,18 +5,29 @@ export default class ServicioRegistro {
     this.registros = ref([])
   }
 
-  async registrarUsuario( nombre,apellidos,contraseña) {
-    const url = new URL('http://localhost:3000/api/listadelacompra/registro')
-    const response = await fetch(url, {
+  async registrarUsuario( nombre, apellidos, contraseña ) {
+
+    const response = await fetch('http://localhost:3000/api/listadelacompra/registro', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        nombre: `${nombre}`,
-        apellido: `${apellidos}`,
-        contraseña: `${contraseña}`,
+        'nombre': nombre, 
+        'apellido': apellidos,
+        'contraseña': contraseña 
       })
-    })
-    this.registros.value.push(await response.json())}
+
+    });
+    // Asegúrate de manejar la respuesta adecuadamente aquí
+    if (response.ok) {
+      const responseData = await response.json();
+      this.registros.value.push(responseData);
+    } else {
+      // Manejar el caso de error
+      console.error('Error al registrar usuario:', response.statusText);
+      console.log(response);
+      console.log(error);
+    }
+  }
 }
