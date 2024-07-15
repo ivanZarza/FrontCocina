@@ -1,9 +1,7 @@
 <script setup>
 
 import { ref } from 'vue'
-import servicioRegistro from '../servicios/servicioRegistro'
-
-const service = new servicioRegistro()
+import { servicioRegistro } from '../servicios/servicioRegistro'
 
 const nombre = ref('')
 const apellidos = ref('')
@@ -12,9 +10,14 @@ const contraseña = ref('')
 
 const registrar = async () => {
   try {
-    await service.registrar(nombre.value, apellidos.value, contraseña.value)
+    await servicioRegistro.registrarUsuario({
+      nombre: nombre.value,
+      apellidos: apellidos.value,
+      contraseña: contraseña.value,
+    })
     alert('Usuario registrado correctamente')
   } catch (error) {
+    console.error(error)
     alert('Error al registrar el usuario')
   }
 }

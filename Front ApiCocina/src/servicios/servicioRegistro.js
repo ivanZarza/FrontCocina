@@ -1,11 +1,13 @@
 import { ref } from 'vue'
 
-export default class ServicioRegistro {
+export class ServicioRegistro {
   constructor() {
     this.registros = ref([])
   }
 
-  async registrarUsuario( nombre, apellidos, contraseña ) {
+  async registrarUsuario({ nombre, apellidos, contraseña }) {
+
+    console.log('registrarUsuario', { nombre, apellidos, contraseña })
 
     const response = await fetch('http://localhost:3000/api/listadelacompra/registro', {
       method: 'POST',
@@ -14,11 +16,12 @@ export default class ServicioRegistro {
       },
       body: JSON.stringify({
         'nombre': nombre, 
-        'apellido': apellidos,
-        'contraseña': contraseña 
+        'apellidos': apellidos,
+        'contraseña': contraseña,
       })
-
     });
+
+    console.log('registrarUsuario:then', response)
     // Asegúrate de manejar la respuesta adecuadamente aquí
     if (response.ok) {
       const responseData = await response.json();
@@ -31,3 +34,5 @@ export default class ServicioRegistro {
     }
   }
 }
+
+export const servicioRegistro = new ServicioRegistro()
