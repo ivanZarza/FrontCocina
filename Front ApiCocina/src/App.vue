@@ -16,6 +16,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink :to="{ name: 'tipos' }">CLASES DE INGREDIENTES</RouterLink>
         <RouterLink :to="{ name: 'panel'}">CREAR, MODIFICAR O BORRAR</RouterLink>
         <RouterLink :to="{ name: 'registro'}">REGISTRO</RouterLink>
+        <RouterLink :to="{ name: 'login'}">LOGIN</RouterLink>
       </nav>
     </div>
   </header>
