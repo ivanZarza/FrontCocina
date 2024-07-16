@@ -5,7 +5,7 @@ export class ServicioLogin {
     this.login = ref([])
   }
 
-  async loginUsuario({ nombre, contraseña }) {
+  async loginUsuario({ nombre,apellidos, contraseña }) {
     try {
       console.log('loginUsuario', { nombre,apellidos, contraseña })
 
@@ -27,12 +27,13 @@ export class ServicioLogin {
         // Lanza un error si la respuesta no es exitosa
         throw new Error('Error al loguear usuario: ' + response.statusText);
       }
-
+      console.log('loginUsuario:then', response);
       const responseData = await response.json();
       this.login.value.push(responseData);
     } catch (error) {
       // Maneja tanto errores de red como errores lanzados manualmente
       console.error(error);
+      console.log(error);
     }
   }
 }

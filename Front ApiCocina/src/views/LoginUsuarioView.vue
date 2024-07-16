@@ -10,17 +10,21 @@ const contraseña = ref('')
 
 const entrar = async () => {
   try {
-    await servicioLogin.loginUsuario({
+    // Almacenar la respuesta de la promesa
+    const respuesta = await servicioLogin.loginUsuario({
       nombre: nombre.value,
       apellidos: apellidos.value,
       contraseña: contraseña.value,
     })
+    console.log(respuesta);
     alert('Usuario logueado correctamente')
   } catch (error) {
     console.error(error)
     alert('Error al loguear el usuario')
   }
 }
+
+
 
 </script>
 
