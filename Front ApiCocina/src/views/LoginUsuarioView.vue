@@ -12,12 +12,15 @@ const entrar = async () => {
   try {
     // Almacenar la respuesta de la promesa
     const respuesta = await servicioLogin.loginUsuario({
-      nombre: nombre.value,
-      apellidos: apellidos.value,
-      contraseña: contraseña.value,
+      'nombre': nombre.value,
+      'apellidos': apellidos.value,
+      'contraseña': contraseña.value,
     })
-    console.log(respuesta);
-    alert('Usuario logueado correctamente')
+    console.log('Respuesta recibida', respuesta);
+    if (!respuesta) {
+      console.error('La respuesta es undefined');
+    }
+    // Redirigir a la página de recetas
   } catch (error) {
     console.error(error)
     alert('Error al loguear el usuario')
