@@ -2,7 +2,7 @@ import { ref } from 'vue'
 
 export class ServicioLogin {
   constructor() {
-    this.login = ref([])
+    this.login = ref({})
   }
 
   async loginUsuario({ nombre,apellidos, contraseña }) {
@@ -28,8 +28,13 @@ export class ServicioLogin {
         throw new Error('Error al loguear usuario: ' + response.statusText);
       }
       console.log('loginUsuario:then', response);
-      const responseData = await response.json();
-      this.login.value.push(responseData);
+      // Convierte la respuesta en un objeto de JavaScript
+      this.login.value = await response.json();
+      console.log('loginUsuario:responseData', this.login.value);
+      // Devuelve la respuesta
+      return this.login.value;
+      //
+
     } catch (error) {
       // Maneja tanto errores de red como errores lanzados manualmente
       console.error(error);
