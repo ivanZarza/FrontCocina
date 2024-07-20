@@ -2,10 +2,11 @@
 import { ref } from 'vue'
 import { servicioLogin } from '../servicios/servicioLogin'
 
+
 const nombre = ref('')
 const apellidos = ref('')
 const contraseña = ref('')
-
+const datosUsuario = ref({})
 
 
 const entrar = async () => {
@@ -20,7 +21,9 @@ const entrar = async () => {
     if (!respuesta) {
       console.error('La respuesta es undefined');
     }
-    // Redirigir a la página de recetas
+      console.log('Usuario logueado correctamente');
+      datosUsuario.value = respuesta.user;
+      console.log('Datos del usuario', datosUsuario.value);
   } catch (error) {
     console.error(error)
     alert('Error al loguear el usuario')
@@ -41,5 +44,15 @@ const entrar = async () => {
     <label><span>Contraseña</span><input type="text" v-model="contraseña" required></label>
     <button type="submit" @click.prevent="entrar" >Entrar</button>
   </div>
+
+  <div>
+    <h2>Datos del usuario</h2>
+    <p>Usuario logueado correctamente</p>
+    <p>Usuario: {{datosUsuario.id}}</p>
+    <p>Nombre: {{datosUsuario.nombre}}</p>
+    <p>Apellidos: {{datosUsuario.apellidos}}</p>
+    </div>
+
+
 
 </template>

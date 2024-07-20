@@ -21,13 +21,10 @@ export class ServicioLogin {
         })
       });
 
-      console.log('loginUsuario:then', response)
-
       if (!response.ok) {
         // Lanza un error si la respuesta no es exitosa
         throw new Error('Error al loguear usuario: ' + response.statusText);
       }
-      console.log('loginUsuario:then', response);
       // Convierte la respuesta en un objeto de JavaScript
       this.login.value = await response.json();
       console.log('loginUsuario:responseData', this.login.value);
