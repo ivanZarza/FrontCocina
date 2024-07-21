@@ -24,6 +24,8 @@ const entrar = async () => {
       console.log('Usuario logueado correctamente');
       datosUsuario.value = respuesta.user;
       console.log('Datos del usuario', datosUsuario.value);
+      //redirigir a la página del usuario
+      //router.push({ name: 'RecetasUsuarioView' })
   } catch (error) {
     console.error(error)
     alert('Error al loguear el usuario')
