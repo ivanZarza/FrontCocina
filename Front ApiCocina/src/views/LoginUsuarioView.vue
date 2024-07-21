@@ -37,7 +37,7 @@ const entrar = async () => {
 </script>
 
 <template>
-  <div>
+  <div class="form">
     <h1>Login</h1>
     <p>Introduce tus credenciales para acceder a la aplicación.</p>
 
