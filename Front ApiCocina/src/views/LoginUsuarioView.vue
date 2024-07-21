@@ -41,10 +41,10 @@ const entrar = async () => {
     <h1>Login</h1>
     <p>Introduce tus credenciales para acceder a la aplicación.</p>
 
-    <label><span>Nombre</span><input type="text" v-model="nombre" required></label>
-    <label><span>Apellidos</span><input type="text" v-model="apellidos" required></label>
-    <label><span>Contraseña</span><input type="text" v-model="contraseña" required></label>
-    <button type="submit" @click.prevent="entrar" >Entrar</button>
+    <label class="input" ><span>Nombre</span><input type="text" v-model="nombre" required></label>
+    <label class="input" ><span>Apellidos</span><input type="text" v-model="apellidos" required></label>
+    <label class="input" ><span>Contraseña</span><input type="text" v-model="contraseña" required></label>
+    <button class="btn" type="submit" @click.prevent="entrar" >Entrar</button>
   </div>
 
   <div>

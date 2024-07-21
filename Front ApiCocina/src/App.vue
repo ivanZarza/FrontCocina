@@ -38,7 +38,7 @@ header {
   /* Asegura que el header ocupe el ancho completo de la pantalla */
   height: 15vh;
   /* Establece el alto del header al 15% del alto de la ventana */
-  background-color: blue;
+  background-color: #2c3e50;
   /* Fondo azul para el header */
   color: white;
   /* Letras en blanco */
