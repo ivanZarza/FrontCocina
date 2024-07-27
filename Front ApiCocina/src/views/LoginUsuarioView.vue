@@ -1,12 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 import { servicioLogin } from '../servicios/servicioLogin'
+import { useDatosUsuario } from '@/stores/usuarioLogeado';
 
 
 const nombre = ref('')
 const apellidos = ref('')
 const contraseña = ref('')
-const datosUsuario = ref({})
+const datosUsuario = useDatosUsuario()
 
 
 const entrar = async () => {
@@ -22,17 +23,17 @@ const entrar = async () => {
       console.error('La respuesta es undefined');
     }
       console.log('Usuario logueado correctamente');
-      datosUsuario.value = respuesta.user;
-      console.log('Datos del usuario', datosUsuario.value);
+/*       datosUsuario.value = respuesta.user; */
+      datosUsuario.establecerUsuario(respuesta.user);
+      console.log('Datos del usuario', datosUsuario.usuario);
       //redirigir a la página del usuario
+      
       //router.push({ name: 'RecetasUsuarioView' })
   } catch (error) {
     console.error(error)
     alert('Error al loguear el usuario')
   }
 }
-
-
 
 </script>
 
@@ -50,9 +51,9 @@ const entrar = async () => {
   <div>
     <h2>Datos del usuario</h2>
     <p>Usuario logueado correctamente</p>
-    <p>Usuario: {{datosUsuario.id}}</p>
-    <p>Nombre: {{datosUsuario.nombre}}</p>
-    <p>Apellidos: {{datosUsuario.apellidos}}</p>
+    <p>Usuario: {{datosUsuario.usuario.id}}</p>
+    <p>Nombre: {{datosUsuario.usuario.nombre}}</p>
+    <p>Apellidos: {{datosUsuario.usuario.apellidos}}</p>
     </div>
 
 

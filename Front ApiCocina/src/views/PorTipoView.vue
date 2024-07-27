@@ -4,7 +4,7 @@ import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 
 const service = new ServicioIngredientes()
-service .cargarTipos()
+service.cargarTipos()
 const clasesDeIngredientes = service.tipos
 
 </script>

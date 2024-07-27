@@ -1,5 +1,6 @@
+
 import { ref } from 'vue'
-import router from '../router' // Asegúrate de ajustar la ruta de importación según la estructura de tu proyecto
+
 
 export class ServicioLogout {
   constructor() {
@@ -8,16 +9,20 @@ export class ServicioLogout {
 
   async logoutUsuario(){
     try {
-      const response = await fetch('http://localhost:3000/api/listadelacompra/logout')
-      // Asumiendo que la respuesta es exitosa sin necesidad de procesar un JSON
+      const response = await fetch('http://localhost:3000/api/listadelacompra/logout', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       if (response.ok) {
+        console.log('Sesión cerrada');
       } else {
         console.error('Error al cerrar sesión');
       }
     } catch (error) {
       console.error(error);
     }
-  }
-}
+  }}
 
 export const servicioLogout = new ServicioLogout()

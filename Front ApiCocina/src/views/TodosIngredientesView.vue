@@ -1,13 +1,15 @@
 <script setup>
+import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 const service = new ServicioIngredientes()
-service.cargarIngredientes({tipo: 'carne', pagina: 1})
+service.cargarIngredientes()
 const ingredientes = service.ingredientes
 
 </script>
 
 <template>
+  <PanelIngredientes/>
 
   <div class="about">
     <div class="wrapper">

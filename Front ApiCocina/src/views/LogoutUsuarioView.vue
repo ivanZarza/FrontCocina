@@ -6,7 +6,7 @@ const router = useRouter();
 
 const cerrarSesion = async () => {
   await servicioLogout.logoutUsuario();
-  router.push('/'); 
+  router.push('/login'); 
 };
 </script>
 
