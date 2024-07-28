@@ -4,7 +4,7 @@ import ServicioIngredientes from '../../servicios/servicioIngredientes'
 
 const nombre = ref('')
 const tipo = ref('')
-const pagina = ref()
+const pagina = ref(1)
 const service = new ServicioIngredientes()
 const clasesDeIngredientes = service.tipos
 const ingredientes = service.ingredientes
@@ -32,14 +32,14 @@ function buscar() {
     </div>
     <div class="search">
       <input type="search" v-model="nombre" placeholder="Buscar ingrediente">
-      <button @click="buscar">Buscar</button>
+      <button @click.prevent="buscar">Buscar</button>
     </div>
     <div class="pagina">
-      <button @click="pagina = 0">Inicio</button>
-      <button @click="pagina = pagina - 1" :disabled="pagina === 0">Anterior</button>
-      <button @click="pagina = pagina + 1"
+      <button @click.prevent="pagina = 1">Inicio</button>
+      <button @click.prevent="pagina = pagina - 1" :disabled="pagina === 1">Anterior</button>
+      <button @click.prevent="pagina = pagina + 1"
         :disabled="pagina === Math.floor(ingredientes.length / 10)">Siguiente</button>
-      <button @click="pagina = Math.floor(ingredientes.length / 10)">Fin</button>
+      <button @click.prevent="pagina = Math.floor(ingredientes.length / 10)">Fin</button>
     </div>
   </form>
 
