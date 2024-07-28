@@ -1,32 +1,29 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref } from 'vue'
 import ServicioIngredientes from '../../servicios/servicioIngredientes'
 
 const nombre = ref('')
 const tipo = ref('')
-const pagina = ref(1)
-
+const pagina = ref()
 const service = new ServicioIngredientes()
 const clasesDeIngredientes = service.tipos
-const ingredientes = ref([]) // Ahora es reactivo y se actualiza con la respuesta
-
-// Cargar tipos al inicio
+const ingredientes = service.ingredientes
 service.cargarTipos()
+service.cargarIngredientes()
 
-// Observador para cargar ingredientes cuando cambien los criterios de búsqueda o la página
-watchEffect(() => {
-  const respuesta = service.cargarIngredientes({ nombre: nombre.value, tipo: tipo.value, pagina: pagina.value })
-  ingredientes.value = respuesta.ingredientes
-})
+
 
 function buscar() {
-  pagina.value = 1 // Reinicia a la primera página para una nueva búsqueda
+  service.cargarIngredientes({ nombre: nombre.value, tipo: tipo.value, pagina: pagina.value })
 }
+
+
+
 </script>
 
 <template>
 
-<form @submit.prevent="buscar">
+  <form action="">
     <div class="tipo">
       <select v-model="tipo">
         <option value="null">Selecciona un tipo</option>
@@ -35,11 +32,14 @@ function buscar() {
     </div>
     <div class="search">
       <input type="search" v-model="nombre" placeholder="Buscar ingrediente">
-      <button type="submit">Buscar</button>
+      <button @click="buscar">Buscar</button>
     </div>
     <div class="pagina">
-      <button type="button" @click="pagina = pagina > 1 ? pagina - 1 : 1" :disabled="pagina === 1">Anterior</button>
-      <button type="button" @click="pagina++" :disabled="ingredientes.length < 20">Siguiente</button>
+      <button @click="pagina = 0">Inicio</button>
+      <button @click="pagina = pagina - 1" :disabled="pagina === 0">Anterior</button>
+      <button @click="pagina = pagina + 1"
+        :disabled="pagina === Math.floor(ingredientes.length / 10)">Siguiente</button>
+      <button @click="pagina = Math.floor(ingredientes.length / 10)">Fin</button>
     </div>
   </form>
 
