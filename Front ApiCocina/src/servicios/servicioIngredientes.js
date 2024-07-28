@@ -3,10 +3,11 @@ import { ref } from "vue"
 export default class ServicioIngredientes {
   constructor() {
     this.ingredientes = ref([])
+    this.totalElementos = ref(0)
     this.tipos = ref([])
     this.porTipo = ref([])
-  }
 
+  }
   async cargarIngredientes({ nombre = null, tipo = null, pagina = null } = {}) {
     const url = new URL('http://localhost:3000/api/listadelacompra/ingredientes')
     if (nombre) {
@@ -21,6 +22,8 @@ export default class ServicioIngredientes {
     const response = await fetch(url)
     const data = await response.json()
     this.ingredientes.value = data
+    console.log(this.ingredientes.value);
+
   }
 
   async cargarTipos() {

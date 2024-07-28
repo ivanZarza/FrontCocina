@@ -10,6 +10,7 @@ const clasesDeIngredientes = service.tipos
 const ingredientes = service.ingredientes
 service.cargarTipos()
 service.cargarIngredientes()
+console.log(ingredientes);
 
 
 
