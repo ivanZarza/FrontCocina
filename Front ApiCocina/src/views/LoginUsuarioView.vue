@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue' 
 import { servicioLogin } from '../servicios/servicioLogin'
-import { useDatosUsuario } from '@/stores/usuarioLogeado';
+import { useDatosUsuario } from '@/stores/usuarioLogeado'
 
 
 const nombre = ref('')
@@ -23,8 +23,8 @@ const entrar = async () => {
       console.error('La respuesta es undefined');
     }
       console.log('Usuario logueado correctamente');
-/*       datosUsuario.value = respuesta.user; */
-      datosUsuario.establecerUsuario(respuesta.user);
+
+      datosUsuario.establecerUsuario(respuesta.user);//
       console.log('Datos del usuario', datosUsuario.usuario);
       //redirigir a la página del usuario
       
