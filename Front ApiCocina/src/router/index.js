@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { estaAutenticado } from '../helpers/token.helpers'
 
+const usuario = estaAutenticado()
+console.log('usuario', usuario)
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
