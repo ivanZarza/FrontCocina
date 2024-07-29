@@ -22,8 +22,7 @@ export default class ServicioIngredientes {
     const response = await fetch(url)
     const data = await response.json()
     this.ingredientes.value = data
-    console.log(this.ingredientes.value);
-
+    console.log('cargarIngredientes', this.ingredientes.value)
   }
 
   async cargarTipos() {

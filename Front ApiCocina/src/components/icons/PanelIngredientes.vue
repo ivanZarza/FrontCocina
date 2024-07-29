@@ -6,12 +6,12 @@ const nombre = ref('')
 const tipo = ref('')
 const pagina = ref(1)
 const service = new ServicioIngredientes()
-const clasesDeIngredientes = service.tipos
-const ingredientes = service.ingredientes
-service.cargarTipos()
-service.cargarIngredientes()
-console.log(ingredientes);
 
+const clasesDeIngredientes = service.tipos
+service.cargarTipos()
+
+const ingredientes = service.ingredientes
+service.cargarIngredientes()
 
 
 function buscar() {
@@ -35,13 +35,7 @@ function buscar() {
       <input type="search" v-model="nombre" placeholder="Buscar ingrediente">
       <button @click.prevent="buscar">Buscar</button>
     </div>
-    <div class="pagina">
-      <button @click.prevent="pagina = 1">Inicio</button>
-      <button @click.prevent="pagina = pagina - 1" :disabled="pagina === 1">Anterior</button>
-      <button @click.prevent="pagina = pagina + 1"
-        :disabled="pagina === Math.floor(ingredientes.length / 10)">Siguiente</button>
-      <button @click.prevent="pagina = Math.floor(ingredientes.length / 10)">Fin</button>
-    </div>
+
   </form>
 
   <div class="prueba">
