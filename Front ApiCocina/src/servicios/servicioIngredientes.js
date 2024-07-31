@@ -26,7 +26,7 @@ export default class ServicioIngredientes {
   }
 
   async cargarTipos() {
-    const response = await fetch('http://localhost:3000/api/listadelacompra/ingredientes/tipo')
+    const response = await fetch('http://localhost:3000/api/listadelacompra/ingredientes/tipo', )
     const data = await response.json()
     this.tipos.value = data
   }
