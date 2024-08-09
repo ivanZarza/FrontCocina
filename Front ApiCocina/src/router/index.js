@@ -57,7 +57,7 @@ const router = createRouter({
 
 // Guardia de navegación global
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = /* tu lógica para verificar si el usuario está autenticado */
+  const isAuthenticated = true // Reemplaza esto con tu lógica de autenticación
   if (!isAuthenticated && to.meta.requiresAuth) {
     next({ name: 'login', query: { redirect: to.fullPath } });
   } else {

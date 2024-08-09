@@ -9,14 +9,13 @@ export const useDatosUsuario = defineStore('datosUsuario', {
       this.usuario = usuario; // Asigna el usuario a la variable usuario de la store
       // Guarda el usuario en localStorage
       localStorage.setItem('usuario', JSON.stringify(usuario))
+      console.log('usuario guardado en localStorage:', usuario);
     },
-    inicializarUsuarioDesdeLocalStorage() {
-      // Intenta obtener el usuario desde localStorage
-      const usuarioGuardado = localStorage.getItem('usuario')
-      if (usuarioGuardado) {
-        // Si existe un usuario guardado, lo parsea y lo establece en el estado
-        this.usuario = JSON.parse(usuarioGuardado);
-      }
+    limpiarUsuario() {
+      this.usuario = {}; // Limpia la variable usuario de la store
+      // Limpia el usuario de localStorage
+      localStorage.removeItem('usuario');
+      console.log('usuario eliminado de localStorage');
     },
   },
 })

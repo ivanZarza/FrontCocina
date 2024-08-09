@@ -14,7 +14,7 @@ const contraseña = ref('')
 
 
 const handleLoginSuccess = () => {
-      const redirectRoute = route.query.redirect || '/'
+      const redirectRoute = route.query.redirect || '/me'
       router.push(redirectRoute)
     }
 
@@ -33,7 +33,7 @@ const entrar = async () => {
       console.log('Usuario logueado correctamente');
 
       datosUsuario.establecerUsuario(respuesta.user)// Guardar los datos del usuario en el store
-      
+
       console.log('Datos del usuario', datosUsuario.usuario)// Mostrar los datos del usuario en la consola
 
       handleLoginSuccess()// Llama a esta función para manejar el éxito del login
