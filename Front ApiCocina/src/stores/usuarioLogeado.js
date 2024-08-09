@@ -1,12 +1,22 @@
 import { defineStore } from 'pinia'
 
-export const useDatosUsuario = defineStore('datosUsuario', { // nombre de la store 
-  state: () => ({ // estado inicial
-    usuario: {},// variable usuario vacia representara el usuario logeado
+export const useDatosUsuario = defineStore('datosUsuario', {
+  state: () => ({
+    usuario: {}, // Variable usuario vacía representará el usuario logeado
   }),
-  actions: { // acciones o funciones que se pueden ejecutar en la store
-    establecerUsuario(usuario) { // funcion que recibe un usuario
-      this.usuario = usuario // asigna el usuario a la variable usuario de la store
+  actions: {
+    establecerUsuario(usuario) {
+      this.usuario = usuario; // Asigna el usuario a la variable usuario de la store
+      // Guarda el usuario en localStorage
+      localStorage.setItem('usuario', JSON.stringify(usuario))
+    },
+    inicializarUsuarioDesdeLocalStorage() {
+      // Intenta obtener el usuario desde localStorage
+      const usuarioGuardado = localStorage.getItem('usuario')
+      if (usuarioGuardado) {
+        // Si existe un usuario guardado, lo parsea y lo establece en el estado
+        this.usuario = JSON.parse(usuarioGuardado);
+      }
     },
   },
 })

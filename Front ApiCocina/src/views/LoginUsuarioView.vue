@@ -2,13 +2,21 @@
 import { ref } from 'vue' 
 import { servicioLogin } from '../servicios/servicioLogin'
 import { useDatosUsuario } from '@/stores/usuarioLogeado'
+import { useRouter, useRoute } from 'vue-router'
 
+const datosUsuario = useDatosUsuario()
+const router = useRouter()
+const route = useRoute()
 
 const nombre = ref('')
 const apellidos = ref('')
 const contraseña = ref('')
-const datosUsuario = useDatosUsuario()
 
+
+const handleLoginSuccess = () => {
+      const redirectRoute = route.query.redirect || '/'
+      router.push(redirectRoute)
+    }
 
 const entrar = async () => {
   try {
@@ -18,17 +26,18 @@ const entrar = async () => {
       'apellidos': apellidos.value,
       'contraseña': contraseña.value,
     })
-    console.log('Respuesta recibida', respuesta);
+    console.log('Respuesta recibida', respuesta)
     if (!respuesta) {
-      console.error('La respuesta es undefined');
+      console.error('La respuesta es undefined')
     }
       console.log('Usuario logueado correctamente');
 
-      datosUsuario.establecerUsuario(respuesta.user);//
-      console.log('Datos del usuario', datosUsuario.usuario);
-      //redirigir a la página del usuario
+      datosUsuario.establecerUsuario(respuesta.user)// Guardar los datos del usuario en el store
       
-      //router.push({ name: 'RecetasUsuarioView' })
+      console.log('Datos del usuario', datosUsuario.usuario)// Mostrar los datos del usuario en la consola
+
+      handleLoginSuccess()// Llama a esta función para manejar el éxito del login
+
   } catch (error) {
     console.error(error)
     alert('Error al loguear el usuario')
