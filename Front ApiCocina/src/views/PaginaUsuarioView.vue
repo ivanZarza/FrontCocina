@@ -1,20 +1,17 @@
 <script setup>
-import { useDatosUsuario } from '@/stores/usuarioLogeado'
+import { ref } from 'vue';
+import { useDatosUsuario } from '@/stores/usuarioLogeado';
 
-const datosUsuario = useDatosUsuario()
+const datosUsuario = useDatosUsuario();
+datosUsuario.obtenerDatosUsuario(); // Llama directamente al método
 
-const userString = localStorage.getItem('usuario'); // Obtiene el string JSON
-const user = JSON.parse(userString); // Parsea el string a un objeto JavaScript
-console.log(user);
+// Crea una referencia reactiva para el usuario que se utilizará en el template
+const user = ref(datosUsuario.usuario);
 
-
-console.log(datosUsuario);
 </script>
 
 <template>
 <div class="bienvenida">
-  <h1>Hola {{user.nombre}} {{user.id}}</h1>
+  <h1>Hola {{ user.nombre }} {{ user.id }}</h1>
 </div>
-
-
 </template>
