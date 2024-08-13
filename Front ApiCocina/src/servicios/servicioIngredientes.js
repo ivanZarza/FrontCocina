@@ -3,7 +3,7 @@ import { ref } from "vue"
 export default class ServicioIngredientes {
   constructor() {
     this.ingredientes = ref([])
-    this.totalElementos = ref(0)
+    this.totalElementos = ref([])
     this.tipos = ref([])
     this.porTipo = ref([])
 
@@ -19,10 +19,13 @@ export default class ServicioIngredientes {
     if (pagina) {
       url.searchParams.append('pagina', pagina)
     }
+
     const response = await fetch(url)
     const data = await response.json()
-    this.ingredientes.value = data
+    this.ingredientes.value = data.resultados
+    this.totalElementos.value = data.totalElementos
     console.log('cargarIngredientes', this.ingredientes.value)
+    console.log('Todos los ingredientes', this.totalElementos.value)
   }
 
   async cargarTipos() {

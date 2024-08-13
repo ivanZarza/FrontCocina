@@ -2,16 +2,16 @@
 import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
-/* const service = new ServicioIngredientes()
+const service = new ServicioIngredientes()
+const ingredientes = service.totalElementos
 service.cargarIngredientes()
-const ingredientes = service.ingredientes */
 
 </script>
 
 <template>
   <PanelIngredientes/>
 
-<!--   <div class="about">
+  <div class="about">
     <div class="wrapper">
       <div>
         <h1>Ingredientes</h1>
@@ -21,7 +21,7 @@ const ingredientes = service.ingredientes */
           </div>
       </div>
     </div>
-  </div> -->
+  </div>
 </template>
 
 <style>
