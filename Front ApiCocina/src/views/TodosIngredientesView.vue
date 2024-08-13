@@ -3,7 +3,7 @@ import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 const service = new ServicioIngredientes()
-const ingredientes = service.totalElementos
+const ingredientes = service.ingredientes
 service.cargarIngredientes()
 
 </script>
@@ -33,4 +33,4 @@ service.cargarIngredientes()
   }
 }
 </style>
-../servicios/sercicioIngredientes
+

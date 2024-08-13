@@ -5,36 +5,21 @@ import ServicioIngredientes from '../../servicios/servicioIngredientes'
 const nombre = ref('')
 const tipo = ref('')
 const pagina = ref(0)
-const tamañoPagina = ref(20)
 const service = new ServicioIngredientes()
 
 const clasesDeIngredientes = service.tipos
 service.cargarTipos()
 
 const ingredientes = service.ingredientes
-const totalElementos = service.totalElementos
-console.log(totalElementos);
 service.cargarIngredientes()
 
-const totalPaginas = Math.ceil(totalElementos.value / tamañoPagina.value)
+
 
 function buscar() {
   service.cargarIngredientes({ nombre: nombre.value, tipo: tipo.value, pagina: pagina.value })
 }
 
-function siguiente() {
-  if (pagina.value < totalPaginas) {
-    pagina.value++
-    buscar()
-  }
-}
 
-function anterior() {
-  if (pagina.value > 0) {
-    pagina.value--
-    buscar()
-  }
-}
 
 </script>
 
@@ -51,10 +36,8 @@ function anterior() {
       <input type="search" v-model="nombre" placeholder="Buscar ingrediente">
       <button @click.prevent="buscar">Buscar</button>
     </div>
-  </form>
 
-  <button @click="paginaAnterior" :disabled="pagina.value === 0">Anterior</button>
-  <button @click="siguientePagina" :disabled="pagina.value === totalPaginas - 1">Siguiente</button>
+  </form>
 
   <div class="prueba">
     <p>esto es una prueba</p>
