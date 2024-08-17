@@ -40,9 +40,30 @@ function buscar() {
   </form>
 
   <div class="prueba">
-    <p>esto es una prueba</p>
     <div class="card" v-for="ingrediente in ingredientes" :key="ingrediente.id" >
-            <h3>{{ ingrediente.name }}</h3>
+            <p>{{ ingrediente.name }}</p>
           </div>
   </div>
 </template>
+
+<style scoped>
+
+.prueba {
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 3px; 
+}
+
+.card {
+  width: 8rem;
+  color: black;
+  font-size: 1rem;
+  text-align: center;
+  background-color: #c4c4c4;
+  padding: 3px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+</style>
