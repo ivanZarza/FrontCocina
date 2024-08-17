@@ -70,4 +70,6 @@ function buscar() {
   background-color: #ffffff;
 }
 
+
+
 </style>
