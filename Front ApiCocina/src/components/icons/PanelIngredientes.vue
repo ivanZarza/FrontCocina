@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import ServicioIngredientes from '../../servicios/servicioIngredientes'
 
 const nombre = ref('')
@@ -37,39 +37,143 @@ const paginaAnterior = () => {
   }
 }
 
+function cambiarSeleccion(ingrediente) {
+  ingrediente.seleccionado = !ingrediente.seleccionado;
+}
+
+watch(tipo, () => {
+  buscar()
+})
+
 </script>
 
 <template>
+
+  <div class="bus">
     <h1>Busca tus ingredientes</h1>
     <form action="">
       <div class="tipo">
-        <p>Selecciona por tipo de ingrediente</p>
+        <span>Selecciona por tipo de ingrediente</span>
         <select v-model="tipo">
           <option value="null">Selecciona un tipo</option>
-          <option v-for="clase in clasesDeIngredientes" :key="clase.tipo" :value="clase.tipo">{{ clase.tipo }}</option>
+          <option v-for="clase in clasesDeIngredientes" :key="clase.tipo" :value="clase.tipo">{{ clase.tipo }}
+          </option>
         </select>
       </div>
       <div class="buscador">
-        <input type="search" v-model="nombre" placeholder="Buscar ingrediente">
-        <button @click.prevent="lanzarBusqueda">Buscar</button>
+        <input type="search" v-model="nombre" placeholder="Busca por una palabra">
       </div>
+      <button @click.prevent="lanzarBusqueda">Buscar</button>
     </form>
-    <div class="paginacion">
-      <button @click="paginaAnterior" :disabled="pagina === 1">Anterior</button>
-      <span>Página {{ pagina }}</span>
-      <button @click="paginaSiguiente">Siguiente</button>
+  </div>
+  <div class="paginacion">
+    <button @click="paginaAnterior" :disabled="pagina === 1">Anterior</button>
+    <span>Página {{ pagina }}</span>
+    <button @click="paginaSiguiente">Siguiente</button>
+  </div>
+  <div class="prueba">
+    <div class="card" 
+    v-for="ingrediente in ingredientes" 
+    :key="ingrediente.id"
+    @click="cambiarSeleccion(ingrediente)"
+    :class="{ seleccionado: ingrediente.seleccionado }"
+    >
+      <p>{{ ingrediente.name }}</p>
     </div>
-    <div class="prueba">
-      <div class="card" v-for="ingrediente in ingredientes" :key="ingrediente.id">
-        <p>{{ ingrediente.name }}</p>
-      </div>
-    </div>
+  </div>
+
 
 </template>
 
 <style scoped>
+.bus {
+  margin: none;
+  padding: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
+.tipo {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+  padding: 5px;
+  margin: 5px;
+}
+
+.buscador {  
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: start;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #b5bafd;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+button:hover {
+  background-color: #949bf8;
+}
+
+.paginacion {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.paginacion button {
+  background-color: #abffb2;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.paginacion button:hover {
+  background-color: #69ff69;
+}
 
 .prueba {
   display: grid;
@@ -84,10 +188,14 @@ const paginaAnterior = () => {
   color: black;
   font-size: 1rem;
   text-align: center;
-  background-color: #c4c4c4;
+  background-color: #ffaed7;
   padding: 3px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card.seleccionado {
+  background-color: white; 
 }
 
 .card::first-letter {
@@ -95,6 +203,6 @@ const paginaAnterior = () => {
 }
 
 .card:hover {
-  background-color: #ffffff;
+  background-color: #fa9aca;
 }
 </style>

@@ -27,6 +27,7 @@ function mostrarSiguienteDiv3() {
 </script>
 
 <template>
+    <div class="recetas-usuario-view">
   <div>
     <h1>Recetas</h1>
     <h2>Crear receta</h2>
@@ -50,38 +51,67 @@ function mostrarSiguienteDiv3() {
       <PanelIngredientes />
     </div>
   </div>
+</div>
 </template>
 
 <style scoped>
+
+
+.recetas-usuario-view {
+  width: 100%;
+  min-height: 100vh;
+  text-align: center;
+  background-color: #ffffbe;
+}
 .contenedor {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-start; 
-  justify-content:space-around ;
+  justify-content:space-between ;
 }
 
 .pasos {
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .p1 {
+  width:80%;
   background-color: lightblue;
   padding: 10px;
   height: 500px;
+  margin: 20px
 }
 
 .p2 {
+  width:80%;
   background-color: lightgreen;
   padding: 10px;
   height: 500px;
+  margin: 20px
 }
 
 .p3 {
+  width:80%;
   background-color: lightcoral;
   padding: 10px;
   height: 500px;
+  margin: 20px 0;
 }
+
+.panel {
+  position: fixed;
+  top: 30%;
+  right: 0;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 </style>
