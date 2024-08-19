@@ -7,6 +7,7 @@ const tipo = ref('')
 const pagina = ref(1)
 const service = new ServicioIngredientes()
 
+const emits = defineEmits(['ingredienteSeleccionado'])
 
 const clasesDeIngredientes = service.tipos
 service.cargarTipos()
@@ -39,6 +40,7 @@ const paginaAnterior = () => {
 
 function cambiarSeleccion(ingrediente) {
   ingrediente.seleccionado = !ingrediente.seleccionado;
+  emits('ingredienteSeleccionado', ingrediente);
 }
 
 watch(tipo, () => {
