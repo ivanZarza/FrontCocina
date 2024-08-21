@@ -9,6 +9,10 @@ const service = new ServicioIngredientes()
 
 const emits = defineEmits(['ingredienteSeleccionado'])
 
+defineExpose({
+  colorIngredienteOriginal
+})
+
 const clasesDeIngredientes = service.tipos
 service.cargarTipos()
 
@@ -46,6 +50,12 @@ function cambiarSeleccion(ingrediente) {
 watch(tipo, () => {
   buscar()
 })
+
+function colorIngredienteOriginal() {
+  ingredientes.value.forEach(ingrediente => {
+    ingrediente.seleccionado = false;
+  });
+}
 
 </script>
 

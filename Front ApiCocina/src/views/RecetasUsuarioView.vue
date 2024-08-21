@@ -9,9 +9,20 @@ const condimentos = ref([])
 const mostrarDiv2 = ref(false)
 const mostrarDiv3 = ref(false)
 const mostrarDiv4 = ref(false)
+
 const div2 = ref(null)
 const div3 = ref(null)
 const div4 = ref(null)
+
+const numeroDePersonas = ref(1)
+
+const panelIngredientesRef = ref(null)
+
+function llamarRestablecerColores() {
+  if (panelIngredientesRef.value) {
+    panelIngredientesRef.value.colorIngredienteOriginal()
+  }
+}
 
 function mostrarSiguienteDiv2() {
   mostrarDiv2.value = true
@@ -19,6 +30,7 @@ function mostrarSiguienteDiv2() {
     if (div2.value) {
       div2.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
+    llamarRestablecerColores()
   })
 }
 
@@ -28,6 +40,7 @@ function mostrarSiguienteDiv3() {
     if (div3.value) {
       div3.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
+    llamarRestablecerColores()
   })
 }
 
@@ -37,6 +50,7 @@ function mostrarSiguienteDiv4() {
     if (div4.value) {
       div4.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
+    llamarRestablecerColores()
   })
 }
 
@@ -72,6 +86,10 @@ function agregarIngrediente(ingrediente) {
       <div class="pasos">
         <div class="p1">
           <h3>PASO 1</h3>
+          <div class="numero-personas">
+            <label><span>Número de personas:</span></label>
+            <input type="number" v-model="numeroDePersonas" min="1" />
+          </div>
           <p>Elige el ingrediente principal</p>
           <button @click="mostrarSiguienteDiv2">SIGUIENTE</button>
         </div>
@@ -96,7 +114,7 @@ function agregarIngrediente(ingrediente) {
         </div>
       </div>
       <div class="panel">
-        <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente"/>
+        <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef"/>
       </div>
     </div>
   </div>
@@ -140,6 +158,27 @@ function agregarIngrediente(ingrediente) {
 
 .p1 {
   background-color: lightblue;
+}
+
+.numero-personas {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.numero-personas label {
+  font-size: 1.2rem;
+}
+
+.numero-personas input {
+  width: 50px;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  background-color: rgb(217, 243, 252);
+  text-align: center;
 }
 
 .p2 {
@@ -190,4 +229,6 @@ button {
   align-items: center;
   justify-content: center;
 }
+
+
 </style>
