@@ -10,7 +10,7 @@ const service = new ServicioIngredientes()
 const emits = defineEmits(['ingredienteSeleccionado'])
 
 defineExpose({
-  colorIngredienteOriginal
+  limpiarPanel
 })
 
 const clasesDeIngredientes = service.tipos
@@ -51,10 +51,13 @@ watch(tipo, () => {
   buscar()
 })
 
-function colorIngredienteOriginal() {
+function limpiarPanel() {
   ingredientes.value.forEach(ingrediente => {
-    ingrediente.seleccionado = false;
-  });
+    ingrediente.seleccionado = false
+    nombre.value = ''
+    tipo.value = ''
+    pagina.value = 1
+  })
 }
 
 </script>

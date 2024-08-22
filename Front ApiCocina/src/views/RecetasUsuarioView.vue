@@ -1,5 +1,6 @@
 <script setup>
 import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
+import
 import { ref, nextTick } from 'vue'
 
 const principal = ref([])
@@ -18,9 +19,9 @@ const numeroDePersonas = ref(1)
 
 const panelIngredientesRef = ref(null)
 
-function llamarRestablecerColores() {
+function llamarLimpiarPanel() {
   if (panelIngredientesRef.value) {
-    panelIngredientesRef.value.colorIngredienteOriginal()
+    panelIngredientesRef.value.limpiarPanel()
   }
 }
 
@@ -30,7 +31,7 @@ function mostrarSiguienteDiv2() {
     if (div2.value) {
       div2.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
-    llamarRestablecerColores()
+    llamarLimpiarPanel()
   })
 }
 
@@ -40,7 +41,7 @@ function mostrarSiguienteDiv3() {
     if (div3.value) {
       div3.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
-    llamarRestablecerColores()
+    llamarLimpiarPanel()
   })
 }
 
@@ -50,7 +51,7 @@ function mostrarSiguienteDiv4() {
     if (div4.value) {
       div4.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
-    llamarRestablecerColores()
+    llamarLimpiarPanel()
   })
 }
 
@@ -91,16 +92,31 @@ function agregarIngrediente(ingrediente) {
             <input type="number" v-model="numeroDePersonas" min="1" />
           </div>
           <p>Elige el ingrediente principal</p>
+          <ul>
+            <li v-for="ingrediente in principal" :key="ingrediente.id">
+              {{ ingrediente.name }}
+            </li>
+          </ul>
           <button @click="mostrarSiguienteDiv2">SIGUIENTE</button>
         </div>
         <div class="p2" v-if="mostrarDiv2" ref="div2">
           <h3>PASO 2</h3>
           <p>Elige el acompañamiento</p>
+          <ul>
+            <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
+              {{ ingrediente.name }}
+            </li>
+          </ul>
           <button @click="mostrarSiguienteDiv3">SIGUIENTE</button>
         </div>
         <div class="p3" v-if="mostrarDiv3" ref="div3">
           <h3>PASO 3</h3>
           <p>Elige los condimentos para hacer la receta</p>
+          <ul>
+            <li v-for="ingrediente in condimentos" :key="ingrediente.id">
+              {{ ingrediente.name }}
+            </li>
+          </ul>
           <button @click="mostrarSiguienteDiv4">SIGUIENTE</button>
         </div>
         <div class="p4" v-if="mostrarDiv4" ref="div4">
@@ -114,7 +130,7 @@ function agregarIngrediente(ingrediente) {
         </div>
       </div>
       <div class="panel">
-        <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef"/>
+        <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef" />
       </div>
     </div>
   </div>
@@ -153,7 +169,8 @@ function agregarIngrediente(ingrediente) {
   border-radius: 20%;
   padding: 10px;
   min-height: 300px;
-  margin: 20px
+  margin: 20px;
+  gap: 10px;
 }
 
 .p1 {
@@ -195,10 +212,12 @@ function agregarIngrediente(ingrediente) {
 
 textarea {
   width: 80%;
-  height: 200px;
+  height: 150px;
   border-radius: 10px;
   border: 1px solid #cccccc;
   background-color: #ffa9fb;
+  margin: 10px;
+  resize: none;
 }
 
 .cap {
@@ -229,6 +248,4 @@ button {
   align-items: center;
   justify-content: center;
 }
-
-
 </style>
