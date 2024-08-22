@@ -1,7 +1,8 @@
 
 
-export function principal(ingrediente, personas) {
+export function cantidadPrincipal(ingrediente, personas) {
   let cantidad = 0;
+  
 
   if (ingrediente.tipo === 'carne' || ingrediente.tipo === 'pescado' || ingrediente.tipo === 'pasta') {
     cantidad = 200 * personas
@@ -15,14 +16,16 @@ export function principal(ingrediente, personas) {
     cantidad = 100 * personas
   }
   
-  if ( ingrediente.nombre === 'patata' && ingrediente.tipo === 'verdura') {
+  if ( ingrediente.nombre === 'patata') {
     cantidad = 225 * personas;
   }
 
-  return { ingrediente , cantidad }
+  const nuevoIngrediente = { ...ingrediente, cantidad }
+
+  return nuevoIngrediente 
 } 
 
-export function acompañamiento (ingrediente, personas) {
+export function cantidadAcompañamiento (ingrediente, personas) {
   let cantidad = 0;
 
   if (ingrediente.tipo === 'carne' || ingrediente.tipo === 'pescado' || ingrediente.tipo === 'pasta') {
@@ -44,10 +47,13 @@ export function acompañamiento (ingrediente, personas) {
   if ( ingrediente.tipo === 'fruta') {
     cantidad = 100 * personas;
   }
-  return { ingrediente , cantidad }
+
+  const nuevoIngrediente = { ...ingrediente, cantidad }
+
+  return nuevoIngrediente 
 }
 
-export function condimento (ingrediente, personas) {
+export function cantidadCondimento (ingrediente, personas) {
   let cantidad = 0;
 
   if (ingrediente.tipo === 'carne' || ingrediente.tipo === 'pescado' || ingrediente.tipo === 'pasta') {
@@ -86,7 +92,10 @@ export function condimento (ingrediente, personas) {
     cantidad = 50 * personas;
   }
 
-  return { ingrediente , cantidad }
+  const nuevoIngrediente = { ...ingrediente, cantidad }
+
+  return nuevoIngrediente 
+
 }
 
 /* // Objeto para mapear tipos/nombres de ingredientes a cantidades base

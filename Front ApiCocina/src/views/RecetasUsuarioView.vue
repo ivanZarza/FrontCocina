@@ -1,11 +1,12 @@
 <script setup>
 import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
-import
+import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento } from './../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
 const principal = ref([])
 const acompanamiento = ref([])
 const condimentos = ref([])
+const descripcion = ref('')
 
 const mostrarDiv2 = ref(false)
 const mostrarDiv3 = ref(false)
@@ -18,6 +19,8 @@ const div4 = ref(null)
 const numeroDePersonas = ref(1)
 
 const panelIngredientesRef = ref(null)
+
+const mostrarPanelIngredientes = ref(true)
 
 function llamarLimpiarPanel() {
   if (panelIngredientesRef.value) {
@@ -56,24 +59,26 @@ function mostrarSiguienteDiv4() {
 }
 
 function agregarIngrediente(ingrediente) {
-  // Si solo se muestra el div1, agregar a principal
+
   if (!mostrarDiv2.value && !mostrarDiv3.value) {
-    principal.value.push(ingrediente);
-  }
-  // Si se muestra el div2, agregar a acompañamiento
-  else if (mostrarDiv2.value && !mostrarDiv3.value) {
-    acompanamiento.value.push(ingrediente);
-  }
-  // Si se muestra el div3, agregar a condimentos
-  else if (mostrarDiv3.value) {
-    condimentos.value.push(ingrediente);
+    principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
+    console.log('Principal:', principal.value);
   }
 
+  if (mostrarDiv2.value && !mostrarDiv3.value) {
+    acompanamiento.value.push(cantidadAcompañamiento(ingrediente, numeroDePersonas.value))
+    console.log('Acompañamiento:', acompanamiento.value);
+  }
+
+  if (mostrarDiv3.value) {
+    condimentos.value.push(cantidadCondimento(ingrediente, numeroDePersonas.value));
+    console.log('Condimentos:', condimentos.value);
+  }
   console.log(ingrediente);
-  // Opcional: Imprimir el estado actual de los arrays para depuración
-  console.log('Principal:', principal.value);
-  console.log('Acompañamiento:', acompanamiento.value);
-  console.log('Condimentos:', condimentos.value);
+}
+
+function manejarSiguiente() {
+  mostrarPanelIngredientes.value = false
 }
 </script>
 
@@ -93,8 +98,8 @@ function agregarIngrediente(ingrediente) {
           </div>
           <p>Elige el ingrediente principal</p>
           <ul>
-            <li v-for="ingrediente in principal" :key="ingrediente.id">
-              {{ ingrediente.name }}
+            <li v-for="(ingrediente, i) in principal" :key="i">
+              {{ ingrediente.name }} - {{ ingrediente.cantidad }}
             </li>
           </ul>
           <button @click="mostrarSiguienteDiv2">SIGUIENTE</button>
@@ -104,7 +109,7 @@ function agregarIngrediente(ingrediente) {
           <p>Elige el acompañamiento</p>
           <ul>
             <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
-              {{ ingrediente.name }}
+              {{ ingrediente.name }} - {{ ingrediente.cantidad }}
             </li>
           </ul>
           <button @click="mostrarSiguienteDiv3">SIGUIENTE</button>
@@ -114,7 +119,7 @@ function agregarIngrediente(ingrediente) {
           <p>Elige los condimentos para hacer la receta</p>
           <ul>
             <li v-for="ingrediente in condimentos" :key="ingrediente.id">
-              {{ ingrediente.name }}
+              {{ ingrediente.name }} - {{ ingrediente.cantidad }}
             </li>
           </ul>
           <button @click="mostrarSiguienteDiv4">SIGUIENTE</button>
@@ -124,13 +129,22 @@ function agregarIngrediente(ingrediente) {
           <p>Finaliza la receta escribiendo una descripcion si es necesario</p>
           <p>¿Qué tal si compartes tu receta con la comunidad?</p>
           <div class="cap">
-            <textarea></textarea>
-            <button>FINALIZAR</button>
+            <textarea v-model="descripcion"></textarea>
+            <button @click="manejarSiguiente">FINALIZAR</button>
           </div>
         </div>
       </div>
-      <div class="panel">
-        <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef" />
+      <div v-if="mostrarPanelIngredientes">
+        <div class="panel">
+          <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef" />
+        </div>
+      </div>
+      <div class="resumen" v-else>
+        <h3>Resumen de la Receta</h3>
+        <p><strong>Plato Principal:</strong> {{ principal}}</p>
+        <p><strong>Acompañamiento:</strong> {{ acompanamiento }}</p>
+        <p><strong>Condimento:</strong> {{ condimentos }}</p>
+        <p><strong>Descripción:</strong> {{ descripcion }}</p>
       </div>
     </div>
   </div>
@@ -239,6 +253,17 @@ button {
 }
 
 .panel {
+  position: fixed;
+  top: 30%;
+  right: 0;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.resumen {
   position: fixed;
   top: 30%;
   right: 0;
