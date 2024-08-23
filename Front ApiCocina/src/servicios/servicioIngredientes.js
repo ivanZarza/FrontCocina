@@ -24,8 +24,6 @@ export default class ServicioIngredientes {
     const data = await response.json()
     this.ingredientes.value = data.resultados
     this.totalElementos.value = data.totalElementos
-    console.log('cargarIngredientes', this.ingredientes.value)
-    console.log('Todos los ingredientes', this.totalElementos.value)
   }
 
   async cargarTipos() {

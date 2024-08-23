@@ -61,24 +61,28 @@ function mostrarSiguienteDiv4() {
 function agregarIngrediente(ingrediente) {
 
   if (!mostrarDiv2.value && !mostrarDiv3.value) {
-    principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
-    console.log('Principal:', principal.value);
+    principal.value.push(ingrediente)
   }
 
   if (mostrarDiv2.value && !mostrarDiv3.value) {
-    acompanamiento.value.push(cantidadAcompañamiento(ingrediente, numeroDePersonas.value))
-    console.log('Acompañamiento:', acompanamiento.value);
+    acompanamiento.value.push(ingrediente)
   }
 
   if (mostrarDiv3.value) {
-    condimentos.value.push(cantidadCondimento(ingrediente, numeroDePersonas.value));
-    console.log('Condimentos:', condimentos.value);
+    condimentos.value.push(ingrediente);
   }
-  console.log(ingrediente);
 }
 
-function manejarSiguiente() {
-  mostrarPanelIngredientes.value = false
+function resultado() {
+  cantidadPrincipal(principal.value, numeroDePersonas.value)
+  console.log('Principal:', principal.value);
+  cantidadAcompañamiento(acompanamiento.value, numeroDePersonas.value)
+  console.log('Acompañamiento:', acompanamiento.value);
+  cantidadCondimento(condimentos.value, numeroDePersonas.value)
+  console.log('Condimentos:', condimentos.value);
+  nextTick(() => {
+    mostrarPanelIngredientes.value = false
+  })
 }
 </script>
 
@@ -91,46 +95,52 @@ function manejarSiguiente() {
     <div class="contenedor">
       <div class="pasos">
         <div class="p1">
-          <h3>PASO 1</h3>
+          <h2>PASO 1</h2>
           <div class="numero-personas">
             <label><span>Número de personas:</span></label>
             <input type="number" v-model="numeroDePersonas" min="1" />
           </div>
-          <p>Elige el ingrediente principal</p>
-          <ul>
+          <h3>Elige el ingrediente principal</h3>
+          <div class="listaIngredientes">
+          <ol>
             <li v-for="(ingrediente, i) in principal" :key="i">
-              {{ ingrediente.name }} - {{ ingrediente.cantidad }}
+              {{ ingrediente.name }} 
             </li>
-          </ul>
+          </ol>
+          </div>
           <button @click="mostrarSiguienteDiv2">SIGUIENTE</button>
         </div>
         <div class="p2" v-if="mostrarDiv2" ref="div2">
-          <h3>PASO 2</h3>
-          <p>Elige el acompañamiento</p>
-          <ul>
+          <h2>PASO 2</h2>
+          <h3>Elige el acompañamiento</h3>
+          <div class="listaIngredientes">
+          <ol>
             <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
-              {{ ingrediente.name }} - {{ ingrediente.cantidad }}
+              {{ ingrediente.name }} 
             </li>
-          </ul>
+          </ol>
+        </div>
           <button @click="mostrarSiguienteDiv3">SIGUIENTE</button>
         </div>
         <div class="p3" v-if="mostrarDiv3" ref="div3">
-          <h3>PASO 3</h3>
-          <p>Elige los condimentos para hacer la receta</p>
-          <ul>
+          <h2>PASO 3</h2>
+          <h3>Elige los condimentos para hacer la receta</h3>
+          <div class="listaIngredientes">
+          <ol>
             <li v-for="ingrediente in condimentos" :key="ingrediente.id">
-              {{ ingrediente.name }} - {{ ingrediente.cantidad }}
+              {{ ingrediente.name }} 
             </li>
-          </ul>
+          </ol>
+        </div>
           <button @click="mostrarSiguienteDiv4">SIGUIENTE</button>
         </div>
         <div class="p4" v-if="mostrarDiv4" ref="div4">
-          <h3>PASO 4</h3>
-          <p>Finaliza la receta escribiendo una descripcion si es necesario</p>
-          <p>¿Qué tal si compartes tu receta con la comunidad?</p>
+          <h2>PASO 4</h2>
+          <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
+          <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
           <div class="cap">
             <textarea v-model="descripcion"></textarea>
-            <button @click="manejarSiguiente">FINALIZAR</button>
+            <button @click="resultado">FINALIZAR</button>
           </div>
         </div>
       </div>
@@ -141,9 +151,18 @@ function manejarSiguiente() {
       </div>
       <div class="resumen" v-else>
         <h3>Resumen de la Receta</h3>
-        <p><strong>Plato Principal:</strong> {{ principal}}</p>
-        <p><strong>Acompañamiento:</strong> {{ acompanamiento }}</p>
-        <p><strong>Condimento:</strong> {{ condimentos }}</p>
+        <h2>Principal</h2>
+        <ul>
+          <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad }} Grs</li>
+        </ul>
+        <h2>Acompañamiento</h2>
+        <ul>
+          <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad }} Grs</li>
+        </ul>
+        <h2>Condimentos</h2>
+        <ul>
+          <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad }} Grs</li>
+        </ul>
         <p><strong>Descripción:</strong> {{ descripcion }}</p>
       </div>
     </div>
@@ -151,6 +170,15 @@ function manejarSiguiente() {
 </template>
 
 <style scoped>
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Asegura que padding y border estén incluidos en el ancho total y alto de los elementos */
+}
+
 .recetas-usuario-view {
   width: 100%;
   min-height: 100vh;
@@ -178,13 +206,26 @@ function manejarSiguiente() {
 .p2,
 .p3,
 .p4 {
-  height: 100%;
-  width: 80%;
+  height: 80%;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
   border-radius: 20%;
-  padding: 10px;
+  padding: 30px;
   min-height: 300px;
   margin: 20px;
   gap: 10px;
+}
+
+ol {
+  width: 100%;
+}
+
+li {
+  text-align: center;
+  text-transform: capitalize;
 }
 
 .p1 {
@@ -225,7 +266,7 @@ function manejarSiguiente() {
 }
 
 textarea {
-  width: 80%;
+  width: 500px;
   height: 150px;
   border-radius: 10px;
   border: 1px solid #cccccc;
