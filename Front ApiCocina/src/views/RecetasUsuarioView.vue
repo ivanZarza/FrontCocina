@@ -1,6 +1,6 @@
 <script setup>
 import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
-import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento } from './../helpers/cantidades.helper'
+import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
 const principal = ref([])
@@ -61,25 +61,22 @@ function mostrarSiguienteDiv4() {
 function agregarIngrediente(ingrediente) {
 
   if (!mostrarDiv2.value && !mostrarDiv3.value) {
-    principal.value.push(ingrediente)
+    principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
   }
 
   if (mostrarDiv2.value && !mostrarDiv3.value) {
-    acompanamiento.value.push(ingrediente)
+    acompanamiento.value.push(cantidadAcompañamiento(ingrediente, numeroDePersonas.value))
   }
 
   if (mostrarDiv3.value) {
-    condimentos.value.push(ingrediente);
+    condimentos.value.push(cantidadCondimento(ingrediente, numeroDePersonas.value));
   }
 }
 
 function resultado() {
-  cantidadPrincipal(principal.value, numeroDePersonas.value)
-  console.log('Principal:', principal.value);
-  cantidadAcompañamiento(acompanamiento.value, numeroDePersonas.value)
-  console.log('Acompañamiento:', acompanamiento.value);
-  cantidadCondimento(condimentos.value, numeroDePersonas.value)
-  console.log('Condimentos:', condimentos.value);
+  principal.value = dividirPorCantidadDeIngredientes(principal.value)
+  acompanamiento.value = dividirPorCantidadDeIngredientes(acompanamiento.value)
+  condimentos.value = dividirPorCantidadDeIngredientes(condimentos.value)
   nextTick(() => {
     mostrarPanelIngredientes.value = false
   })
@@ -102,11 +99,11 @@ function resultado() {
           </div>
           <h3>Elige el ingrediente principal</h3>
           <div class="listaIngredientes">
-          <ol>
-            <li v-for="(ingrediente, i) in principal" :key="i">
-              {{ ingrediente.name }} 
-            </li>
-          </ol>
+            <ol>
+              <li v-for="(ingrediente, i) in principal" :key="i">
+                {{ ingrediente.name }}
+              </li>
+            </ol>
           </div>
           <button @click="mostrarSiguienteDiv2">SIGUIENTE</button>
         </div>
@@ -114,31 +111,31 @@ function resultado() {
           <h2>PASO 2</h2>
           <h3>Elige el acompañamiento</h3>
           <div class="listaIngredientes">
-          <ol>
-            <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
-              {{ ingrediente.name }} 
-            </li>
-          </ol>
-        </div>
+            <ol>
+              <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
+                {{ ingrediente.name }}
+              </li>
+            </ol>
+          </div>
           <button @click="mostrarSiguienteDiv3">SIGUIENTE</button>
         </div>
         <div class="p3" v-if="mostrarDiv3" ref="div3">
           <h2>PASO 3</h2>
           <h3>Elige los condimentos para hacer la receta</h3>
           <div class="listaIngredientes">
-          <ol>
-            <li v-for="ingrediente in condimentos" :key="ingrediente.id">
-              {{ ingrediente.name }} 
-            </li>
-          </ol>
-        </div>
+            <ol>
+              <li v-for="ingrediente in condimentos" :key="ingrediente.id">
+                {{ ingrediente.name }}
+              </li>
+            </ol>
+          </div>
           <button @click="mostrarSiguienteDiv4">SIGUIENTE</button>
         </div>
         <div class="p4" v-if="mostrarDiv4" ref="div4">
           <h2>PASO 4</h2>
           <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
           <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
-          <div class="cap">
+          <div class="descripcion">
             <textarea v-model="descripcion"></textarea>
             <button @click="resultado">FINALIZAR</button>
           </div>
@@ -150,33 +147,42 @@ function resultado() {
         </div>
       </div>
       <div class="resumen" v-else>
-        <h3>Resumen de la Receta</h3>
+        <h1>Resumen de la Receta</h1>
         <h2>Principal</h2>
-        <ul>
-          <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad }} Grs</li>
-        </ul>
+        <div class="listaIngredientes">
+          <ol>
+            <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad
+              }} Grs</li>
+          </ol>
+        </div>
         <h2>Acompañamiento</h2>
-        <ul>
-          <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad }} Grs</li>
-        </ul>
+        <div class="listaIngredientes">
+          <ol>
+            <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{
+              ingrediente.cantidad }} Grs</li>
+          </ol>
+        </div>
         <h2>Condimentos</h2>
-        <ul>
-          <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad }} Grs</li>
-        </ul>
-        <p><strong>Descripción:</strong> {{ descripcion }}</p>
+        <div class="listaIngredientes">
+          <ol>
+            <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{
+              ingrediente.cantidad }} Grs</li>
+          </ol>
+        </div>
+        <h2><strong>Descripción:</strong></h2><pre class="descripcionFinal">{{ descripcion }}</pre>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Asegura que padding y border estén incluidos en el ancho total y alto de los elementos */
+  box-sizing: border-box;
+  /* Asegura que padding y border estén incluidos en el ancho total y alto de los elementos */
 }
 
 .recetas-usuario-view {
@@ -265,21 +271,24 @@ li {
   background-color: lightseagreen;
 }
 
-textarea {
-  width: 500px;
+.p4 .descripcion {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.p4 .descripcion textarea {
+  width: 100%;
   height: 150px;
   border-radius: 10px;
   border: 1px solid #cccccc;
   background-color: #ffa9fb;
   margin: 10px;
   resize: none;
-}
-
-.cap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
+  font-size: 1rem;
 }
 
 button {
@@ -307,11 +316,21 @@ button {
 .resumen {
   position: fixed;
   top: 30%;
-  right: 0;
-  width: 50%;
+  right: 8%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  padding: 50px;
+  background-color: #ffa9fb;
+  border-radius: 20%;
+}
+
+.descripcionFinal {
+  font-size: 1rem;
+  text-align: center;
+  white-space: pre-wrap;
 }
 </style>
