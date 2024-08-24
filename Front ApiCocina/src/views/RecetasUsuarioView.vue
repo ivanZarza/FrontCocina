@@ -194,6 +194,13 @@ function resultado() {
         </div>
         <h2><strong>Descripción:</strong></h2>
         <pre class="descripcionFinal">{{ descripcion }}</pre>
+        <div class="textoFinal">
+        <h2>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h2>
+        <h3>Agrega un nombre a tu receta</h3>
+        <input type="text" v-model="nombreReceta" />
+        <button @click="agregarReceta">AGREGAR A LA LISTA DE LA COMPRA</button>
+
+      </div>
       </div>
     </div>
   </div>
@@ -383,5 +390,13 @@ div.p3.active,
 div.p4.active,
 div.p5.active {
   border: rgb(0, 26, 102) 3px solid;
+}
+
+.textoFinal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 </style>
