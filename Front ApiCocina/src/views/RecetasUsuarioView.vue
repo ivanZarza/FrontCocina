@@ -3,6 +3,7 @@ import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
+const numeroDePersonas = ref(1)
 const principal = ref([])
 const acompanamiento = ref([])
 const condimentos = ref([])
@@ -11,12 +12,14 @@ const descripcion = ref('')
 const mostrarDiv2 = ref(false)
 const mostrarDiv3 = ref(false)
 const mostrarDiv4 = ref(false)
+const mostrarDiv5 = ref(false)
 
 const div2 = ref(null)
 const div3 = ref(null)
 const div4 = ref(null)
+const div5 = ref(null)
 
-const numeroDePersonas = ref(1)
+const divActivo = ref(1)
 
 const panelIngredientesRef = ref(null)
 
@@ -58,18 +61,32 @@ function mostrarSiguienteDiv4() {
   })
 }
 
+function mostrarSiguienteDiv5() {
+  mostrarDiv5.value = true
+  nextTick(() => {
+    if (div5.value) {
+      div5.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+    llamarLimpiarPanel()
+  })
+}
+
 function agregarIngrediente(ingrediente) {
 
-  if (!mostrarDiv2.value && !mostrarDiv3.value) {
+  if (mostrarDiv2.value && !mostrarDiv3.value) {
     principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
   }
 
-  if (mostrarDiv2.value && !mostrarDiv3.value) {
+  if (mostrarDiv3.value && !mostrarDiv4.value) {
     acompanamiento.value.push(cantidadAcompañamiento(ingrediente, numeroDePersonas.value))
   }
 
-  if (mostrarDiv3.value) {
-    condimentos.value.push(cantidadCondimento(ingrediente, numeroDePersonas.value));
+  if (mostrarDiv4.value && !mostrarDiv5.value) {
+    condimentos.value.push(cantidadCondimento(ingrediente, numeroDePersonas.value))
+  }
+
+  if (mostrarDiv5.value) {
+    return
   }
 }
 
@@ -91,12 +108,18 @@ function resultado() {
     </div>
     <div class="contenedor">
       <div class="pasos">
-        <div class="p1">
+        <div class="p1" :class="{ 'active': divActivo.value === 1 }">
           <h2>PASO 1</h2>
+          <h3>Ingresa el número de personas</h3>
           <div class="numero-personas">
-            <label><span>Número de personas:</span></label>
-            <input type="number" v-model="numeroDePersonas" min="1" />
+            <label><span>Número de personas:</span>
+              <input type="number" v-model="numeroDePersonas" min="1" />
+            </label>
           </div>
+          <button @click="mostrarSiguienteDiv2">SIGUIENTE</button>
+        </div>
+        <div class="p2" :class="{ 'active': divActivo.value === 2 }" v-if="mostrarDiv2" ref="div2">
+          <h2>PASO 2</h2>
           <h3>Elige el ingrediente principal</h3>
           <div class="listaIngredientes">
             <ol>
@@ -105,10 +128,10 @@ function resultado() {
               </li>
             </ol>
           </div>
-          <button @click="mostrarSiguienteDiv2">SIGUIENTE</button>
+          <button @click="mostrarSiguienteDiv3">SIGUIENTE</button>
         </div>
-        <div class="p2" v-if="mostrarDiv2" ref="div2">
-          <h2>PASO 2</h2>
+        <div class="p3" :class="{ 'active': divActivo.value === 3 }" v-if="mostrarDiv3" ref="div3">
+          <h2>PASO 3</h2>
           <h3>Elige el acompañamiento</h3>
           <div class="listaIngredientes">
             <ol>
@@ -117,10 +140,10 @@ function resultado() {
               </li>
             </ol>
           </div>
-          <button @click="mostrarSiguienteDiv3">SIGUIENTE</button>
+          <button @click="mostrarSiguienteDiv4">SIGUIENTE</button>
         </div>
-        <div class="p3" v-if="mostrarDiv3" ref="div3">
-          <h2>PASO 3</h2>
+        <div class="p4" :class="{ 'active': divActivo.value === 4 }" v-if="mostrarDiv4" ref="div4">
+          <h2>PASO 4</h2>
           <h3>Elige los condimentos para hacer la receta</h3>
           <div class="listaIngredientes">
             <ol>
@@ -129,10 +152,10 @@ function resultado() {
               </li>
             </ol>
           </div>
-          <button @click="mostrarSiguienteDiv4">SIGUIENTE</button>
+          <button @click="mostrarSiguienteDiv5">SIGUIENTE</button>
         </div>
-        <div class="p4" v-if="mostrarDiv4" ref="div4">
-          <h2>PASO 4</h2>
+        <div class="p5" :class="{ 'active': divActivo.value === 5 }" v-if="mostrarDiv5" ref="div5">
+          <h2>PASO 5</h2>
           <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
           <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
           <div class="descripcion">
@@ -159,21 +182,24 @@ function resultado() {
         <div class="listaIngredientes">
           <ol>
             <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{
-              ingrediente.cantidad }} Grs</li>
+          ingrediente.cantidad }} Grs</li>
           </ol>
         </div>
         <h2>Condimentos</h2>
         <div class="listaIngredientes">
           <ol>
             <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{
-              ingrediente.cantidad }} Grs</li>
+          ingrediente.cantidad }} Grs</li>
           </ol>
         </div>
-        <h2><strong>Descripción:</strong></h2><pre class="descripcionFinal">{{ descripcion }}</pre>
+        <h2><strong>Descripción:</strong></h2>
+        <pre class="descripcionFinal">{{ descripcion }}</pre>
       </div>
     </div>
   </div>
 </template>
+
+<!-- no consigo que se active la clase active en los divs p1, p2, p3, p4 y p5, cuando hago click en los botones SIGUIENTE, el valor de divActivo.value cambia correctamente, pero no se activa la clase active en los divs, ¿qué estoy haciendo mal? --> 
 
 <style scoped>
 *,
@@ -182,7 +208,6 @@ function resultado() {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* Asegura que padding y border estén incluidos en el ancho total y alto de los elementos */
 }
 
 .recetas-usuario-view {
@@ -211,7 +236,8 @@ function resultado() {
 .p1,
 .p2,
 .p3,
-.p4 {
+.p4,
+.p5 {
   height: 80%;
   width: 70%;
   display: flex;
@@ -240,23 +266,31 @@ li {
 
 .numero-personas {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .numero-personas label {
   font-size: 1.2rem;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .numero-personas input {
-  width: 50px;
+  width: 80px;
+  height: 80px;
   margin: 10px;
   padding: 5px;
   border-radius: 10px;
   border: 1px solid #cccccc;
   background-color: rgb(217, 243, 252);
   text-align: center;
+  font-size: 2.5rem;
 }
 
 .p2 {
@@ -268,10 +302,14 @@ li {
 }
 
 .p4 {
+  background-color: lightsteelblue;
+}
+
+.p5 {
   background-color: lightseagreen;
 }
 
-.p4 .descripcion {
+.p5 .descripcion {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -279,7 +317,7 @@ li {
   justify-content: center;
 }
 
-.p4 .descripcion textarea {
+.p5 .descripcion textarea {
   width: 100%;
   height: 150px;
   border-radius: 10px;
@@ -292,14 +330,19 @@ li {
 }
 
 button {
-  background-color: #b5bafd;
+  background-color: rgb(86, 126, 245);
   border: none;
-  color: black;
+  color: rgb(20, 20, 20);
   padding: 10px 20px;
   text-align: center;
   margin: 10px;
   border-radius: 10px;
   margin-top: auto;
+}
+
+button:hover {
+  background-color: rgb(0, 26, 102);
+  color: white;
 }
 
 .panel {
@@ -332,5 +375,13 @@ button {
   font-size: 1rem;
   text-align: center;
   white-space: pre-wrap;
+}
+
+div.p1.active,
+div.p2.active,
+div.p3.active,
+div.p4.active,
+div.p5.active {
+  border: rgb(0, 26, 102) 3px solid;
 }
 </style>
