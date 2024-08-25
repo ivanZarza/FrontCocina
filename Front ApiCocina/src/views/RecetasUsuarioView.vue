@@ -3,6 +3,8 @@ import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
+
+const nombreReceta = ref('')
 const numeroDePersonas = ref(1)
 const principal = ref([])
 const acompanamiento = ref([])
@@ -24,6 +26,7 @@ const divActivo = ref(1)
 const panelIngredientesRef = ref(null)
 
 const mostrarPanelIngredientes = ref(true)
+
 
 function llamarLimpiarPanel() {
   if (panelIngredientesRef.value) {
@@ -98,6 +101,22 @@ function resultado() {
     mostrarPanelIngredientes.value = false
   })
 }
+
+function agregarReceta() {
+  let recetas = JSON.parse(localStorage.getItem("recetas")) || [];
+
+  recetas.push({
+    nombre: nombreReceta.value,
+    principal: principal.value,
+    acompanamiento: acompanamiento.value,
+    condimentos: condimentos.value,
+    descripcion: descripcion.value
+  })
+
+  localStorage.setItem(`recetas`, JSON.stringify(recetas))
+  window.alert('Receta agregada a la lista de la compra con éxito')
+  window.location.reload()
+}
 </script>
 
 <template>
@@ -171,6 +190,7 @@ function resultado() {
       </div>
       <div class="resumen" v-else>
         <h1>Resumen de la Receta</h1>
+        <h2>Para {{ numeroDePersonas }} {{ numeroDePersonas === 1 ? 'persona' : 'personas' }}</h2>
         <h2>Principal</h2>
         <div class="listaIngredientes">
           <ol>
@@ -195,18 +215,17 @@ function resultado() {
         <h2><strong>Descripción:</strong></h2>
         <pre class="descripcionFinal">{{ descripcion }}</pre>
         <div class="textoFinal">
-        <h2>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h2>
-        <h3>Agrega un nombre a tu receta</h3>
-        <input type="text" v-model="nombreReceta" />
-        <button @click="agregarReceta">AGREGAR A LA LISTA DE LA COMPRA</button>
-
-      </div>
+          <h2>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h2>
+          <h3>Agrega un nombre a tu receta</h3>
+          <input type="text" v-model="nombreReceta" />
+          <button @click="agregarReceta()">AGREGAR A LA LISTA DE LA COMPRA</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<!-- no consigo que se active la clase active en los divs p1, p2, p3, p4 y p5, cuando hago click en los botones SIGUIENTE, el valor de divActivo.value cambia correctamente, pero no se activa la clase active en los divs, ¿qué estoy haciendo mal? --> 
+<!-- no consigo que se active la clase active en los divs p1, p2, p3, p4 y p5, cuando hago click en los botones SIGUIENTE, el valor de divActivo.value cambia correctamente, pero no se activa la clase active en los divs, ¿qué estoy haciendo mal? -->
 
 <style scoped>
 *,
@@ -365,17 +384,20 @@ button:hover {
 
 .resumen {
   position: fixed;
-  top: 30%;
+  top: 20%;
   right: 8%;
   width: 40%;
+  max-height: 100%; /* Limita la altura máxima del div */
+  overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Cambiado de center a flex-start para manejar mejor el contenido cuando se desborda */
   gap: 10px;
-  padding: 50px;
+  padding: 10px;
   background-color: #ffa9fb;
   border-radius: 20%;
+  margin-bottom: 100px;
 }
 
 .descripcionFinal {
@@ -399,4 +421,14 @@ div.p5.active {
   justify-content: center;
   gap: 10px;
 }
+
+.textoFinal input {
+  width: 50%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  color: #63235f;
+}
+
 </style>

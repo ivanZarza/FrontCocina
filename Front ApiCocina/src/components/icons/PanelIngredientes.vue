@@ -43,8 +43,10 @@ const paginaAnterior = () => {
 }
 
 function cambiarSeleccion(ingrediente) {
-  ingrediente.seleccionado = !ingrediente.seleccionado;
-  emits('ingredienteSeleccionado', ingrediente);
+  if (!ingrediente.seleccionado) {
+    ingrediente.seleccionado = true;
+    emits('ingredienteSeleccionado', ingrediente);
+  }
 }
 
 watch(tipo, () => {
@@ -58,6 +60,7 @@ function limpiarPanel() {
     tipo.value = ''
     pagina.value = 1
   })
+  buscar()
 }
 
 </script>
@@ -209,8 +212,11 @@ button:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
+
 .card.seleccionado {
-  background-color: white; 
+  background-color: white;
+  box-shadow: inset 0 0 10px #ff0180;;
 }
 
 .card::first-letter {
