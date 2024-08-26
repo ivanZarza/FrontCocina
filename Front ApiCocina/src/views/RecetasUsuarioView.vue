@@ -107,6 +107,7 @@ function agregarReceta() {
 
   recetas.push({
     nombre: nombreReceta.value,
+    numeroDePersonas: numeroDePersonas.value,
     principal: principal.value,
     acompanamiento: acompanamiento.value,
     condimentos: condimentos.value,
