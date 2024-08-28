@@ -398,7 +398,7 @@ button:hover {
   padding: 10px;
   background-color: #ffa9fb;
   border-radius: 20%;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
 }
 
 .descripcionFinal {
@@ -420,7 +420,7 @@ div.p5.active {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .textoFinal input {
