@@ -5,11 +5,13 @@ const recetasRecuperadas = ref([])
 const recetaSeleccionada = ref(recetasRecuperadas.value[0])
 const indiceActual = ref(0)
 
+
 recuperarRecetas()
 
 function recuperarRecetas() {
   recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetas')) || []
   seleccionarRecetaPorIndice()
+
 }
 
 function seleccionarReceta(receta) {
@@ -50,9 +52,41 @@ function borrarReceta() {
   recetaSeleccionada.value = null;
 }
 
+//explica que hace la funcion extraerIngredientes y la ejecuta con las recetas recuperadas del localStorage 
+//extrae los ingredientes de las recetas y los guarda en un array de objetos con la cantidad total de cada ingrediente
+//con la cantidad total de cada ingrediente que se necesita para todas las recetas
 
+function extraerIngredientes(recetas) {
+  const ingredientesMap = {};
 
-console.log(recetasRecuperadas.value)
+  recetas.forEach(receta => {
+    ['principal', 'acompañamiento', 'condimentos'].forEach(seccion => {
+      if (receta[seccion]) {
+        receta[seccion].forEach(ingrediente => {
+          const clave = ingrediente.name;
+          if (!ingredientesMap[clave]) {
+            ingredientesMap[clave] = {
+              nombre: ingrediente.name,
+              cantidad: ingrediente.cantidad,
+              tipo: ingrediente.tipo,
+              principal: ingrediente.principal,
+              acompañamiento: ingrediente.acompañamiento,
+              condimento: ingrediente.condimento
+            };
+          } else {
+            ingredientesMap[clave].cantidad += ingrediente.cantidad;
+          }
+        });
+      }
+    });
+  });
+
+  const ingredientesTotales = Object.values(ingredientesMap);
+  return ingredientesTotales;
+}
+
+const todosLosIngredientes = extraerIngredientes(recetasRecuperadas.value);
+console.log(todosLosIngredientes);
 
 </script>
 
@@ -102,6 +136,10 @@ console.log(recetasRecuperadas.value)
     </div>
     <div class="listaFinal">
       <h2>Estas son las cantidades de ingredientes que tienes que comprar para las recetas que has creado</h2>
+      <ul>
+        <li v-for="ingrediente in todosLosIngredientes" :key="ingrediente.nombre">{{ ingrediente.nombre }} - {{
+    ingrediente.cantidad }} Grs</li>
+      </ul>
     </div>
   </div>
 

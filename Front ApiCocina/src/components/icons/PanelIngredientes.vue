@@ -46,6 +46,7 @@ function cambiarSeleccion(ingrediente) {
   if (!ingrediente.seleccionado) {
     ingrediente.seleccionado = true;
     emits('ingredienteSeleccionado', ingrediente);
+    console.log(ingrediente);
   }
 }
 

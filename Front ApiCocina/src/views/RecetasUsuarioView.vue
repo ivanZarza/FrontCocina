@@ -78,6 +78,7 @@ function agregarIngrediente(ingrediente) {
 
   if (mostrarDiv2.value && !mostrarDiv3.value) {
     principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
+  console.log(ingrediente)
   }
 
   if (mostrarDiv3.value && !mostrarDiv4.value) {
@@ -95,6 +96,7 @@ function agregarIngrediente(ingrediente) {
 
 function resultado() {
   principal.value = dividirPorCantidadDeIngredientes(principal.value)
+  console.log(principal.value)
   acompanamiento.value = dividirPorCantidadDeIngredientes(acompanamiento.value)
   condimentos.value = dividirPorCantidadDeIngredientes(condimentos.value)
   nextTick(() => {
