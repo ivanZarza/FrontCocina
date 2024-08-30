@@ -5,7 +5,7 @@ const recetasRecuperadas = ref([])
 const recetaSeleccionada = ref(recetasRecuperadas.value[0])
 const indiceActual = ref(0)
 const compraAgregada = ref([])
-const elmentoAgregado = ref({
+const elementoAgregado = ref({
   nombre: '',
   cantidad: 0,
 })
@@ -94,7 +94,7 @@ const todosLosIngredientes = extraerIngredientes(recetasRecuperadas.value);
 
 
 function agregarAListaDeCompra() {
-  compraAgregada.value.push(elmentoAgregado.value)
+  compraAgregada.value.push({...elementoAgregado.value})
   elementoAgregado.value = {
     nombre: '',
     cantidad: 0,
@@ -161,14 +161,14 @@ function agregarAListaDeCompra() {
           <div class="ingredientesAñadidos">
             <ul>
               <li v-for="producto in compraAgregada" :key="producto.nombre">{{ producto.nombre }} - {{ producto.cantidad
-                }} unidades</li>
+                }} </li>
             </ul>
           </div>
         </div>
         <h2>Puedes agregar productos a la lista de la compra</h2>
         <div class="agregarCompra">
-          <input type="text" v-model="elmentoAgregado.nombre" placeholder="Nombre del producto">
-          <input type="text" v-model="elmentoAgregado.cantidad" placeholder="Cantidad">
+          <input type="text" v-model="elementoAgregado.nombre" placeholder="Nombre del producto">
+          <input type="text" v-model="elementoAgregado.cantidad" placeholder="Cantidad">
           <button @click="agregarAListaDeCompra">Agregar a la lista de la compra</button>
         </div>
       </div>
@@ -355,6 +355,7 @@ function agregarAListaDeCompra() {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
+  background-color: rgb(248, 165, 223);
 }
 
 .agregarCompra button {
