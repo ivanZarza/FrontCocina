@@ -4,6 +4,11 @@ import { ref } from 'vue'
 const recetasRecuperadas = ref([])
 const recetaSeleccionada = ref(recetasRecuperadas.value[0])
 const indiceActual = ref(0)
+const compraAgregada = ref([])
+const elmentoAgregado = ref({
+  nombre: '',
+  cantidad: 0,
+})
 
 
 recuperarRecetas()
@@ -86,16 +91,24 @@ function extraerIngredientes(recetas) {
 }
 
 const todosLosIngredientes = extraerIngredientes(recetasRecuperadas.value);
-console.log(todosLosIngredientes);
+
+
+function agregarAListaDeCompra() {
+  compraAgregada.value.push(elmentoAgregado.value)
+  elementoAgregado.value = {
+    nombre: '',
+    cantidad: 0,
+  }
+}
 
 </script>
 
 <template>
-<div class="pagRecetas">
-      <div v-for="receta in recetasRecuperadas" :key="receta.nombre" >
-    <button @click="seleccionarReceta(receta)">{{ receta.nombre }}</button>
+  <div class="pagRecetas">
+    <div v-for="receta in recetasRecuperadas" :key="receta.nombre">
+      <button @click="seleccionarReceta(receta)">{{ receta.nombre }}</button>
+    </div>
   </div>
-</div>
   <div v-if="recetaSeleccionada" class="container">
     <div class="resumen">
       <div class="pag">
@@ -104,27 +117,27 @@ console.log(todosLosIngredientes);
       </div>
       <h1>Receta: {{ recetaSeleccionada.nombre }}</h1>
       <h2>Para {{ recetaSeleccionada.numeroDePersonas }} {{ recetaSeleccionada.numeroDePersonas === 1 ? 'persona' :
-    'personas' }}</h2>
+      'personas' }}</h2>
       <h2>Principal</h2>
       <div class="listaIngredientes">
         <ol>
           <li v-for="ingrediente in recetaSeleccionada.principal" :key="ingrediente.id">{{ ingrediente.name }} - {{
-    ingrediente.cantidad
-  }} Grs</li>
+      ingrediente.cantidad
+    }} Grs</li>
         </ol>
       </div>
       <h2>Acompañamiento</h2>
       <div class="listaIngredientes">
         <ol>
           <li v-for="ingrediente in recetaSeleccionada.acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{
-    ingrediente.cantidad }} Grs</li>
+      ingrediente.cantidad }} Grs</li>
         </ol>
       </div>
       <h2>Condimentos</h2>
       <div class="listaIngredientes">
         <ol>
           <li v-for="ingrediente in recetaSeleccionada.condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{
-    ingrediente.cantidad }} Grs</li>
+      ingrediente.cantidad }} Grs</li>
         </ol>
       </div>
       <h2><strong>Descripción:</strong></h2>
@@ -135,11 +148,30 @@ console.log(todosLosIngredientes);
       </div>
     </div>
     <div class="listaFinal">
-      <h2>Estas son las cantidades de ingredientes que tienes que comprar para las recetas que has creado</h2>
-      <ul>
-        <li v-for="ingrediente in todosLosIngredientes" :key="ingrediente.nombre">{{ ingrediente.nombre }} - {{
-    ingrediente.cantidad }} Grs</li>
-      </ul>
+      <div class="PDF">
+        <h2>Estas son las cantidades de ingredientes que tienes que comprar para las recetas que has creado:</h2>
+        <div class="ingredientesFinales">
+          <ul>
+            <li v-for="ingrediente in todosLosIngredientes" :key="ingrediente.nombre">{{ ingrediente.nombre }} - {{
+      ingrediente.cantidad }} Grs</li>
+          </ul>
+        </div>
+        <div v-if="compraAgregada.length > 0" class="compraAñadida">
+          <h2>Estos son los productos que añadiste</h2>
+          <div class="ingredientesAñadidos">
+            <ul>
+              <li v-for="producto in compraAgregada" :key="producto.nombre">{{ producto.nombre }} - {{ producto.cantidad
+                }} unidades</li>
+            </ul>
+          </div>
+        </div>
+        <h2>Puedes agregar productos a la lista de la compra</h2>
+        <div class="agregarCompra">
+          <input type="text" v-model="elmentoAgregado.nombre" placeholder="Nombre del producto">
+          <input type="text" v-model="elmentoAgregado.cantidad" placeholder="Cantidad">
+          <button @click="agregarAListaDeCompra">Agregar a la lista de la compra</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -162,20 +194,20 @@ console.log(todosLosIngredientes);
   justify-content: center;
   gap: 10px;
   background-color: darkcyan;
-} 
+}
 
 .pagRecetas button {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
-  background-color: aquamarine;
+  background-color: rgb(109, 211, 177);
   cursor: pointer;
   padding: 10px;
   margin: 10px;
 }
 
 .pagRecetas button:hover {
-  background-color: rgb(25, 255, 178);
+  background-color: rgb(109, 211, 177);
 }
 
 .container {
@@ -190,12 +222,12 @@ console.log(todosLosIngredientes);
 }
 
 .resumen {
-  width: 50%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: aquamarine;
+  background-color: rgb(109, 211, 177);
   border-radius: 20px;
   border: 1px solid black;
   padding: 20px;
@@ -261,5 +293,80 @@ console.log(todosLosIngredientes);
   font-size: 0.9rem;
   margin: 20px;
   gap: 10px;
+  background-color: rgb(45, 162, 167);
+}
+
+.ingredientesFinales {
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid black;
+  padding: 20px;
+  margin: 10px;
+  font-size: 0.9rem;
+  gap: 10px;
+  background-color: rgb(129, 172, 173);
+  overflow: auto;
+  column-width: 150px;
+  column-gap: 20px;
+}
+
+.ingredientesFinales ul {
+
+  list-style-type: none;
+}
+
+.ingredientesFinales li {
+  font-size: 1rem;
+  padding: 3px;
+}
+
+.ingredientesAñadidos {
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  margin: 20px;
+  gap: 10px;
+  background-color: rgb(129, 172, 173);
+  overflow: auto;
+  column-width: 150px;
+  column-gap: 20px;
+}
+
+.ingredientesAñadidos ul {
+  list-style-type: none;
+}
+
+.ingredientesAñadidos li {
+  font-size: 1rem;
+  padding: 3px;
+}
+
+.agregarCompra {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+.agregarCompra input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+.agregarCompra button {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: rgb(134, 228, 230);
+  cursor: pointer;
+}
+
+.agregarCompra button:hover {
+  color: white;
+  background-color: rgb(33, 119, 121);
 }
 </style>
