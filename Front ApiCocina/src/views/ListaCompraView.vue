@@ -7,7 +7,6 @@ const indiceActual = ref(0)
 const compraAgregada = ref([])
 const elementoAgregado = ref({
   nombre: '',
-  cantidad: 0,
 })
 
 
@@ -160,15 +159,13 @@ function agregarAListaDeCompra() {
           <h2>Estos son los productos que añadiste</h2>
           <div class="ingredientesAñadidos">
             <ul>
-              <li v-for="producto in compraAgregada" :key="producto.nombre">{{ producto.nombre }} - {{ producto.cantidad
-                }} </li>
+              <li v-for="producto in compraAgregada" :key="producto.nombre">{{ producto.nombre }}  </li>
             </ul>
           </div>
         </div>
         <h2>Puedes agregar productos a la lista de la compra</h2>
         <div class="agregarCompra">
           <input type="text" v-model="elementoAgregado.nombre" placeholder="Nombre del producto">
-          <input type="text" v-model="elementoAgregado.cantidad" placeholder="Cantidad">
           <button @click="agregarAListaDeCompra">Agregar a la lista de la compra</button>
         </div>
       </div>
@@ -285,15 +282,24 @@ function agregarAListaDeCompra() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   border-radius: 20px;
   border: 1px solid black;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 20px ;
   font-size: 0.9rem;
-  margin: 20px;
+  margin: 20px auto;
   gap: 10px;
   background-color: rgb(45, 162, 167);
+  text-align: center;
+}
+
+.PDF {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .ingredientesFinales {
@@ -324,16 +330,16 @@ function agregarAListaDeCompra() {
   width: 100%;
   border-radius: 20px;
   border: 1px solid black;
-  padding: 10px;
-  margin-top: 20px;
+  padding: 20px;
+  margin: 10px;
   font-size: 0.9rem;
-  margin: 20px;
   gap: 10px;
   background-color: rgb(129, 172, 173);
   overflow: auto;
   column-width: 200px;
   column-gap: 20px;
 }
+
 
 .ingredientesAñadidos ul {
   list-style-type: none;
