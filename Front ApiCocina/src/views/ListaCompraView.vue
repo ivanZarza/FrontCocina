@@ -306,7 +306,7 @@ function agregarAListaDeCompra() {
   gap: 10px;
   background-color: rgb(129, 172, 173);
   overflow: auto;
-  column-width: 150px;
+  column-width: 200px;
   column-gap: 20px;
 }
 
@@ -331,7 +331,7 @@ function agregarAListaDeCompra() {
   gap: 10px;
   background-color: rgb(129, 172, 173);
   overflow: auto;
-  column-width: 150px;
+  column-width: 200px;
   column-gap: 20px;
 }
 
