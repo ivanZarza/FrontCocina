@@ -404,7 +404,7 @@ const generarPDF = () => {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
-  background-color: rgb(248, 165, 223);
+  background-color: rgb(191, 248, 165);
 }
 
 .agregarCompra button {
