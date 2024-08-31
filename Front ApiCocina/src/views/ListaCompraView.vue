@@ -360,6 +360,15 @@ const generarPDF = () => {
   padding: 3px;
 }
 
+.compraAñadida {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
 .ingredientesAñadidos {
   width: 100%;
   border-radius: 20px;

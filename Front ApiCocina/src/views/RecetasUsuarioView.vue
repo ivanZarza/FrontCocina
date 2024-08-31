@@ -25,7 +25,8 @@ const divActivo = ref(1)
 
 const panelIngredientesRef = ref(null)
 
-const mostrarPanelIngredientes = ref(true)
+const mostrarPanelIngredientes = ref(false)
+const mostrarResumen = ref(false)
 
 
 function llamarLimpiarPanel() {
@@ -36,6 +37,7 @@ function llamarLimpiarPanel() {
 
 function mostrarSiguienteDiv2() {
   mostrarDiv2.value = true
+  mostrarPanelIngredientes.value = true
   nextTick(() => {
     if (div2.value) {
       div2.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -78,7 +80,6 @@ function agregarIngrediente(ingrediente) {
 
   if (mostrarDiv2.value && !mostrarDiv3.value) {
     principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
-  console.log(ingrediente)
   }
 
   if (mostrarDiv3.value && !mostrarDiv4.value) {
@@ -101,6 +102,7 @@ function resultado() {
   condimentos.value = dividirPorCantidadDeIngredientes(condimentos.value)
   nextTick(() => {
     mostrarPanelIngredientes.value = false
+    mostrarResumen.value = true
   })
 }
 
@@ -191,7 +193,7 @@ function agregarReceta() {
           <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef" />
         </div>
       </div>
-      <div class="resumen" v-else>
+      <div class="resumen" v-if="mostrarResumen">
         <h1>Resumen de la Receta</h1>
         <h2>Para {{ numeroDePersonas }} {{ numeroDePersonas === 1 ? 'persona' : 'personas' }}</h2>
         <h2>Principal</h2>
