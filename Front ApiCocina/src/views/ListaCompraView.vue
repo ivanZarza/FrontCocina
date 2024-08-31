@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import html2pdf from 'html2pdf.js'
 
 const recetasRecuperadas = ref([])
 const recetaSeleccionada = ref(recetasRecuperadas.value[0])
@@ -9,11 +11,13 @@ const elementoAgregado = ref({
   nombre: '',
 })
 
+const generarPDFRef = ref(null)
 
+const router = useRouter()
 recuperarRecetas()
 
 function recuperarRecetas() {
-  recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetas')) || []
+  recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetas') || '[]') 
   seleccionarRecetaPorIndice()
 
 }
@@ -28,6 +32,7 @@ function seleccionarRecetaPorIndice() {
   } else {
     recetaSeleccionada.value = null
     window.alert('No hay recetas guardadas, por favor crea una receta en la zona de RECETAS')
+    router.push({ name: 'recetas' })
   }
 }
 
@@ -54,6 +59,13 @@ function borrarReceta() {
   }
   recuperarRecetas();
   recetaSeleccionada.value = null;
+}
+
+function borrarTodasLasRecetas() {
+  localStorage.removeItem('recetas');
+  recuperarRecetas();
+  recetaSeleccionada.value = null;
+  router.push({ name: 'recetas' })
 }
 
 //explica que hace la funcion extraerIngredientes y la ejecuta con las recetas recuperadas del localStorage 
@@ -93,10 +105,28 @@ const todosLosIngredientes = extraerIngredientes(recetasRecuperadas.value);
 
 
 function agregarAListaDeCompra() {
-  compraAgregada.value.push({...elementoAgregado.value})
+  compraAgregada.value.push({ ...elementoAgregado.value })
   elementoAgregado.value = {
     nombre: '',
     cantidad: 0,
+  }
+}
+
+function borraRCompraAgregada() {
+  compraAgregada.value = []
+}
+
+const generarPDF = () => {
+  const options = {
+    margin: 1,
+    filename: 'lista-de-compras.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  }
+
+  if (generarPDFRef.value) {
+    html2pdf().set(options).from(generarPDFRef.value).save();
   }
 }
 
@@ -111,8 +141,8 @@ function agregarAListaDeCompra() {
   <div v-if="recetaSeleccionada" class="container">
     <div class="resumen">
       <div class="pag">
-        <button @click="recetaAnterior">Anterior</button>
-        <button @click="siguienteReceta">Siguiente</button>
+        <button @click="recetaAnterior">RECETA ANTERIOR</button>
+        <button @click="siguienteReceta">SIGUIENTE RECETA</button>
       </div>
       <h1>Receta: {{ recetaSeleccionada.nombre }}</h1>
       <h2>Para {{ recetaSeleccionada.numeroDePersonas }} {{ recetaSeleccionada.numeroDePersonas === 1 ? 'persona' :
@@ -142,12 +172,12 @@ function agregarAListaDeCompra() {
       <h2><strong>Descripción:</strong></h2>
       <pre class="descripcionFinal">{{ recetaSeleccionada.descripcion }}</pre>
       <div class="borrar">
-        <p>Si quieres puedes borrar la receta seleccionada pulsando el siguiente botón:</p>
-        <button @click="borrarReceta">Borrar receta</button>
+        <button @click="borrarReceta">BORRAR RECETA SELECCIONADA</button>
+        <button @click="borrarTodasLasRecetas">BORRAR TODAS LAS RECETAS</button>
       </div>
     </div>
     <div class="listaFinal">
-      <div class="PDF">
+      <div class="PDF" ref="generarPDFRef">
         <h2>Estas son las cantidades de ingredientes que tienes que comprar para las recetas que has creado:</h2>
         <div class="ingredientesFinales">
           <ul>
@@ -159,15 +189,19 @@ function agregarAListaDeCompra() {
           <h2>Estos son los productos que añadiste</h2>
           <div class="ingredientesAñadidos">
             <ul>
-              <li v-for="producto in compraAgregada" :key="producto.nombre">{{ producto.nombre }}  </li>
+              <li v-for="producto in compraAgregada" :key="producto.nombre">{{ producto.nombre }} </li>
             </ul>
           </div>
         </div>
-        <h2>Puedes agregar productos a la lista de la compra</h2>
-        <div class="agregarCompra">
-          <input type="text" v-model="elementoAgregado.nombre" placeholder="Nombre del producto">
-          <button @click="agregarAListaDeCompra">Agregar a la lista de la compra</button>
-        </div>
+      </div>
+      <h2>Puedes agregar productos a la lista de la compra</h2>
+      <div class="agregarCompra">
+        <input type="text" v-model="elementoAgregado.nombre" placeholder="Nombre del producto">
+        <button @click="agregarAListaDeCompra">Agregar a la lista de la compra</button>
+        <button @click="borraRCompraAgregada">BORRAR COMPRA AGREGADA</button>
+      </div>
+      <div class="btnPdf">
+        <button @click="generarPDF">Generar PDF</button>
       </div>
     </div>
   </div>
@@ -239,19 +273,19 @@ function agregarAListaDeCompra() {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 50%;
+  width: 80%;
 }
 
 .resumen .pag button {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
-  background-color: #30ff41;
+  background-color: #79dd82;
   cursor: pointer;
 }
 
 .resumen .pag button:hover {
-  background-color: #e1ff37;
+  background-color: #c6d380;
 }
 
 .borrar {
@@ -268,13 +302,13 @@ function agregarAListaDeCompra() {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
-  background-color: #ff9292;
+  background-color: #fa5b5b;
   cursor: pointer;
 }
 
 .borrar button:hover {
-  background-color: #fa5b5b;
-  color: yellow;
+  background-color: #ffc6c6;
+  color: red;
 }
 
 .listaFinal {
@@ -285,7 +319,7 @@ function agregarAListaDeCompra() {
   justify-content: space-around;
   border-radius: 20px;
   border: 1px solid black;
-  padding: 20px ;
+  padding: 20px;
   font-size: 0.9rem;
   margin: 20px auto;
   gap: 10px;
@@ -375,5 +409,21 @@ function agregarAListaDeCompra() {
 .agregarCompra button:hover {
   color: white;
   background-color: rgb(33, 119, 121);
+}
+
+.btnPdf {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  gap: 10px;
+}
+
+.btnPdf button {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: rgb(248, 242, 190);
+  cursor: pointer;
 }
 </style>
