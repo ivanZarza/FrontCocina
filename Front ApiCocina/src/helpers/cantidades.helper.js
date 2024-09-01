@@ -46,6 +46,10 @@ export function cantidadAcompañamiento (ingrediente, personas) {
     cantidad = (100 * personas) 
   }
 
+  if( ingrediente.tipo === 'salsa') {
+    cantidad = (50 * personas) 
+  }
+
   return  { ...ingrediente, cantidad }
 }
 
