@@ -14,7 +14,7 @@ const condimento = ref('')
   <div class="total">
   <div class="contenedor1">
     <div class="rotulo">
-      <h1>Cambiar usuario</h1>
+      <h1>Crear usuario</h1>
     </div>
     <div class="form">
       <form>
@@ -27,14 +27,14 @@ const condimento = ref('')
         <input type="text" id="apellido"s v-model="apellidos" />
       </div>
       <div class="contraseña">
-        <label for="contraseña">contraseña</label>
+        <label for="contraseña">Contraseña</label>
         <input type="text" id="contraseña" v-model="contraseña" />
       </div>
-        <div class="id">
-        <label for="id">Id</label>
+        <div class="contraseña2">
+        <label for="id">Confirmar contraseña</label>
         <input type="id" id="id" v-model="id" />
       </div>
-        <button type="submit">Cambiar</button>
+        <button type="submit">Crear</button>
       </form>
   </div>
   </div>
@@ -134,11 +134,11 @@ right: -80px;
 
 .contenedor1 .nombre,
 .contenedor1 .apellidos,
-.contenedor1 .id,
+.contenedor1 .contraseña2,
 .contenedor1 .contraseña {
   width: 140px;
 height: 140px;
-  padding: 40px;
+  padding: 30px;
   background-color: cornflowerblue;
   color: rgb(255, 255, 255);
   border: 3px solid rgb(255, 212, 42);
@@ -159,10 +159,10 @@ justify-content: center;
 
 .contenedor1 .contraseña {
   margin-left: -350px;
-  padding: 35px;
+  padding: 30px;
 }
 
-.contenedor1 .id {
+.contenedor1 .contraseña2 {
   margin-left: 250px;
   margin-top: -120px;
 }

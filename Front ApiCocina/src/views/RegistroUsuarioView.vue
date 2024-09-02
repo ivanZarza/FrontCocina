@@ -1,14 +1,28 @@
 <script setup>
+import CrearUsuario from '@/components/CrearUsuario.vue'
 
-import { ref } from 'vue'
 import { servicioRegistro } from '../servicios/servicioRegistro'
 
-const nombre = ref('')
-const apellidos = ref('')
-const contraseña = ref('')
 
 
-const registrar = async () => {
+async function registrar(nombre, apellidos, contraseña,contraseña2) {
+  if(contraseña !== contraseña2){
+    alert('Las contraseñas no coinciden')
+    return
+  }
+  try {
+    await servicioRegistro.registrarUsuario({
+    nombre,
+    apellidos,
+    contraseña,
+  })
+  alert('Usuario registrado correctamente')
+} catch (error) {
+  console.error(error)
+  alert('Error al registrar el usuario')
+}}
+
+/* const registrar = async () => {
   try {
     await servicioRegistro.registrarUsuario({
       nombre: nombre.value,
@@ -20,12 +34,12 @@ const registrar = async () => {
     console.error(error)
     alert('Error al registrar el usuario')
   }
-}
+} */
 
 </script>
 
 <template>
-  <div class="about">
+<!--   <div class="about">
     <div class="wrapper">
       <div>
         <h1>Registro</h1>
@@ -38,7 +52,9 @@ const registrar = async () => {
 
       </div>
     </div>
-  </div>
+  </div> -->
+
+  <CrearUsuario @crearUsuario="registrar" />
 </template>
 
 <style scoped>

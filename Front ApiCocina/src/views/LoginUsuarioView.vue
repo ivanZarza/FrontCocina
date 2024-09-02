@@ -1,4 +1,5 @@
 <script setup>
+
 import { ref } from 'vue' 
 import { servicioLogin } from '../servicios/servicioLogin'
 import { useDatosUsuario } from '@/stores/usuarioLogeado'
@@ -64,7 +65,5 @@ const entrar = async () => {
     <p>Nombre: {{datosUsuario.usuario.nombre}}</p>
     <p>Apellidos: {{datosUsuario.usuario.apellidos}}</p>
     </div>
-
-
 
 </template>
