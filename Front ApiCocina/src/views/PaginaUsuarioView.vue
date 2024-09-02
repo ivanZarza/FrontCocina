@@ -13,5 +13,6 @@ const user = ref(datosUsuario.usuario);
 <template>
 <div class="bienvenida">
   <h1>Hola {{ user.nombre }} {{ user.id }}</h1>
+  <h3>Aqui podras recuperar tus recetas guardadas, tambien podras crear,modificar o eliminar tus propios ingredientes</h3>
 </div>
 </template>
