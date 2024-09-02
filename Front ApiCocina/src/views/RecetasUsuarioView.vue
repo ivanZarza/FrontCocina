@@ -194,33 +194,33 @@ function agregarReceta() {
         </div>
       </div>
       <div class="resumen" v-if="mostrarResumen">
-        <h1>Resumen de la Receta</h1>
-        <h2>Para {{ numeroDePersonas }} {{ numeroDePersonas === 1 ? 'persona' : 'personas' }}</h2>
-        <h2>Principal</h2>
+        <h2>Resumen de la Receta</h2>
+        <h3>Para {{ numeroDePersonas }} {{ numeroDePersonas === 1 ? 'persona' : 'personas' }}</h3>
+        <h3>Principal</h3>
         <div class="listaIngredientes">
           <ol>
             <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad
               }} Grs</li>
           </ol>
         </div>
-        <h2>Acompañamiento</h2>
+        <h3>Acompañamiento</h3>
         <div class="listaIngredientes">
           <ol>
             <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{
           ingrediente.cantidad }} Grs</li>
           </ol>
         </div>
-        <h2>Condimentos</h2>
+        <h3>Condimentos</h3>
         <div class="listaIngredientes">
           <ol>
             <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{
           ingrediente.cantidad }} Grs</li>
           </ol>
         </div>
-        <h2><strong>Descripción:</strong></h2>
+        <h3><strong>Descripción:</strong></h3>
         <pre class="descripcionFinal">{{ descripcion }}</pre>
         <div class="textoFinal">
-          <h2>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h2>
+          <h3>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h3>
           <h3>Agrega un nombre a tu receta</h3>
           <input type="text" v-model="nombreReceta" />
           <button @click="agregarReceta()">AGREGAR A LA LISTA DE LA COMPRA</button>
@@ -398,8 +398,8 @@ button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* Cambiado de center a flex-start para manejar mejor el contenido cuando se desborda */
-  gap: 10px;
-  padding: 10px;
+  gap: 5px;
+  padding: 5px;
   background-color: #ffa9fb;
   border-radius: 20%;
   margin-bottom: 150px;
