@@ -85,8 +85,8 @@ const condimento = ref('')
         <label for="condimento">Condimento</label>
         <input type="text" id="condimento" v-model="condimento" />
 
-        <button type="submit">Cambiar</button>
-        <button type="submit">Eliminar</button>
+        <button class="btn1" type="submit">Cambiar</button>
+        <button class="btn2" type="submit">Eliminar</button>
       </form>
     </div>
   </div>
@@ -275,4 +275,82 @@ button:hover {
 }
 
 
+@keyframes rotar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: rotate(-45deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes descolgarse {
+  0% {
+    transform: translateY(0%) rotate(0deg);
+  }
+  50% {
+    transform: translateY(145%) rotate(-10deg);
+  }
+  75% {
+    transform: translateY(160%) rotate(6deg);
+  }
+  100% {
+    transform: translateY(180%) rotate(0deg);
+  }
+}
+
+.contenedor3 .rotulo {
+  animation: rotar 1s ease-in-out forwards;
+}
+
+.contenedor3 input {
+  opacity: 0; /* Inicia los inputs como invisibles */
+}
+
+.contenedor3 #nombre {
+  animation: aparecer 1s ease-in-out forwards 1s; /* Comienza después de la animación del rotulo */
+}
+
+.contenedor3 #tipo {
+  animation: aparecer 1s ease-in-out forwards 2s;
+}
+
+.contenedor3 #principal {
+  animation: aparecer 1s ease-in-out forwards 3s;
+}
+
+.contenedor3 #acompañamiento {
+  animation: aparecer 1s ease-in-out forwards 4s;
+}
+
+.contenedor3 #condimento {
+  animation: aparecer 1s ease-in-out forwards 5s;
+}
+
+.contenedor3 button {
+  animation: rotar 1s ease-in-out forwards 6s; /* Ajusta según el número de inputs */
+}
+
+.contenedor3 .btn2 {
+  animation: descolgarse 2s ease-in-out forwards 7s; /* Ajusta según el número de inputs */
+
+}
+
+.contenedor3 button:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 89, 255);
+}
 </style>
+
+
