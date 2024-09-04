@@ -15,22 +15,22 @@ const router = createRouter({
       path: '/ingredientes',
       name: 'ingredientes',
       component: () => import('../views/TodosIngredientesView.vue')
-    },    
+    },
     {
       path: '/ingredientes/tipo',
       name: 'tipos',
       component: () => import('../views/PorTipoView.vue')
-    },    
+    },
     {
       path: '/ingredientes/panel',
       name: 'panel',
       component: () => import('../views/PanelIngredientesView.vue')
-    },    
+    },
     {
       path: '/registro',
       name: 'registro',
       component: () => import('../views/RegistroUsuarioView.vue')
-    },    
+    },
     {
       path: '/login',
       name: 'login',
@@ -40,7 +40,7 @@ const router = createRouter({
       path: '/logout',
       name: 'logout',
       component: () => import('../views/LogoutUsuarioView.vue')
-    },     
+    },
     {
       path: '/recetas',
       name: 'recetas',
@@ -50,15 +50,28 @@ const router = createRouter({
       path: '/listadelacompra',
       name: 'compra',
       component: () => import('../views/ListaCompraView.vue')
-    },     
+    },
     {
       path: '/me',
       name: 'usuario',
       component: () => import('../views/PaginaUsuarioView.vue'),
-      meta: { requiresAuth: true } 
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'recetas',
+          name: 'recetasUsuario',
+          component: () => import('../views/RecetasLogeadoView.vue')
+        },
+        {
+          path: 'panel',
+          name: 'panelUsuario',
+          component: () => import('../views/PanelLogeadoView.vue')
+        },
+      ]
     }
   ]
 })
+
 
 // Guardia de navegación global
 router.beforeEach((to, from, next) => {

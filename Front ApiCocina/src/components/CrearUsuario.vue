@@ -10,6 +10,7 @@ const contraseña2 = ref('')
 
 function enviarDatos() {
   emit('crearUsuario', { nombre: nombre.value, apellidos: apellidos.value, contraseña: contraseña.value, contraseña2: contraseña2.value })
+  console.log('Datos enviados', nombre.value, apellidos.value, contraseña.value, contraseña2.value);
 }
 </script>
 
@@ -51,7 +52,7 @@ function enviarDatos() {
   flex-direction: row;
   align-items: center;
   height: 100vh;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .contenedor1 {
@@ -64,6 +65,7 @@ function enviarDatos() {
   background-color: rgb(255, 212, 42);
   text-align: center;
   border-radius: 250px;
+  margin-top: -100px;
 }
 
 .contenedor1 .rotulo {
@@ -77,8 +79,8 @@ height: 200px;
 align-items: center;
 justify-content: center;
 position: relative;
-top: -10px;
-right: -80px;
+top: -30px;
+right: -10px;
 
 }
 
@@ -98,17 +100,17 @@ justify-content: center;
 }
 
 .contenedor1 .nombre {
-  margin-left: -250px;
-  margin-top: -30px;
+
+  margin-top: -40px;
 }
 
 .contenedor1 .apellidos {
-  margin-left: 200px;
+  margin-left: 250px;
   margin-top: -120px;
 }
 
 .contenedor1 .contraseña {
-  margin-left: -350px;
+margin-left: -50px;
   padding: 30px;
 }
 
@@ -136,4 +138,8 @@ justify-content: center;
   border-radius: 50px;
 }
 
+.contenedor1 button:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 89, 255);
+}
 </style>
