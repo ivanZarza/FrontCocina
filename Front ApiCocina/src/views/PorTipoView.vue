@@ -1,5 +1,5 @@
 <script setup>
-
+import BuscadorIngredientesView from '../views/BuscadorIngredientesView.vue'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 
@@ -9,6 +9,8 @@ const clasesDeIngredientes = service.tipos
 
 </script>
 <template>
+
+  <BuscadorIngredientesView />
 
   <div class="about">
     <div class="wrapper">

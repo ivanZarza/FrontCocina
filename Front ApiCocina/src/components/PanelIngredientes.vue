@@ -70,7 +70,7 @@ function limpiarPanel() {
 
   <div class="bus">
     <h1>Busca tus ingredientes</h1>
-    <form action="">
+    <form>
       <div class="tipo">
         <span>Selecciona por tipo de ingrediente</span>
         <select v-model="tipo">
@@ -91,12 +91,8 @@ function limpiarPanel() {
     <button @click="paginaSiguiente">Siguiente</button>
   </div>
   <div class="prueba">
-    <div class="card" 
-    v-for="ingrediente in ingredientes" 
-    :key="ingrediente.id"
-    @click="cambiarSeleccion(ingrediente)"
-    :class="{ seleccionado: ingrediente.seleccionado }"
-    >
+    <div class="card" v-for="ingrediente in ingredientes" :key="ingrediente.id" @click="cambiarSeleccion(ingrediente)"
+      :class="{ seleccionado: ingrediente.seleccionado }">
       <p>{{ ingrediente.name }}</p>
     </div>
   </div>
@@ -132,7 +128,7 @@ form {
   margin: 5px;
 }
 
-.buscador {  
+.buscador {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -217,7 +213,8 @@ button:hover {
 
 .card.seleccionado {
   background-color: white;
-  box-shadow: inset 0 0 10px #ff0180;;
+  box-shadow: inset 0 0 10px #ff0180;
+  ;
 }
 
 .card::first-letter {
