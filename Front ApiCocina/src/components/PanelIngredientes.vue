@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import ServicioIngredientes from '../../servicios/servicioIngredientes'
+import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 const nombre = ref('')
 const tipo = ref('')

@@ -1,5 +1,5 @@
 <script setup>
-import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
+import PanelIngredientes from '../components/PanelIngredientes.vue'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
@@ -392,12 +392,15 @@ button:hover {
   top: 20%;
   right: 8%;
   width: 40%;
-  max-height: 100%; /* Limita la altura máxima del div */
-  overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+  max-height: 100%;
+  /* Limita la altura máxima del div */
+  overflow-y: auto;
+  /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Cambiado de center a flex-start para manejar mejor el contenido cuando se desborda */
+  justify-content: flex-start;
+  /* Cambiado de center a flex-start para manejar mejor el contenido cuando se desborda */
   gap: 5px;
   padding: 5px;
   background-color: #ffa9fb;
@@ -435,5 +438,4 @@ div.p5.active {
   background-color: #ffffff;
   color: #63235f;
 }
-
 </style>

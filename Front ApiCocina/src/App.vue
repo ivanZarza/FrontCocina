@@ -12,7 +12,6 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink :to="{ name: 'panel' }">CREAR, MODIFICAR O BORRAR</RouterLink>
         <RouterLink :to="{ name: 'registro' }">REGISTRO</RouterLink>
         <RouterLink :to="{ name: 'login' }">LOGIN</RouterLink>
-        <RouterLink :to="{ name: 'logout' }">LOGOUT</RouterLink>
         <RouterLink :to="{ name: 'usuario' }">USUARIO</RouterLink>
         <RouterLink :to="{ name: 'recetas' }">RECETAS</RouterLink>
         <RouterLink :to="{ name: 'compra' }">LISTA DE LA COMPRA</RouterLink>
