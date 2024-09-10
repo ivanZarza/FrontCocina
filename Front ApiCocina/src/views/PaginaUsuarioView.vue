@@ -45,10 +45,9 @@
   align-items: center;
   justify-content: space-around;
   padding: 1rem;
+  color: #fff6f6;
   background-color: #e62dff;
   margin: 10px;
-
-  /* Cambia el color de fondo de la barra de navegación */
 }
 
 nav {
@@ -64,15 +63,12 @@ nav {
 nav a {
   text-decoration: none;
   color: #fff6f6;
-  /* Cambia el color del texto de los enlaces */
   font-weight: bold;
 }
 
 nav a.router-link-exact-active {
   color: #26ff2d;
-  /* Cambia el color del enlace activo */
   border-bottom: 2px solid #00ff08;
-  /* Añade un subrayado al enlace activo */
 }
 
 .funcional {
