@@ -1,20 +1,24 @@
 <script setup>
 import { ref, watch } from 'vue'
 
-const nombre = ref('')
+const palabra = ref('')
 const tipo = ref('')
+
 
 defineProps({
   clasesDeIngredientes: Array
 })
 
-defineEmits(['buscar'])
+defineEmits([
+  'buscar'
+])
+
 
 </script>
 
 <template>
 
-<div class="bus">
+  <div class="bus">
     <h1>Busca tus ingredientes</h1>
     <form>
       <div class="tipo">
@@ -26,10 +30,75 @@ defineEmits(['buscar'])
         </select>
       </div>
       <div class="buscador">
-        <input type="search" v-model="nombre" placeholder="Busca por una palabra">
+        <input type="search" v-model="palabra" placeholder="Busca por una palabra">
       </div>
-<button @click.prevent="$emit('buscar', { nombre: nombre.value, tipo: tipo.value })">Buscar</button>
+      <button @click="$emit('buscar', { palabra: palabra.value, clase: clase.value })">Buscar</button>
     </form>
   </div>
 
 </template>
+
+<style scoped>
+.bus {
+  margin: none;
+  padding: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.tipo {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+  padding: 5px;
+  margin: 5px;
+}
+
+.buscador {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: start;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #b5bafd;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+button:hover {
+  background-color: #949bf8;
+}
+</style>

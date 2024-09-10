@@ -1,5 +1,6 @@
 <script setup>
-import BuscadorIngredientesView from '../views/BuscadorIngredientesView.vue'
+import SeleccionIngredientesView from './SeleccionIngredientesView.vue'
+
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 
@@ -8,9 +9,10 @@ service.cargarTipos()
 const clasesDeIngredientes = service.tipos
 
 </script>
+
 <template>
 
-  <BuscadorIngredientesView />
+<SeleccionIngredientesView />
 
   <div class="about">
     <div class="wrapper">
@@ -23,5 +25,8 @@ const clasesDeIngredientes = service.tipos
       </div>
     </div>
   </div>  
+
+
+
 
 </template>

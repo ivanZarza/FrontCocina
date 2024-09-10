@@ -1,5 +1,4 @@
 <script setup>
-import PanelIngredientes from '../components/icons/PanelIngredientes.vue'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 const service = new ServicioIngredientes()
@@ -9,7 +8,6 @@ service.cargarIngredientes()
 </script>
 
 <template>
-  <PanelIngredientes/>
 
   <div class="about">
     <div class="wrapper">
