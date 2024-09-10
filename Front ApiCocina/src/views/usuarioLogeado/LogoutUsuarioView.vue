@@ -1,5 +1,5 @@
 <script setup>
-import { servicioLogout } from '../servicios/servicioLogout'
+import { servicioLogout } from '../../servicios/servicioLogout'
 import { useRouter } from 'vue-router'
 import { useDatosUsuario } from '@/stores/usuarioLogeado'
 

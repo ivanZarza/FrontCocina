@@ -1,63 +1,90 @@
 <script setup>
-import { ref } from 'vue';
-import { useDatosUsuario } from '@/stores/usuarioLogeado';
 
-const datosUsuario = useDatosUsuario();
-datosUsuario.obtenerDatosUsuario(); // Llama directamente al método
-
-// Crea una referencia reactiva para el usuario que se utilizará en el template
-const user = ref(datosUsuario.usuario);
 
 </script>
 
 <template>
-  <nav>
-
-    <router-link to="/me">Mi perfil</router-link>
-    <router-link :to="{ name: 'recetasUsuario' }">RECETAS</router-link>
-    <router-link :to="{ name: 'panelUsuario' }">INGREDIENTES</router-link>
-    <router-link to="/logout">CERRAR SESION</router-link>
-  </nav>
-
-  <RouterView />
-
-  <div class="bienvenida">
-    <h1>Hola {{ user.nombre }} {{ user.id }}</h1>
-    <h3>Aqui podras recuperar tus recetas guardadas, tambien podras crear,modificar o eliminar tus propios ingredientes
-    </h3>
+  <div class="container">
+    <div class="nav">
+      <h2>Esta es tu barra de navegacion personal</h2>
+      <nav>
+        <router-link :to="{ name: 'datosUsuario' }">MIS DATOS</router-link>
+        <router-link :to="{ name: 'panelUsuario' }">INGREDIENTES</router-link>
+        <router-link :to="{ name: 'recetasUsuario' }">CREAR RECETAS</router-link>
+        <router-link :to="{ name: 'compraUsuario' }">LISTA DE LA COMPRA</router-link>        
+        <router-link :to="{ name: 'logout' }">CERRAR SESION</router-link>
+      </nav>
+    </div>
+    <div class="funcional">
+      <RouterView />
+    </div>
   </div>
+
 
 </template>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.nav {
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+  background-color: #e62dff;
+  margin: 10px;
+
+  /* Cambia el color de fondo de la barra de navegación */
+}
 
 nav {
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
-  padding: 1rem;
-  background-color: #f5f5f5; /* Cambia el color de fondo de la barra de navegación */
+  width: 50%;
+  margin-top: 20px;
+  background-color: #e62dff;
+  /* Cambia el color de fondo de la barra de navegación */
 }
 
 nav a {
   text-decoration: none;
-  color: #333; /* Cambia el color del texto de los enlaces */
+  color: #fff6f6;
+  /* Cambia el color del texto de los enlaces */
   font-weight: bold;
 }
 
-nav a.router-link-active {
-  color: #4CAF50; /* Cambia el color del enlace activo */
-  border-bottom: 2px solid #4CAF50; /* Añade un subrayado al enlace activo */
+nav a.router-link-exact-active {
+  color: #26ff2d;
+  /* Cambia el color del enlace activo */
+  border-bottom: 2px solid #00ff08;
+  /* Añade un subrayado al enlace activo */
 }
 
-.bienvenida h1 {
-  color: #333; /* Cambia el color del texto de bienvenida */
-  text-align: center;
+.funcional {
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  padding: 1rem;
+  background-color: #f2f2f2;
 }
 
-.bienvenida h3 {
-  color: #666; /* Cambia el color del subtítulo */
-  text-align: center;
-  max-width: 600px;
-  margin: auto;
-}
+
 </style>

@@ -54,19 +54,29 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         {
+          path: 'datos',
+          name: 'datosUsuario',
+          component: () => import('../views/usuarioLogeado/DatosLogeadoView.vue')
+        },
+        {
           path: 'recetas',
           name: 'recetasUsuario',
-          component: () => import('../views/RecetasLogeadoView.vue')
+          component: () => import('../views/usuarioLogeado/RecetasLogeadoView.vue')
         },
         {
           path: 'panel',
           name: 'panelUsuario',
-          component: () => import('../views/PanelLogeadoView.vue')
+          component: () => import('../views/usuarioLogeado/PanelLogeadoView.vue')
         },
         {
-          path: '/logout',
+          path: 'listacompra',
+          name: 'compraUsuario',
+          component: () => import('../views/usuarioLogeado/CompraLogeadoView.vue')
+        },
+        {
+          path: 'logout',
           name: 'logout',
-          component: () => import('../views/LogoutUsuarioView.vue')
+          component: () => import('../views/usuarioLogeado/LogoutUsuarioView.vue')
         },
       ]
     }
