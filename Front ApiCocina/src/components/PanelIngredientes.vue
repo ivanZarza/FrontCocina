@@ -1,11 +1,10 @@
 <script setup>
-import BuscadorIngredientes from '../components/BuscadorIngredientes.vue'
-import PanelSeleccionar from '../components/PanelSeleccionar.vue'
 import { ref, watch } from 'vue'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 const nombre = ref('')
 const tipo = ref('')
+const pagina = ref(1)
 
 const service = new ServicioIngredientes()
 
@@ -90,7 +89,7 @@ function limpiarPanel() {
   <div class="paginacion">
     <button @click="paginaAnterior" :disabled="pagina === 1">Anterior</button>
     <span>Página {{ pagina }}</span>
-    <button @click="$emit(paginaSiguiente)">Siguiente</button>
+    <button @click="paginaSiguiente">Siguiente</button>
   </div>
   <div class="prueba">
     <div class="card" v-for="ingrediente in ingredientes" :key="ingrediente.id" @click="cambiarSeleccion(ingrediente)"

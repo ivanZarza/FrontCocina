@@ -50,19 +50,37 @@ function recetaAnterior() {
   }
 }
 
+function guardarRecetaDB() {
+  const recetasGuardadasDB = JSON.parse(localStorage.getItem('recetasGuardadasDB') || '[]')
+  recetasGuardadasDB.push(recetaSeleccionada.value)
+  localStorage.setItem('recetasGuardadasDB', JSON.stringify(recetasGuardadasDB))
+}
+
+function borarRecetaDB() {
+  const recetasGuardadasDB = JSON.parse(localStorage.getItem('recetasGuardadasDB') || '[]')
+  const recetasFiltradas = recetasGuardadasDB.filter(receta => receta.nombre !== recetaSeleccionada.value.nombre)
+  if (recetasFiltradas.length === 0) {
+    localStorage.removeItem('recetasGuardadasDB')
+  } else {
+    localStorage.setItem('recetasGuardadasDB', JSON.stringify(recetasFiltradas))
+  }
+  recuperarRecetas()
+  recetaSeleccionada.value = null
+}
+
 function borrarReceta() {
   const recetasFiltradas = recetasRecuperadas.value.filter(receta => receta.nombre !== recetaSeleccionada.value.nombre);
   if (recetasFiltradas.length === 0) {
-    localStorage.removeItem('recetas'); // Elimina la entrada si el array está vacío
+    localStorage.removeItem('recetasUsuario'); // Elimina la entrada si el array está vacío
   } else {
-    localStorage.setItem('recetas', JSON.stringify(recetasFiltradas)); // Guarda el array filtrado si no está vacío
+    localStorage.setItem('recetasUsuario', JSON.stringify(recetasFiltradas)); // Guarda el array filtrado si no está vacío
   }
   recuperarRecetas();
   recetaSeleccionada.value = null;
 }
 
 function borrarTodasLasRecetas() {
-  localStorage.removeItem('recetas');
+  localStorage.removeItem('recetasUsuario');
   recuperarRecetas();
   recetaSeleccionada.value = null;
   router.push({ name: 'datosUsuario' })
@@ -112,7 +130,7 @@ function agregarAListaDeCompra() {
   }
 }
 
-function borraRCompraAgregada() {
+function borrarCompraAgregada() {
   compraAgregada.value = []
 }
 
@@ -135,7 +153,9 @@ const generarPDF = () => {
 <template>
   <div class="pagRecetas">
     <div v-for="receta in recetasRecuperadas" :key="receta.nombre">
-      <button @click="seleccionarReceta(receta)">{{ receta.nombre }}</button>
+      <button @click="seleccionarReceta(receta)" 
+      :class="{ 'recetaActiva':  recetaSeleccionada.nombre === receta.nombre }"  
+      >{{ receta.nombre }}</button>
     </div>
   </div>
   <div v-if="recetaSeleccionada" class="container">
@@ -171,7 +191,13 @@ const generarPDF = () => {
       </div>
       <h2><strong>Descripción:</strong></h2>
       <pre class="descripcionFinal">{{ recetaSeleccionada.descripcion }}</pre>
-      <div class="borrar">
+      <div class="guardarReceta">
+        <h3>Guarda o borra tu receta en la base de datos</h3>
+        <button @click="guardarRecetaDB">GUARDA TU RECETA</button>
+        <button @click="borarRecetaDB">BORRA LA RECETA</button>
+      </div>
+      <div class="borrarRecetas">
+        <h3>Borra la receta seleccionada o todas las recetas de la lista de la compra</h3>
         <button @click="borrarReceta">BORRAR RECETA SELECCIONADA</button>
         <button @click="borrarTodasLasRecetas">BORRAR TODAS LAS RECETAS</button>
       </div>
@@ -197,9 +223,9 @@ const generarPDF = () => {
       <h2>Puedes agregar productos a la lista de la compra</h2>
       <div class="agregarCompra">
         <input type="text" v-model="elementoAgregado.nombre" placeholder="Nombre del producto">
-        <button @click="agregarAListaDeCompra">Agregar a la lista de la compra</button>
-        <button @click="borraRCompraAgregada">BORRAR COMPRA AGREGADA</button>
-      </div>
+        <button @click="agregarAListaDeCompra" >Agregar a la lista de la compra</button>
+        <button @click="borrarCompraAgregada" >BORRAR COMPRA AGREGADA</button>
+      </div> 
       <div class="btnPdf">
         <button @click="generarPDF">Generar PDF</button>
       </div>
@@ -238,7 +264,14 @@ const generarPDF = () => {
 }
 
 .pagRecetas button:hover {
-  background-color: rgb(109, 211, 177);
+  color: rgb(0, 0, 0);
+  background-color: rgb(168, 255, 226);
+}
+
+/* No se aplican esos estilos */
+.recetaActiva {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
 }
 
 .container {
@@ -285,20 +318,47 @@ const generarPDF = () => {
 }
 
 .resumen .pag button:hover {
-  background-color: #c6d380;
+  background-color: #a2ffa9;
 }
 
-.borrar {
+.guardarReceta {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 10px;
+  gap: 5px;
+  border: 1px solid black;
   border-radius: 10px;
+  margin: 10px;
+  padding: 5px;
 }
 
-.borrar button {
+.guardarReceta button {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: #1dff2f;
+  cursor: pointer;
+}
+
+.guardarReceta button:hover {
+  color:black;
+  background-color: #84ff95;
+}
+
+.borrarRecetas {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 5px;
+}
+
+.borrarRecetas button {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
@@ -306,9 +366,9 @@ const generarPDF = () => {
   cursor: pointer;
 }
 
-.borrar button:hover {
-  background-color: #ffc6c6;
-  color: red;
+.borrarRecetas button:hover {
+  background-color: #fd7c7c;
+  color: black;
 }
 
 .listaFinal {
@@ -435,4 +495,5 @@ const generarPDF = () => {
   background-color: rgb(248, 242, 190);
   cursor: pointer;
 }
+
 </style>

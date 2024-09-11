@@ -389,10 +389,10 @@ button:hover {
 
 .resumen {
   position: fixed;
-  top: 20%;
+  top: 25%;
   right: 8%;
   width: 40%;
-  max-height: 100%;
+  max-height: 630px;
   /* Limita la altura máxima del div */
   overflow-y: auto;
   /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
@@ -414,6 +414,7 @@ button:hover {
   white-space: pre-wrap;
 }
 
+/* esto no me lo aplica */
 div.p1.active,
 div.p2.active,
 div.p3.active,

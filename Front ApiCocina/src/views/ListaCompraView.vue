@@ -238,7 +238,7 @@ const generarPDF = () => {
 }
 
 .pagRecetas button:hover {
-  background-color: rgb(109, 211, 177);
+  background-color: rgb(163, 255, 224);
 }
 
 .container {
@@ -285,7 +285,7 @@ const generarPDF = () => {
 }
 
 .resumen .pag button:hover {
-  background-color: #c6d380;
+  background-color: #a3ffaa;
 }
 
 .borrar {

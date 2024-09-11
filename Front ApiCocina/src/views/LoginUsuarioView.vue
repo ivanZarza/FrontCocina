@@ -13,12 +13,6 @@ const nombre = ref('')
 const apellidos = ref('')
 const contraseña = ref('')
 
-
-const handleLoginSuccess = () => {
-      const redirectRoute = route.query.redirect || '/me'
-      router.push(redirectRoute)
-    }
-
 const entrar = async () => {
   try {
     // Almacenar la respuesta de la promesa
@@ -37,13 +31,19 @@ const entrar = async () => {
 
       console.log('Datos del usuario', datosUsuario.usuario)// Mostrar los datos del usuario en la consola
 
-      handleLoginSuccess()// Llama a esta función para manejar el éxito del login
+      AccesoCorrecto()// Llama a esta función para manejar el éxito del login
 
   } catch (error) {
     console.error(error)
     alert('Error al loguear el usuario')
   }
 }
+
+const AccesoCorrecto = () => {
+      const redirectRoute = route.query.redirect || '/me/datos'
+      router.push(redirectRoute)
+    }
+
 
 </script>
 

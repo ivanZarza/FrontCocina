@@ -439,14 +439,15 @@ div.p5.active {
 }
 
 .resumen::-webkit-scrollbar {
-  width: 20px; /* Aumenta el ancho para dar espacio al círculo */
+  width: 50px; /* Aumenta el ancho para dar espacio al círculo */
 }
 
 .resumen::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f1f1f1; 
 }
 
 .resumen::-webkit-scrollbar-thumb {
+  height: 30px; 
   border-radius: 10px; /* Hace el thumb redondeado, pero no perfectamente circular */
   background: #888;
   border: 3px solid #f1f1f1; /* Añade un borde para simular un círculo dentro de un cuadrado */
@@ -457,7 +458,7 @@ div.p5.active {
 }
 
 .resumen {
-  scrollbar-width: thin; /* "auto" o "thin" */
+  scrollbar-width: auto; /* "auto" o "thin" */ 
   scrollbar-color: #888 #f1f1f1; /* [Thumb] [Track] */
 }
 </style>
