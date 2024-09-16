@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { servicioRecetasLogeado } from '../../servicios/serviciosLogeado/servicioRecetasLogeado'
 import html2pdf from 'html2pdf.js'
 
 const recetasRecuperadas = ref([])
@@ -190,7 +191,9 @@ const generarPDF = () => {
         </ol>
       </div>
       <h2><strong>Descripción:</strong></h2>
-      <pre class="descripcionFinal">{{ recetaSeleccionada.descripcion }}</pre>
+      <div class="descripcionFinal">
+      <pre>{{ recetaSeleccionada.descripcion }}</pre>
+      </div>
       <div class="guardarReceta">
         <h3>Guarda o borra tu receta en la base de datos</h3>
         <button @click="guardarRecetaDB">GUARDA TU RECETA</button>
@@ -319,6 +322,18 @@ const generarPDF = () => {
 
 .resumen .pag button:hover {
   background-color: #a2ffa9;
+}
+
+.descripcionFinal {
+  width: 80%;
+  display: flex;
+  border-radius: 20px;
+  border: 1px solid black;
+  padding: 20px;
+  margin: 10px;
+  font-size: 0.9rem;
+  gap: 10px;
+  background-color: rgb(129, 172, 173);
 }
 
 .guardarReceta {

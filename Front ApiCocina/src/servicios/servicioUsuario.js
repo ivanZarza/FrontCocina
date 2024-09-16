@@ -1,6 +1,6 @@
 import { ref } from "vue"
 
-export class ServicioUsuario {
+class ServicioUsuario {
   constructor() {
     this.usuario = ref([])
   }
@@ -67,3 +67,5 @@ export class ServicioUsuario {
     }
   }
 }
+
+export const servicioUsuario = new ServicioUsuario()

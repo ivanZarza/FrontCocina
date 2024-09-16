@@ -54,12 +54,13 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         {
-          path: ':datos',
+          path: ':usuarioId/datos',
           name: 'datosUsuario',
-          component: () => import('../views/usuarioLogeado/DatosLogeadoView.vue')
+          component: () => import('../views/usuarioLogeado/DatosLogeadoView.vue'),
+          props: (route) => ({...route.params, id: parseInt(route.params.usuarioId),})
         },
         {
-          path: 'id/recetas',
+          path: 'recetas',
           name: 'recetasUsuario',
           component: () => import('../views/usuarioLogeado/RecetasLogeadoView.vue')
           

@@ -1,5 +1,21 @@
 <script setup>
 
+import { RouterLink, RouterView } from 'vue-router'
+
+import { onBeforeMount, ref } from 'vue'
+
+
+const usuario = ref({})
+
+
+function obtenerDatosUsuario() {
+  usuario.value = JSON.parse(localStorage.getItem('usuario'));
+  console.log(usuario.value.id)
+}
+
+onBeforeMount(() => {
+  obtenerDatosUsuario()
+})
 
 </script>
 
@@ -8,10 +24,10 @@
     <div class="nav">
       <h2>Esta es tu barra de navegacion personal</h2>
       <nav>
-        <router-link :to="{ name: 'datosUsuario' }">MIS DATOS</router-link>
+        <router-link :to="{ name: 'datosUsuario', params:{ usuarioId: usuario.id }}">MIS DATOS</router-link>
         <router-link :to="{ name: 'panelUsuario' }">INGREDIENTES</router-link>
         <router-link :to="{ name: 'recetasUsuario' }">CREAR RECETAS</router-link>
-        <router-link :to="{ name: 'compraUsuario' }">LISTA DE LA COMPRA</router-link>        
+        <router-link :to="{ name: 'compraUsuario' }">LISTA DE LA COMPRA</router-link>
         <router-link :to="{ name: 'logout' }">CERRAR SESION</router-link>
       </nav>
     </div>
@@ -81,6 +97,4 @@ nav a.router-link-exact-active {
   padding: 1rem;
   background-color: #f2f2f2;
 }
-
-
 </style>
