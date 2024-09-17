@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { servicioRecetasLogeado } from '../../servicios/serviciosLogeado/servicioRecetasLogeado'
+import  {servicioRecetasLogeado}  from '../../servicios/serviciosLogeado/servicioRecetasLogeado'
 import html2pdf from 'html2pdf.js'
+
+
 
 const recetasRecuperadas = ref([])
 const recetaSeleccionada = ref(recetasRecuperadas.value[0])
@@ -15,9 +17,9 @@ const elementoAgregado = ref({
 const generarPDFRef = ref(null)
 
 const router = useRouter()
-recuperarRecetas()
+recuperarRecetasLocalStorage()
 
-function recuperarRecetas() {
+function recuperarRecetasLocalStorage() {
   recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetasUsuario') || '[]') 
   seleccionarRecetaPorIndice()
 
