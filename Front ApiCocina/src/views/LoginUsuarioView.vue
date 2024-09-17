@@ -40,7 +40,7 @@ const entrar = async () => {
 }
 
 const AccesoCorrecto = () => {
-      const redirectRoute = route.query.redirect || '/me/datos'
+      const redirectRoute = route.query.redirect || `/me/${datosUsuario.usuario.id}/datos`
       router.push(redirectRoute)
     }
 

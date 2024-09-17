@@ -1,23 +1,23 @@
 <script setup>
+import { ref } from 'vue';
 import { servicioDatosUsuario } from '../../servicios/serviciosLogeado/servicioDatosUsuario';
 
 const props = defineProps({
-  id: Number
+  usuarioId: Number
 })
 
+console.log(props.usuarioId);
+
+const usuario = ref({})
+const recetas = ref([])
 
 const service = servicioDatosUsuario
-service.obtenerDatosUsuario(props.id)
-const usuario = service.datosUsuario
-const recetas = service.recetasUsuario
+service.obtenerDatosUsuario(props.usuarioId)
+usuario.value = service.datosUsuario
+recetas.value = service.recetasUsuario
+console.log(recetas.value);
 
-
-
-console.log(usuario);
-console.log(recetas);
-
-
-
+console.log(Array.isArray(recetas.value))
 </script>
 
 <template>
@@ -28,12 +28,10 @@ console.log(recetas);
         ingredientes
       </h3>
       <p>{{ recetas }}</p>
-      <div class="recetas" v-for="receta in recetas" :key="recetas.id" >
+      <div class="recetas" v-for="receta in recetas" :key="receta.id" >
         <h2>{{ receta.id }}</h2>
         <h2>{{ receta.usuarioId }}</h2>
         <p>{{ receta.datosJSON }}</p>
-        <h2>{{ JSON.parse(receta.datosJSON).nombre }}</h2>
-        <h2>{{ JSON.parse(receta.datosJSON).ingredientes }}</h2>
       </div>
     </div>
   </div>

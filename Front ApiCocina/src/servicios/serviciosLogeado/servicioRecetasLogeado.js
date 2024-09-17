@@ -7,7 +7,7 @@ class ServicioRecetasLogeado {
   }
 
   async obtenerRecetasUsuario(usuarioId) {
-    const response = await fetch(`http://localhost:3000//api/listadelacompra/me/${usuarioId}/recetas`)
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/recetas`)
     const data = await response.json()
     this.recetasUsuario.value = data
   }
@@ -15,7 +15,7 @@ class ServicioRecetasLogeado {
   async guardarRecetaUsuario(usuarioId, recetaJson) {
     try {
       // Corrección de la URL para eliminar el doble slash
-      const url = new URL(`http://localhost:3000/api/listadelacompra/${usuarioId}/recetas`);
+      const url = new URL(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/recetas`);
   
       const response = await fetch(url, {
         method: 'POST',
@@ -33,6 +33,7 @@ class ServicioRecetasLogeado {
       // Opcional: Retornar la respuesta del servidor, por ejemplo, en formato JSON
       const data = await response.json()
       this.recetaGuardada.value = data
+      alert("Receta guardada con éxito")
       return 'Receta guardada con éxito'
     } catch (error) {
       // Manejo de errores de la solicitud o de la red

@@ -57,13 +57,12 @@ const router = createRouter({
           path: ':usuarioId/datos',
           name: 'datosUsuario',
           component: () => import('../views/usuarioLogeado/DatosLogeadoView.vue'),
-          props: (route) => ({...route.params, id: parseInt(route.params.usuarioId),})
+          props: (route) => ({...route.params, usuarioId: parseInt(route.params.usuarioId)})
         },
         {
           path: 'recetas',
           name: 'recetasUsuario',
           component: () => import('../views/usuarioLogeado/RecetasLogeadoView.vue')
-          
         },
         {
           path: 'panel',
@@ -71,9 +70,10 @@ const router = createRouter({
           component: () => import('../views/usuarioLogeado/PanelLogeadoView.vue')
         },
         {
-          path: 'listacompra',
+          path: ':usuarioId/listacompra',
           name: 'compraUsuario',
-          component: () => import('../views/usuarioLogeado/CompraLogeadoView.vue')
+          component: () => import('../views/usuarioLogeado/CompraLogeadoView.vue'),
+          props: (route) => ({...route.params, usuarioId: parseInt(route.params.usuarioId)})
         },
         {
           path: 'logout',

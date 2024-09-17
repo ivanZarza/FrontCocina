@@ -25,9 +25,9 @@ onBeforeMount(() => {
       <h2>Esta es tu barra de navegacion personal</h2>
       <nav>
         <router-link :to="{ name: 'datosUsuario', params:{ usuarioId: usuario.id }}">MIS DATOS</router-link>
-        <router-link :to="{ name: 'panelUsuario' }">INGREDIENTES</router-link>
-        <router-link :to="{ name: 'recetasUsuario' }">CREAR RECETAS</router-link>
-        <router-link :to="{ name: 'compraUsuario' }">LISTA DE LA COMPRA</router-link>
+        <router-link :to="{ name: 'panelUsuario'}">INGREDIENTES</router-link>
+        <router-link :to="{ name: 'recetasUsuario'}">CREAR RECETAS</router-link>
+        <router-link :to="{ name: 'compraUsuario', params:{ usuarioId: usuario.id } }">LISTA DE LA COMPRA</router-link>
         <router-link :to="{ name: 'logout' }">CERRAR SESION</router-link>
       </nav>
     </div>

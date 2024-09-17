@@ -4,7 +4,13 @@ import { useRouter } from 'vue-router'
 import  {servicioRecetasLogeado}  from '../../servicios/serviciosLogeado/servicioRecetasLogeado'
 import html2pdf from 'html2pdf.js'
 
+const props = defineProps({
+  usuarioId: Number
+})
 
+console.log(props.usuarioId);
+
+const servicio = servicioRecetasLogeado
 
 const recetasRecuperadas = ref([])
 const recetaSeleccionada = ref(recetasRecuperadas.value[0])
@@ -13,17 +19,17 @@ const compraAgregada = ref([])
 const elementoAgregado = ref({
   nombre: '',
 })
+console.log(recetaSeleccionada);
+const router = useRouter()
 
 const generarPDFRef = ref(null)
-
-const router = useRouter()
-recuperarRecetasLocalStorage()
 
 function recuperarRecetasLocalStorage() {
   recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetasUsuario') || '[]') 
   seleccionarRecetaPorIndice()
-
 }
+
+recuperarRecetasLocalStorage()
 
 function seleccionarReceta(receta) {
   recetaSeleccionada.value = receta
@@ -52,23 +58,18 @@ function recetaAnterior() {
     seleccionarRecetaPorIndice()
   }
 }
+function guardarRecetaDB() { 
 
-function guardarRecetaDB() {
-  const recetasGuardadasDB = JSON.parse(localStorage.getItem('recetasGuardadasDB') || '[]')
-  recetasGuardadasDB.push(recetaSeleccionada.value)
-  localStorage.setItem('recetasGuardadasDB', JSON.stringify(recetasGuardadasDB))
+  const recetaParaGuardar = recetaSeleccionada.value
+  servicio.guardarRecetaUsuario(props.usuarioId, recetaParaGuardar);
 }
 
+/* function guardarRecetaDB() { 
+  servicio.guardarRecetaUsuario(props.usuarioId, recetaSeleccionada.value);
+}
+ */
 function borarRecetaDB() {
-  const recetasGuardadasDB = JSON.parse(localStorage.getItem('recetasGuardadasDB') || '[]')
-  const recetasFiltradas = recetasGuardadasDB.filter(receta => receta.nombre !== recetaSeleccionada.value.nombre)
-  if (recetasFiltradas.length === 0) {
-    localStorage.removeItem('recetasGuardadasDB')
-  } else {
-    localStorage.setItem('recetasGuardadasDB', JSON.stringify(recetasFiltradas))
-  }
-  recuperarRecetas()
-  recetaSeleccionada.value = null
+  
 }
 
 function borrarReceta() {
