@@ -1,34 +1,161 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { servicioDatosUsuario } from '../../servicios/serviciosLogeado/servicioDatosUsuario';
 
 const props = defineProps({
   usuarioId: Number
 })
 
-const usuario = ref({})
+const usuario = ref({});
+const recetas = ref([]);
 
 
 
+// Función asíncrona para cargar los datos del usuario y sus recetas
+const cargarDatos = async () => {
+  const service = servicioDatosUsuario
+  await service.obtenerDatosUsuario(props.usuarioId) // Asegúrate de esperar la respuesta
+  usuario.value = service.datosUsuario // Actualiza la referencia reactiva después de obtener los datos
+  const recetasUsuario = service.recetasUsuario // Asegúrate de que recetas es una referencia reactiva y se actualiza aquí
 
-const service = servicioDatosUsuario
-service.obtenerDatosUsuario(props.usuarioId)
-usuario.value = service.datosUsuario
-const recetas = service.recetasUsuario
+  // Ahora puedes mapear recetas.value porque está garantizado que tiene datos
+  recetas.value = recetasUsuario.value.map(receta => {
+    let resumen = JSON.parse(receta.datosJSON);
+    return {
+      id: receta.id,
+      usuarioId: receta.usuarioId,
+      nombre: resumen.nombre,
+      numeroDePersonas: resumen.numeroDePersonas,
+      principal: resumen.principal,
+      acompanamiento: resumen.acompanamiento,
+      condimentos: resumen.condimentos,
+      descripcion: resumen.descripcion
+    }
+  })
 
-console.log('Usuario', usuario.value)
-console.log('Recetas', recetas)
+  return recetas.value
+}
 
+function AListaDeLaCompra(receta) {
+  let recetas = JSON.parse(localStorage.getItem("recetasUsuario")) || [];
 
+  recetas.push({
+    nombre: receta.nombre,
+    numeroDePersonas: receta.numeroDePersonas,
+    principal: receta.principal,
+    acompanamiento: receta.acompanamiento,
+    condimentos: receta.condimentos,
+    descripcion: receta.descripcion,
+  })
+  localStorage.setItem(`recetasUsuario`, JSON.stringify(recetas))
+}
+onMounted(cargarDatos)
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <div class="bienvenida">
       <h1>Hola {{ usuario.nombre }} {{ usuario.apellidos }}</h1>
       <h3>Aquí podrás recuperar tus recetas guardadas, también podrás crear, modificar o eliminar tus propios
         ingredientes</h3>
-        <p>esto que es?{{ recetas }}</p>
+      <div class="contenidoUsuario">
+        <div class="recetas">
+          <h1>Recetas creadas por ti</h1>
+          <div v-for="receta in recetas" :key="receta.id">
+            <div class="postalRecetas">
+              <h3>Nombre: {{ receta.nombre }} para {{ receta.numeroDePersonas }} personas</h3>
+              <h3>¿Quieres pasar esta receta a la lista de la compra?</h3>
+              <button @click="AListaDeLaCompra(receta)">SI</button>
+            </div>
+          </div>
+        </div>
+        <div class="ingredientes">
+            <h3>Ingredientes creados por ti</h3>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 </template>
+
+<style scoped>
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bienvenida {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contenidoUsuario {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.recetas {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: royalblue;
+  gap: 10px;
+  padding: 10px;
+  color:rgb(119, 246, 250);
+}
+
+.postalRecetas {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  color: royalblue;
+  background-color: rgb(119, 246, 250);
+  border: 1px solid black;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.ingredientes {
+  width: 40%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(119, 160, 250);
+}
+</style>
