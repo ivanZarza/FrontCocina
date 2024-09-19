@@ -1,8 +1,20 @@
 <script setup>
 import { ref } from 'vue'
 import ServicioIngredientes from '../../servicios/servicioIngredientes'
+import {servicioIngredientesLogeado} from '../../servicios/serviciosLogeado/servicioIngredientesLogeado'
+
+const props = defineProps({
+  usuarioId: Number
+})
 
 const service = new ServicioIngredientes()
+const clasesDeIngredientes = service.tipos
+service.cargarTipos()
+
+const servicioIngredientes = servicioIngredientesLogeado
+
+
+
 
 const nuevoIngrediente = ref({
   nombre: '',
@@ -12,16 +24,20 @@ const nuevoIngrediente = ref({
   condimento: ''
 })
 
-const clasesDeIngredientes = service.tipos
-service.cargarTipos()
-
+async function crearIngrediente() {
+  await servicioIngredientes.agregarIngredienteUsuario(props.usuarioId, nuevoIngrediente.value)
+  nuevoIngrediente.value = {
+    nombre: '',
+    tipo: '',
+    principal: '',
+    acompañamiento: '',
+    condimento: ''
+  }
+}
 </script>
 
 <template>
   <h1>Aqui podras crear,modificar o eliminar tus propios ingredientes</h1>
-
-  <pre><code>{{ nuevoIngrediente }}</code></pre>
-
   <div class="contenedor2">
     <div class="rotulo">
       <h1>Crear ingrediente</h1>
@@ -65,11 +81,11 @@ service.cargarTipos()
 <style scoped>
 .contenedor2 {
   width: 255px;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 85vh;
   gap: 20px;
   background-color: rgb(255, 212, 42);
   text-align: center;

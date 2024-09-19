@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { servicioDatosUsuario } from '../../servicios/serviciosLogeado/servicioDatosUsuario';
+import { servicioDatosUsuario } from '../../servicios/serviciosLogeado/servicioDatosLogeado';
 
 const props = defineProps({
   usuarioId: Number
@@ -159,3 +159,4 @@ button:hover {
   background-color: rgb(119, 160, 250);
 }
 </style>
+../../servicios/serviciosLogeado/servicioDatosLogeado

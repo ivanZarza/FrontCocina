@@ -65,9 +65,10 @@ const router = createRouter({
           component: () => import('../views/usuarioLogeado/RecetasLogeadoView.vue')
         },
         {
-          path: 'panel',
+          path: ':usuarioId/panel',
           name: 'panelUsuario',
-          component: () => import('../views/usuarioLogeado/PanelLogeadoView.vue')
+          component: () => import('../views/usuarioLogeado/PanelLogeadoView.vue'),
+          props: (route) => ({...route.params, usuarioId: parseInt(route.params.usuarioId)})
         },
         {
           path: ':usuarioId/listacompra',
