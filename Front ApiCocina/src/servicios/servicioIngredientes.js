@@ -67,6 +67,4 @@ export default class ServicioIngredientes {
     })
     this.ingredientes.value = this.ingredientes.value.map(i => i.id === ingrediente.id ? ingrediente : i)
   }
-
-
 }

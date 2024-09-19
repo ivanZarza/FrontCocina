@@ -1,20 +1,26 @@
 <script setup>
 import { ref } from 'vue'
+import ServicioIngredientes from '../../servicios/servicioIngredientes'
+
+const service = new ServicioIngredientes()
 
 const nuevoIngrediente = ref({
   nombre: '',
   tipo: '',
-  principal : '',
+  principal: '',
   acompañamiento: '',
   condimento: ''
 })
+
+const clasesDeIngredientes = service.tipos
+service.cargarTipos()
 
 </script>
 
 <template>
   <h1>Aqui podras crear,modificar o eliminar tus propios ingredientes</h1>
 
-  <p>{{ nuevoIngrediente.nombre }}</p>
+  <pre><code>{{ nuevoIngrediente }}</code></pre>
 
   <div class="contenedor2">
     <div class="rotulo">
@@ -26,16 +32,29 @@ const nuevoIngrediente = ref({
         <input type="text" id="nombre" v-model="nuevoIngrediente.nombre" />
 
         <label for="tipo">Tipo</label>
-        <input type="text" id="tipo" v-model="nuevoIngrediente.tipo" />
+        <select v-model="nuevoIngrediente.tipo">
+          <option value="null">Selecciona un tipo</option>
+          <option v-for="clase in clasesDeIngredientes" :key="clase.tipo" :value="clase.tipo">{{ clase.tipo }}
+          </option>
+        </select>
 
         <label for="principal">Principal</label>
-        <input type="text" id="principal" v-model="nuevoIngrediente.principal" />
+        <select v-model="nuevoIngrediente.principal">
+          <option value="si">SI</option>
+          <option value="no">NO</option>
+        </select>
 
         <label for="acompañamiento">Acompañamiento</label>
-        <input type="text" id="acompañamiento" v-model="nuevoIngrediente.acompañamiento" />
+        <select v-model="nuevoIngrediente.acompañamiento">
+          <option value="si">SI</option>
+          <option value="no">NO</option>
+        </select>
 
         <label for="condimento">Condimento</label>
-        <input type="text" id="condimento" v-model="nuevoIngrediente.condimento" />
+        <select v-model="nuevoIngrediente.condimento">
+          <option value="si">SI</option>
+          <option value="no">NO</option>
+        </select>
 
         <button type="submit">Crear</button>
       </form>
@@ -77,7 +96,7 @@ const nuevoIngrediente = ref({
   background-color: cornflowerblue;
 }
 
-form {
+.contenedor2 form {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -86,17 +105,23 @@ form {
   gap: 10px;
 }
 
-label {
+.contenedor2 label {
   font-size: 1.2em;
 }
 
-input {
+.contenedor2 input {
   width: 190%;
   padding: 2px;
   border: 2px solid cornflowerblue;
 }
 
-button {
+.contenedor2 select {
+  width: 190%;
+  padding: 2px;
+  border: 2px solid cornflowerblue;
+}
+
+.contenedor2 button {
   width: 100%;
   font-size: large;
   padding: 10px;
@@ -105,9 +130,8 @@ button {
   border: 2px solid rgb(255, 212, 42);
 }
 
-button:hover {
+.contenedor2 button:hover {
   background-color: rgb(255, 255, 255);
   color: rgb(0, 89, 255);
 }
-
 </style>
