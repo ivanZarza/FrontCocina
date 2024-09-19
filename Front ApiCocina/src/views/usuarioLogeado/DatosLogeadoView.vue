@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
 import { servicioDatosUsuario } from '../../servicios/serviciosLogeado/servicioDatosUsuario';
 
 const props = defineProps({
