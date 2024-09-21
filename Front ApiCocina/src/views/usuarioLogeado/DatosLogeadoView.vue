@@ -8,6 +8,7 @@ const props = defineProps({
 
 const usuario = ref({});
 const recetas = ref([]);
+const ingredientes = ref([]);
 
 
 
@@ -17,8 +18,8 @@ const cargarDatos = async () => {
   await service.obtenerDatosUsuario(props.usuarioId) // Asegúrate de esperar la respuesta
   usuario.value = service.datosUsuario // Actualiza la referencia reactiva después de obtener los datos
   const recetasUsuario = service.recetasUsuario // Asegúrate de que recetas es una referencia reactiva y se actualiza aquí
+  const ingredientesUsuario = service.ingredientesUsuario // Asegúrate de que ingredientes es una referencia reactiva y se actualiza aquí
 
-  // Ahora puedes mapear recetas.value porque está garantizado que tiene datos
   recetas.value = recetasUsuario.value.map(receta => {
     let resumen = JSON.parse(receta.datosJSON);
     return {
@@ -33,9 +34,12 @@ const cargarDatos = async () => {
     }
   })
 
-  return recetas.value
-}
+  ingredientes.value = ingredientesUsuario.value
 
+  return recetas.value, ingredientes.value
+}
+console.log(recetas)
+console.log(ingredientes);
 function AListaDeLaCompra(receta) {
   let recetas = JSON.parse(localStorage.getItem("recetasUsuario")) || [];
 
@@ -70,11 +74,20 @@ onMounted(cargarDatos)
           </div>
         </div>
         <div class="ingredientes">
-            <h3>Ingredientes creados por ti</h3>
+          <h3>Ingredientes creados por ti</h3>
+          <div class="postales">
+            <div class="postalIngredientes" v-for="ingrediente in ingredientes" :key="ingrediente.nombre">
+              <p>Nombre: {{ ingrediente.nombre }}</p>
+              <p>Tipo: {{ ingrediente.tipo }}</p>
+              <p>Principal: {{ ingrediente.principal }}</p>
+              <p>Acompañamiento: {{ ingrediente.acompañamiento }}</p>
+              <p>Condimento: {{ ingrediente.condimento }}</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
@@ -115,7 +128,7 @@ onMounted(cargarDatos)
   background-color: royalblue;
   gap: 10px;
   padding: 10px;
-  color:rgb(119, 246, 250);
+  color: rgb(119, 246, 250);
 }
 
 .postalRecetas {
@@ -151,12 +164,37 @@ button:hover {
 
 .ingredientes {
   width: 40%;
-  min-height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: rgb(119, 160, 250);
 }
+
+.postales {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  color: rgb(0, 58, 182);
+  background-color: rgb(0, 58, 182);
+  border: 1px solid black;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  gap: 10px;
+}
+
+.postalIngredientes {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  color: rgb(0, 58, 182);
+  background-color: rgb(119, 246, 250);
+  border: 1px solid black;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  gap: 5px;
+}
 </style>
-../../servicios/serviciosLogeado/servicioDatosLogeado

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import ServicioIngredientes from '../../servicios/servicioIngredientes'
-import {servicioIngredientesLogeado} from '../../servicios/serviciosLogeado/servicioIngredientesLogeado'
+import { servicioIngredientesLogeado } from '../../servicios/serviciosLogeado/servicioIngredientesLogeado'
 
 const props = defineProps({
   usuarioId: Number
@@ -24,8 +24,8 @@ const nuevoIngrediente = ref({
   condimento: ''
 })
 
-async function crearIngrediente() {
-  await servicioIngredientes.agregarIngredienteUsuario(props.usuarioId, nuevoIngrediente.value)
+const crearIngrediente = () => {
+  servicioIngredientes.agregarIngredienteUsuario(props.usuarioId, nuevoIngrediente.value)
   nuevoIngrediente.value = {
     nombre: '',
     tipo: '',
@@ -37,13 +37,14 @@ async function crearIngrediente() {
 </script>
 
 <template>
+
+  <p> {{ nuevoIngrediente }}</p>
   <h1>Aqui podras crear,modificar o eliminar tus propios ingredientes</h1>
   <div class="contenedor2">
     <div class="rotulo">
       <h1>Crear ingrediente</h1>
     </div>
     <div class="form">
-      <form>
         <label for="nombre">Nombre</label>
         <input type="text" id="nombre" v-model="nuevoIngrediente.nombre" />
 
@@ -71,9 +72,7 @@ async function crearIngrediente() {
           <option value="si">SI</option>
           <option value="no">NO</option>
         </select>
-
-        <button type="submit">Crear</button>
-      </form>
+        <button @click="crearIngrediente">Crear</button>
     </div>
   </div>
 </template>

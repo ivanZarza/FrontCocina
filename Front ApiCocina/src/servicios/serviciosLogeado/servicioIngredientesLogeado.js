@@ -12,7 +12,7 @@ class ServicioIngredientesLogeado {
   }
 
   async agregarIngredienteUsuario(usuarioId, nuevoIngrediente) {
-    const response = await fetch(`http://localhost:3000//api/listadelacompra/me/${usuarioId}/ingredientes`, {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/ingredientes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

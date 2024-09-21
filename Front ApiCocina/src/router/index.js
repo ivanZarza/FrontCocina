@@ -50,6 +50,7 @@ const router = createRouter({
     {
       path: '/me',
       name: 'usuario',
+/*       redirect: { name: 'datosUsuario' }, */
       component: () => import('../views/PaginaUsuarioView.vue'),
       meta: { requiresAuth: true },
       children: [

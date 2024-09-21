@@ -4,6 +4,7 @@ export class ServicioDatosUsuario {
   constructor() {
     this.datosUsuario = ref([])
     this.recetasUsuario = ref([])
+    this.ingredientesUsuario = ref([])  
   }
 
   async obtenerDatosUsuario(id) {
@@ -11,7 +12,8 @@ export class ServicioDatosUsuario {
     const data = await response.json()
     this.datosUsuario.value = data.usuario
     this.recetasUsuario.value = data.recetas
-    console.log(this.recetasUsuario.value);
+    this.ingredientesUsuario.value = data.ingredientes
+    console.log(this.ingredientesUsuario.value)
 }
 }
 export const servicioDatosUsuario = new ServicioDatosUsuario()
