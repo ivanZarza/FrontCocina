@@ -8,8 +8,8 @@ import { RouterLink, RouterView } from 'vue-router'
     <header>
       <nav>
         <RouterLink to="/">INICIO</RouterLink>
-        <RouterLink :to="{ name: 'ingredientes' }">INGREDIENTES</RouterLink>
-        <RouterLink :to="{ name: 'tipos' }">CLASES DE INGREDIENTES</RouterLink>
+<!--         <RouterLink :to="{ name: 'ingredientes' }">INGREDIENTES</RouterLink>
+        <RouterLink :to="{ name: 'tipos' }">CLASES DE INGREDIENTES</RouterLink> -->
         <RouterLink :to="{ name: 'panel' }">CREAR, MODIFICAR O BORRAR</RouterLink>
         <RouterLink :to="{ name: 'registro' }">REGISTRO</RouterLink>
         <RouterLink :to="{ name: 'login' }">LOGIN</RouterLink>
@@ -17,7 +17,6 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink :to="{ name: 'recetas' }">RECETAS</RouterLink>
         <RouterLink :to="{ name: 'compra' }">LISTA DE LA COMPRA</RouterLink>
       </nav>
-
     </header>
     <RouterView />
   </div>
@@ -26,43 +25,48 @@ import { RouterLink, RouterView } from 'vue-router'
 <style scoped>
 .app-container {
   display: flex;
-  /* Habilita Flexbox */
   flex-direction: column;
-  /* Organiza los elementos en una columna */
   align-items: center;
-  /* Centra los elementos horizontalmente */
   width: 100%;
-  /* Asegura que el contenedor ocupe el ancho completo de la pantalla */
 }
 
 header {
   width: 100%;
-  /* Asegura que el header ocupe el ancho completo de la pantalla */
-  height: 15vh;
-  /* Establece el alto del header al 15% del alto de la ventana */
+  height: 13vh;
   background-color: #2c3e50;
-  /* Fondo azul para el header */
   color: white;
-  /* Letras en blanco */
   display: flex;
-  /* Utiliza flexbox para alinear los elementos internos */
   justify-content: center;
-  /* Centra los elementos horizontalmente */
   align-items: center;
-  /* Centra los elementos verticalmente */
 }
 
 nav {
   display: flex;
-  /* Alinea los elementos de la navegación en línea */
-  gap: 20px;
-  /* Añade un espacio entre los enlaces */
+  gap: 30px;
+  font-size: 1.3rem;
 }
 
 nav a {
   color: white;
-  /* Asegura que los enlaces sean blancos */
   text-decoration: none;
-  /* Elimina el subrayado de los enlaces */
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+nav a.router-link-exact-active {
+  color: #2c3e50;
+  border: 2px solid #ffffff;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+main {
+  width: 100%;
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

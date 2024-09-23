@@ -2,11 +2,11 @@ import { ref } from 'vue'
 
 class ServicioIngredientesLogeado {
   constructor() {
-    this.ingredientes = ref([])
+    this.ingredientesUsuario = ref([])
   }
 
-  async cargarIngredientes() {
-    const response = await fetch(`http://localhost:3000//api/listadelacompra/me/${usuarioId}/ingredientes`)
+  async cargarIngredientes(usuarioId) {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/ingredientes`)
     const data = await response.json()
     this.ingredientesUsuario.value = data
   }

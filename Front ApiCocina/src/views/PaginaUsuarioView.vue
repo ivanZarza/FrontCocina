@@ -1,12 +1,8 @@
 <script setup>
-
 import { RouterLink, RouterView } from 'vue-router'
-
 import { onBeforeMount, ref } from 'vue'
 
-
 const usuario = ref({})
-
 
 function obtenerDatosUsuario() {
   usuario.value = JSON.parse(localStorage.getItem('usuario'));
@@ -26,7 +22,7 @@ onBeforeMount(() => {
       <nav>
         <router-link :to="{ name: 'datosUsuario', params:{ usuarioId: usuario.id }}">MIS DATOS</router-link>
         <router-link :to="{ name: 'panelUsuario', params: { usuarioId: usuario.id }}">INGREDIENTES</router-link>
-        <router-link :to="{ name: 'recetasUsuario'}">CREAR RECETAS</router-link>
+        <router-link :to="{ name: 'recetasUsuario', params: { usuarioId: usuario.id }}">CREAR RECETAS</router-link>
         <router-link :to="{ name: 'compraUsuario', params:{ usuarioId: usuario.id } }">LISTA DE LA COMPRA</router-link>
         <router-link :to="{ name: 'logout' }">CERRAR SESION</router-link>
       </nav>
@@ -73,18 +69,27 @@ nav {
   width: 50%;
   margin-top: 20px;
   background-color: #e62dff;
+  gap: 15px;
   /* Cambia el color de fondo de la barra de navegación */
 }
 
 nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
-  color: #fff6f6;
+  color: #ffffff;
   font-weight: bold;
 }
 
+nav a:hover {
+  text-decoration: underline;
+}
+
 nav a.router-link-exact-active {
-  color: #26ff2d;
-  border-bottom: 2px solid #00ff08;
+  color: #e62dff;
+  border: 2px solid #ffffff;
+  background-color: #ffffff;
 }
 
 .funcional {
