@@ -3,14 +3,12 @@ import { ref, watch } from 'vue'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
 
-
-const ingredientes = ref([])
 const nombre = ref('')
 const tipo = ref('')
 const pagina = ref(1)
 
 const service = new ServicioIngredientes()
-ingredientes.value = service.ingredientes
+const ingredientes = service.ingredientes
 console.log(ingredientes.value)
 ;
 

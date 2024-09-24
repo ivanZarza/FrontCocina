@@ -8,6 +8,8 @@ const props = defineProps({
 })
 
 
+
+
 const nombreReceta = ref('')
 const numeroDePersonas = ref(1)
 const principal = ref([])
@@ -151,7 +153,7 @@ function agregarReceta() {
           <div class="listaIngredientes">
             <ol>
               <li v-for="(ingrediente, i) in principal" :key="i">
-                {{ ingrediente.name }}
+                {{ ingrediente.nombre }}
               </li>
             </ol>
           </div>
@@ -163,7 +165,7 @@ function agregarReceta() {
           <div class="listaIngredientes">
             <ol>
               <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
-                {{ ingrediente.name }}
+                {{ ingrediente.nombre }}
               </li>
             </ol>
           </div>
@@ -175,7 +177,7 @@ function agregarReceta() {
           <div class="listaIngredientes">
             <ol>
               <li v-for="ingrediente in condimentos" :key="ingrediente.id">
-                {{ ingrediente.name }}
+                {{ ingrediente.nombre }}
               </li>
             </ol>
           </div>
@@ -202,21 +204,21 @@ function agregarReceta() {
         <h3>Principal</h3>
         <div class="listaIngredientes">
           <ol>
-            <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad
+            <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.nombre }} - {{ ingrediente.cantidad
               }} Grs</li>
           </ol>
         </div>
         <h3>Acompañamiento</h3>
         <div class="listaIngredientes">
           <ol>
-            <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{
+            <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
           ingrediente.cantidad }} Grs</li>
           </ol>
         </div>
         <h3>Condimentos</h3>
         <div class="listaIngredientes">
           <ol>
-            <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{
+            <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
           ingrediente.cantidad }} Grs</li>
           </ol>
         </div>
