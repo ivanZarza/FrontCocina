@@ -1,17 +1,18 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
-const props = defineProps({
-  ingredientesLogeado: Array
-})
 
 
+const ingredientes = ref([])
 const nombre = ref('')
 const tipo = ref('')
 const pagina = ref(1)
 
 const service = new ServicioIngredientes()
+ingredientes.value = service.ingredientes
+console.log(ingredientes.value)
+;
 
 const emits = defineEmits(['ingredienteSeleccionado'])
 
@@ -22,30 +23,6 @@ defineExpose({
 const clasesDeIngredientes = service.tipos
 service.cargarTipos()
 
-const ingredientesGenerales = service.ingredientes
-service.cargarIngredientes()
-
-/* const ingredientes = computed(() => {
-  return [...ingredientesGenerales.value, ...props.ingredientesLogeado]
-}) */
-
-const ingredientes = computed(() => {
-  // Concatena ingredientesGenerales y props.ingredientesLogeado
-  const todosLosIngredientes = [...ingredientesGenerales.value, ...props.ingredientesLogeado];
-  
-  // Ordena todosLosIngredientes alfabéticamente
-  todosLosIngredientes.sort((a, b) => {
-    if (a.nombre < b.nombre) {
-      return -1;
-    }
-    if (a.nombre > b.nombre) {
-      return 1;
-    }
-    return 0;
-  });
-
-  return todosLosIngredientes;
-});
 
 function buscar() {
   service.cargarIngredientes({ nombre: nombre.value, tipo: tipo.value, pagina: pagina.value })
@@ -119,7 +96,7 @@ function limpiarPanel() {
     <button @click="paginaSiguiente">Siguiente</button>
   </div>
   <div class="prueba">
-    <div class="card" v-for="ingrediente in ingredientes" :key="ingrediente.nombre" @click="cambiarSeleccion(ingrediente)"
+    <div class="card" v-for="ingrediente in ingredientes" :key="ingrediente.id" @click="cambiarSeleccion(ingrediente)"
       :class="{ seleccionado: ingrediente.seleccionado }">
       <p>{{ ingrediente.nombre }}</p>
     </div>

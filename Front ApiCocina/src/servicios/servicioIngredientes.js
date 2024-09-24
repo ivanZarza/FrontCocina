@@ -3,7 +3,6 @@ import { ref } from "vue"
 export default class ServicioIngredientes {
   constructor() {
     this.ingredientes = ref([])
-    this.totalElementos = ref([])
     this.tipos = ref([])
     this.porTipo = ref([])
 
@@ -29,7 +28,6 @@ export default class ServicioIngredientes {
 
     const data = await response.json()
     this.ingredientes.value = data.resultados
-    this.totalElementos.value = data.totalElementos
   }
 
   async cargarTipos() {

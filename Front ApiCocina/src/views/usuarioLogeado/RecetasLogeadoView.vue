@@ -1,18 +1,11 @@
 <script setup>
 import PanelIngredientes from '../../components/PanelIngredientes.vue'
-import { servicioIngredientesLogeado } from '../../servicios/serviciosLogeado/servicioIngredientesLogeado'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
 const props = defineProps({
   usuarioId: Number
 })
-
-const servicioIngredientesLogeadoInstancia = servicioIngredientesLogeado
-
-servicioIngredientesLogeadoInstancia.cargarIngredientes(props.usuarioId) 
-const ingredientesLogeado = servicioIngredientesLogeadoInstancia.ingredientesUsuario
-console.log(ingredientesLogeado);
 
 
 const nombreReceta = ref('')
@@ -200,7 +193,7 @@ function agregarReceta() {
       </div>
       <div v-if="mostrarPanelIngredientes">
         <div class="panel">
-          <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef" :ingredientesLogeado="ingredientesLogeado"/>
+          <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef"/>
         </div>
       </div>
       <div class="resumen" v-if="mostrarResumen">
