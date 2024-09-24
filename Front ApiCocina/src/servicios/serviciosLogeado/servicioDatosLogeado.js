@@ -7,8 +7,8 @@ export class ServicioDatosUsuario {
     this.ingredientesUsuario = ref([])  
   }
 
-  async obtenerDatosUsuario(id) {
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${id}/datos`,  {
+  async obtenerDatosUsuario(usuarioId) {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/datos`,  {
       credentials: 'include',
     })
     const data = await response.json()

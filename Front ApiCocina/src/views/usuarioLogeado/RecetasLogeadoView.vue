@@ -1,6 +1,5 @@
 <script setup>
-import PanelIngredientes from '../../components/PanelIngredientes.vue'
-import {servicioIngredientesLogeado} from '../../servicios/serviciosLogeado/servicioIngredientesLogeado'
+import PanelIngredientesLogeado from '../../components/PanelIngredientesLogeado.vue'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
@@ -8,12 +7,7 @@ const props = defineProps({
   usuarioId: Number
 })
 
-const servicioIngredientes = servicioIngredientesLogeado
-servicioIngredientes.cargarIngredientes(props.usuarioId)
-const ingredientes = servicioIngredientes.ingredientesUsuario
-
-console.log(ingredientes);
-
+const usuarioId = props.usuarioId
 
 const nombreReceta = ref('')
 const numeroDePersonas = ref(1)
@@ -34,21 +28,21 @@ const div5 = ref(null)
 
 const divActivo = ref(1)
 
-const panelIngredientesRef = ref(null)
+const panelIngredientesLogeadoRef = ref(null)
 
-const mostrarPanelIngredientes = ref(false)
+const mostrarPanelIngredientesLogeado = ref(false)
 const mostrarResumen = ref(false)
 
 
 function llamarLimpiarPanel() {
-  if (panelIngredientesRef.value) {
-    panelIngredientesRef.value.limpiarPanel()
+  if (panelIngredientesLogeadoRef.value) {
+    panelIngredientesLogeadoRef.value.limpiarPanel()
   }
 }
 
 function mostrarSiguienteDiv2() {
   mostrarDiv2.value = true
-  mostrarPanelIngredientes.value = true
+  mostrarPanelIngredientesLogeado.value = true
   nextTick(() => {
     if (div2.value) {
       div2.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -111,7 +105,7 @@ function resultado() {
   acompanamiento.value = dividirPorCantidadDeIngredientes(acompanamiento.value)
   condimentos.value = dividirPorCantidadDeIngredientes(condimentos.value)
   nextTick(() => {
-    mostrarPanelIngredientes.value = false
+    mostrarPanelIngredientesLogeado.value = false
     mostrarResumen.value = true
   })
 }
@@ -198,9 +192,13 @@ function agregarReceta() {
           </div>
         </div>
       </div>
-      <div v-if="mostrarPanelIngredientes">
+      <div v-if="mostrarPanelIngredientesLogeado">
         <div class="panel">
-          <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef"/>
+          <PanelIngredientesLogeado 
+            @ingredienteSeleccionado= "agregarIngrediente" 
+            ref="panelIngredientesLogeadoRef"
+            :usuarioId="usuarioId"
+            />
         </div>
       </div>
       <div class="resumen" v-if="mostrarResumen">

@@ -9,7 +9,6 @@ class ServicioIngredientesLogeado {
     const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/ingredientes`)
     const data = await response.json()
     this.ingredientesUsuario.value = data.resultados
-    console.log(this.ingredientesUsuario.value);
   }
 
   async agregarIngredienteUsuario(usuarioId, nuevoIngrediente) {
