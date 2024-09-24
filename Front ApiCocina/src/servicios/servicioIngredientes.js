@@ -10,6 +10,7 @@ export default class ServicioIngredientes {
   }
   async cargarIngredientes({ nombre = null, tipo = null, pagina = null } = {}) {
     const url = new URL('http://localhost:3000/api/listadelacompra/ingredientes')
+
     if (nombre) {
       url.searchParams.append('nombre', nombre)
     }
@@ -20,7 +21,12 @@ export default class ServicioIngredientes {
       url.searchParams.append('pagina', pagina)
     }
 
-    const response = await fetch(url)
+    const response = await fetch(url, {
+      credentials: 'include',
+    })
+
+    console.log('cookies', document.cookie)
+
     const data = await response.json()
     this.ingredientes.value = data.resultados
     this.totalElementos.value = data.totalElementos

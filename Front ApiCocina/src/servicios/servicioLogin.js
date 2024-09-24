@@ -18,7 +18,8 @@ export class ServicioLogin {
           'nombre': nombre,
           'apellidos': apellidos,
           'contraseña': contraseña,
-        })
+        }),
+        credentials: 'include',
       });
 
       if (!response.ok) {
