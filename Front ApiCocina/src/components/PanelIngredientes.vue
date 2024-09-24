@@ -9,8 +9,6 @@ const pagina = ref(1)
 
 const service = new ServicioIngredientes()
 const ingredientes = service.ingredientes
-console.log(ingredientes.value)
-;
 
 const emits = defineEmits(['ingredienteSeleccionado'])
 

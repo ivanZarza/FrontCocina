@@ -1,5 +1,6 @@
 <script setup>
 import PanelIngredientes from '../../components/PanelIngredientes.vue'
+import {servicioIngredientesLogeado} from '../../servicios/serviciosLogeado/servicioIngredientesLogeado'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
@@ -7,7 +8,11 @@ const props = defineProps({
   usuarioId: Number
 })
 
+const servicioIngredientes = servicioIngredientesLogeado
+servicioIngredientes.cargarIngredientes(props.usuarioId)
+const ingredientes = servicioIngredientes.ingredientesUsuario
 
+console.log(ingredientes);
 
 
 const nombreReceta = ref('')
