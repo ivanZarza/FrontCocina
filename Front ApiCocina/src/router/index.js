@@ -1,4 +1,4 @@
-import jsCookie from 'js-cookie'
+
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
