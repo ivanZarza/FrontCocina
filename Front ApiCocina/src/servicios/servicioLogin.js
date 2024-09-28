@@ -27,11 +27,10 @@ export class ServicioLogin {
         throw new Error('Error al loguear usuario: ' + response.statusText);
       }
       // Convierte la respuesta en un objeto de JavaScript
-      this.login.value = await response.json();
+      const data = await response.json();
+
+      this.login.value = data.datos
       console.log('loginUsuario:responseData', this.login.value);
-      // Devuelve la respuesta
-      return this.login.value;
-      //
 
     } catch (error) {
       // Maneja tanto errores de red como errores lanzados manualmente

@@ -1,3 +1,4 @@
+import jsCookie from 'js-cookie'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -50,33 +51,28 @@ const router = createRouter({
     {
       path: '/me',
       name: 'usuario',
-/*       redirect: { name: 'datosUsuario' }, */
+      redirect: { name: 'datosUsuario' },
       component: () => import('../views/PaginaUsuarioView.vue'),
-      meta: { requiresAuth: true },
       children: [
         {
-          path: ':usuarioId/datos',
+          path: 'datos',
           name: 'datosUsuario',
           component: () => import('../views/usuarioLogeado/DatosLogeadoView.vue'),
-          props: (route) => ({...route.params, usuarioId: parseInt(route.params.usuarioId)})
         },
         {
-          path: ':usuarioId/recetas',
+          path: 'recetas',
           name: 'recetasUsuario',
           component: () => import('../views/usuarioLogeado/RecetasLogeadoView.vue'),
-          props: (route) => ({...route.params, usuarioId: parseInt(route.params.usuarioId)})
         },
         {
-          path: ':usuarioId/panel',
+          path: 'panel',
           name: 'panelUsuario',
           component: () => import('../views/usuarioLogeado/PanelLogeadoView.vue'),
-          props: (route) => ({...route.params, usuarioId: parseInt(route.params.usuarioId)})
         },
         {
-          path: ':usuarioId/listacompra',
+          path: 'listacompra',
           name: 'compraUsuario',
           component: () => import('../views/usuarioLogeado/CompraLogeadoView.vue'),
-          props: (route) => ({...route.params, usuarioId: parseInt(route.params.usuarioId)})
         },
         {
           path: 'logout',
@@ -87,17 +83,5 @@ const router = createRouter({
     }
   ]
 })
-
-
-// Guardia de navegación global
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = true // Reemplaza esto con tu lógica de autenticación
-  if (!isAuthenticated && to.meta.requiresAuth) {
-    next({ name: 'login', query: { redirect: to.fullPath } });
-  } else {
-    next();
-  }
-})
-
 
 export default router
