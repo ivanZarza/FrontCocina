@@ -22,7 +22,8 @@ const entrar = async () => {
       'contraseña': contraseña.value,
     })
 
-    datosDevueltos.value = servicioLogin.login.value
+    datosDevueltos.value = respuesta
+console.log(datosDevueltos.value);
 
       AccesoCorrecto()// Llama a esta función para manejar el éxito del login
 
@@ -33,7 +34,7 @@ const entrar = async () => {
 }
 
 const AccesoCorrecto = () => {
-      const redirectRoute = route.query.redirect || `/me/${datosDevueltos.value.id}/datos`
+      const redirectRoute = route.query.redirect || `/me/datos`
       router.push(redirectRoute)
     }
 

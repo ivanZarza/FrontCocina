@@ -1,59 +1,65 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { servicioDatosUsuario } from '../../servicios/serviciosLogeado/servicioDatosLogeado';
+import { useRouter } from 'vue-router';
 
-const props = defineProps({
-  usuarioId: Number
-})
-
-const usuario = ref({});
-const recetas = ref([]);
-const ingredientes = ref([]);
+const router = useRouter()
+const usuario = ref({})
+const recetas = ref([])
+const ingredientes = ref([])
 
 
 
 // Función asíncrona para cargar los datos del usuario y sus recetas
 const cargarDatos = async () => {
-  const service = servicioDatosUsuario
-  await service.obtenerDatosUsuario(props.usuarioId) // Asegúrate de esperar la respuesta
-  usuario.value = service.datosUsuario // Actualiza la referencia reactiva después de obtener los datos
-  const recetasUsuario = service.recetasUsuario // Asegúrate de que recetas es una referencia reactiva y se actualiza aquí
-  const ingredientesUsuario = service.ingredientesUsuario // Asegúrate de que ingredientes es una referencia reactiva y se actualiza aquí
+  try {
+    const service = servicioDatosUsuario
+    await service.obtenerDatosUsuario() // Asegúrate de esperar la respuesta
+    usuario.value = service.datosUsuario // Actualiza la referencia reactiva después de obtener los datos
+    const recetasUsuario = service.recetasUsuario // Asegúrate de que recetas es una referencia reactiva y se actualiza aquí
+    const ingredientesUsuario = service.ingredientesUsuario // Asegúrate de que ingredientes es una referencia reactiva y se actualiza aquí
 
-  recetas.value = recetasUsuario.value.map(receta => {
-    let resumen = JSON.parse(receta.datosJSON);
-    return {
-      id: receta.id,
-      usuarioId: receta.usuarioId,
-      nombre: resumen.nombre,
-      numeroDePersonas: resumen.numeroDePersonas,
-      principal: resumen.principal,
-      acompanamiento: resumen.acompanamiento,
-      condimentos: resumen.condimentos,
-      descripcion: resumen.descripcion
+    recetas.value = recetasUsuario.value.map(receta => {
+      let resumen = JSON.parse(receta.datosJSON);
+      return {
+        id: receta.id,
+        usuarioId: receta.usuarioId,
+        nombre: resumen.nombre,
+        numeroDePersonas: resumen.numeroDePersonas,
+        principal: resumen.principal,
+        acompanamiento: resumen.acompanamiento,
+        condimentos: resumen.condimentos,
+        descripcion: resumen.descripcion
+      }
+    })
+
+    ingredientes.value = ingredientesUsuario.value
+
+    return recetas.value, ingredientes.value
+  } catch (error) {
+    console.error('Error al obtener los datos del usuario:', error);
+    // Verifica si el error es debido a un problema de autenticación (401 o 403)
+    if (error.message.includes('403') || error.message.includes('401')) {
+      // Redirige al usuario a la página de login
+      router.push({ name: 'login' }); // Asegúrate de que 'login' corresponde al nombre de la ruta de login en tu configuración de Vue Router
     }
-  })
-
-  ingredientes.value = ingredientesUsuario.value
-
-  return recetas.value, ingredientes.value
+  }
 }
-console.log(recetas)
-console.log(ingredientes);
-function AListaDeLaCompra(receta) {
-  let recetas = JSON.parse(localStorage.getItem("recetasUsuario")) || [];
 
-  recetas.push({
-    nombre: receta.nombre,
-    numeroDePersonas: receta.numeroDePersonas,
-    principal: receta.principal,
-    acompanamiento: receta.acompanamiento,
-    condimentos: receta.condimentos,
-    descripcion: receta.descripcion,
-  })
-  localStorage.setItem(`recetasUsuario`, JSON.stringify(recetas))
-}
-onMounted(cargarDatos)
+  function AListaDeLaCompra(receta) {
+    let recetas = JSON.parse(localStorage.getItem("recetasUsuario")) || [];
+
+    recetas.push({
+      nombre: receta.nombre,
+      numeroDePersonas: receta.numeroDePersonas,
+      principal: receta.principal,
+      acompanamiento: receta.acompanamiento,
+      condimentos: receta.condimentos,
+      descripcion: receta.descripcion,
+    })
+    localStorage.setItem(`recetasUsuario`, JSON.stringify(recetas))
+  }
+  onMounted(cargarDatos)
 </script>
 
 <template>

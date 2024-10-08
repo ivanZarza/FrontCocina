@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 
-export class ServicioLogin {
+class ServicioLogin {
   constructor() {
-    this.login = ref({})
+    this.datosLogin = ref({})
   }
 
   async loginUsuario({ nombre,apellidos, contraseña }) {
@@ -24,13 +24,13 @@ export class ServicioLogin {
 
       if (!response.ok) {
         // Lanza un error si la respuesta no es exitosa
-        throw new Error('Error al loguear usuario: ' + response.statusText);
+        throw new Error('Error al loguear usuario: ' + response.status);
       }
       // Convierte la respuesta en un objeto de JavaScript
       const data = await response.json();
-
-      this.login.value = data.datos
-      console.log('loginUsuario:responseData', this.login.value);
+      console.log('datos del usuario', data);
+      this.datosLogin.value = data
+      console.log('loginUsuario:responseData', this.datosLogin.value);
 
     } catch (error) {
       // Maneja tanto errores de red como errores lanzados manualmente

@@ -18,6 +18,8 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="funcional">
       <RouterView />
     </div>
+
+
   </div>
 
 

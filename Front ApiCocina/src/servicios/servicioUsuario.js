@@ -5,9 +5,9 @@ class ServicioUsuario {
     this.usuario = ref([])
   }
 
-  async obtenerUsuario(id) {
+  async obtenerUsuario() {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios/${id}`, {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -26,7 +26,7 @@ class ServicioUsuario {
 
   async actualizarUsuario({ id, nombre, apellidos, contraseña }) {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios/${id}`, {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios`, {
       method: 'PUT',
       credentials: 'include',
       headers: {
@@ -48,9 +48,9 @@ class ServicioUsuario {
     }
   }
 
-  async eliminarUsuario(id) {
+  async eliminarUsuario() {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios/${id}`, {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios/`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
