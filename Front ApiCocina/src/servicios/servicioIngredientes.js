@@ -24,8 +24,6 @@ export default class ServicioIngredientes {
       credentials: 'include',
     })
 
-    console.log('cookies', document.cookie)
-
     const data = await response.json()
     this.ingredientes.value = data.resultados
   }

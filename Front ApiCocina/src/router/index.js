@@ -52,6 +52,7 @@ const router = createRouter({
       path: '/me',
       name: 'usuario',
       component: () => import('../views/PaginaUsuarioView.vue'),
+      redirect: { name: 'datosUsuario' },
       children: [
         {
           path: 'datos',

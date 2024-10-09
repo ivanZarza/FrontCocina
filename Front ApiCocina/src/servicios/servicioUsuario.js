@@ -7,7 +7,7 @@ class ServicioUsuario {
 
   async obtenerUsuario() {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios`, {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -19,14 +19,14 @@ class ServicioUsuario {
       const data = await response.json()
       this.usuario.value = data
     } else {
-      console.error('Error al obtener usuario:', response.statusText);
+      console.error('Error al obtener usuario:', response.status);
       console.log(response);
     }
   }
 
-  async actualizarUsuario({ id, nombre, apellidos, contraseña }) {
+  async actualizarUsuario({nombre, apellidos, contraseña }) {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios`, {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me`, {
       method: 'PUT',
       credentials: 'include',
       headers: {
@@ -50,7 +50,7 @@ class ServicioUsuario {
 
   async eliminarUsuario() {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/usuarios/`, {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {

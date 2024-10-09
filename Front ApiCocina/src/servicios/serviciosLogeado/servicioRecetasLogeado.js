@@ -6,19 +6,22 @@ class ServicioRecetasLogeado {
     this.recetaGuardada = ref([])
   }
 
-  async obtenerRecetasUsuario(usuarioId) {
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/recetas`)
+  async obtenerRecetasUsuario() {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/recetas`,{
+      credentials: 'include',
+    })
     const data = await response.json()
     this.recetasUsuario.value = data
   }
 
-  async guardarRecetaUsuario(usuarioId, recetaJson) {
+  async guardarRecetaUsuario(recetaJson) {
     try {
       // Corrección de la URL para eliminar el doble slash
-      const url = new URL(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/recetas`);
+      const url = new URL(`http://localhost:3000/api/listadelacompra/me/recetas`);
   
       const response = await fetch(url, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -43,9 +46,10 @@ class ServicioRecetasLogeado {
   }
 
 
-  async borrarRecetaUsuario(usuarioId,recetaId) {
-    await fetch(`http://localhost:3000//api/listadelacompra/me/${usuarioId}/recetas/${recetaId}`, {
-      method: 'DELETE'
+  async borrarRecetaUsuario(recetaId) {
+    await fetch(`http://localhost:3000//api/listadelacompra/me/recetas/${recetaId}`, {
+      method: 'DELETE',
+      credentials: 'include',
     })
 
     if(response.ok){

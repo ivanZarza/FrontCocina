@@ -15,6 +15,8 @@ import { RouterLink, RouterView } from 'vue-router'
         <router-link :to="{ name: 'logout' }">CERRAR SESION</router-link>
       </nav>
     </div>
+
+    <h1>Hola </h1>
     <div class="funcional">
       <RouterView />
     </div>

@@ -5,15 +5,19 @@ class ServicioIngredientesLogeado {
     this.ingredientesUsuario = ref([])
   }
 
-  async cargarIngredientes(usuarioId) {
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/ingredientes`)
+  async cargarIngredientes() {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/ingredientes`,{
+      credentials: 'include',
+    })
     const data = await response.json()
+    console.log('linea 11 servicio ingredientres pidiendo data',data);
     this.ingredientesUsuario.value = data.resultados
   }
 
-  async agregarIngredienteUsuario(usuarioId, nuevoIngrediente) {
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/${usuarioId}/ingredientes`, {
+  async agregarIngredienteUsuario(nuevoIngrediente) {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/ingredientes`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -34,9 +38,10 @@ class ServicioIngredientesLogeado {
     }
   }
 
-  async borrarIngredienteUsuario(usuarioId, ingredienteId) {
-    await fetch(`http://localhost:3000//api/listadelacompra/me/${usuarioId}/ingredientes`, {
+  async borrarIngredienteUsuario() {
+    await fetch(`http://localhost:3000/api/listadelacompra/me/ingredientes`, {
       method: 'DELETE',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
