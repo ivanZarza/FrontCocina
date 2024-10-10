@@ -65,7 +65,6 @@ const cargarDatos = async () => {
 <template>
   <div class="container">
     <div class="bienvenida">
-      <h1>Hola {{ usuario.nombre }} {{ usuario.apellidos }}</h1>
       <h3>Aquí podrás recuperar tus recetas guardadas, también podrás crear, modificar o eliminar tus propios
         ingredientes</h3>
       <div class="contenidoUsuario">

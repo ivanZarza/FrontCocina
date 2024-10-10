@@ -3,16 +3,13 @@ import { ref, watch } from 'vue'
 import {servicioIngredientesLogeado} from '../servicios/serviciosLogeado/servicioIngredientesLogeado'
 import ServicioIngredientes from '../servicios/servicioIngredientes'
 
-const props= defineProps({
-  usuarioId: Number
-})  
 
 const nombre = ref('')
 const tipo = ref('')
 const pagina = ref(1)
 
 const servicioIngredientes = servicioIngredientesLogeado
-servicioIngredientes.cargarIngredientes(props.usuarioId)
+servicioIngredientes.cargarIngredientes()
 const ingredientes = servicioIngredientes.ingredientesUsuario
 
 const service = new ServicioIngredientes()

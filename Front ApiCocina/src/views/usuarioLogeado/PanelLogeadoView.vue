@@ -3,9 +3,6 @@ import { ref } from 'vue'
 import ServicioIngredientes from '../../servicios/servicioIngredientes'
 import { servicioIngredientesLogeado } from '../../servicios/serviciosLogeado/servicioIngredientesLogeado'
 
-const props = defineProps({
-  usuarioId: Number
-})
 
 const service = new ServicioIngredientes()
 const clasesDeIngredientes = service.tipos
@@ -25,7 +22,7 @@ const nuevoIngrediente = ref({
 })
 
 const crearIngrediente = () => {
-  servicioIngredientes.agregarIngredienteUsuario(props.usuarioId, nuevoIngrediente.value)
+  servicioIngredientes.agregarIngredienteUsuario(nuevoIngrediente.value),
   nuevoIngrediente.value = {
     nombre: '',
     tipo: '',

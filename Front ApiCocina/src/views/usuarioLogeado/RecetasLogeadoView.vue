@@ -3,12 +3,6 @@ import PanelIngredientesLogeado from '../../components/PanelIngredientesLogeado.
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
-const props = defineProps({
-  usuarioId: Number
-})
-
-const usuarioId = props.usuarioId
-
 const nombreReceta = ref('')
 const numeroDePersonas = ref(1)
 const principal = ref([])
@@ -197,7 +191,7 @@ function agregarReceta() {
           <PanelIngredientesLogeado 
             @ingredienteSeleccionado= "agregarIngrediente" 
             ref="panelIngredientesLogeadoRef"
-            :usuarioId="usuarioId"
+            :=""
             />
         </div>
       </div>

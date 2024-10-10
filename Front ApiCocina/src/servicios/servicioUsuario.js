@@ -7,7 +7,7 @@ class ServicioUsuario {
 
   async obtenerUsuario() {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me`, {
+    const response = await fetch('http://localhost:3000/api/listadelacompra/me', {
       method: 'GET',
       credentials: 'include',
       headers: {

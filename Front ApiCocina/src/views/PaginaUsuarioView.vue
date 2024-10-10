@@ -1,6 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { servicioUsuario } from '../servicios/servicioUsuario'
 
+const service = servicioUsuario
+service.obtenerUsuario()
+const usuario = service.usuario
+
+console.log('paginaUsuario linea 9', usuario);
 </script>
 
 <template>
@@ -16,7 +22,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </nav>
     </div>
 
-    <h1>Hola </h1>
+    <h1>Hola {{ usuario.nombre }} {{ usuario.apellidos }}</h1>
     <div class="funcional">
       <RouterView />
     </div>
