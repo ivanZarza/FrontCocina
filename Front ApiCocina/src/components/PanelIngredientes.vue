@@ -10,14 +10,14 @@ const pagina = ref(1)
 const service = new ServicioIngredientes()
 const ingredientes = service.ingredientes
 
+const clasesDeIngredientes = service.tipos
+service.cargarTipos()
+
 const emits = defineEmits(['ingredienteSeleccionado'])
 
 defineExpose({
   limpiarPanel
 })
-
-const clasesDeIngredientes = service.tipos
-service.cargarTipos()
 
 
 function buscar() {

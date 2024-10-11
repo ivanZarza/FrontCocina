@@ -5,12 +5,27 @@ class ServicioIngredientesLogeado {
     this.ingredientesUsuario = ref([])
   }
 
-  async cargarIngredientes() {
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/ingredientes`,{
+
+  async cargarIngredientesLogeado({ nombre = null, tipo = null, pagina = null } = {}) {
+    const url = new URL('http://localhost:3000/api/listadelacompra/me/ingredientes')
+
+    if (nombre) {
+      url.searchParams.append('nombre', nombre)
+    }
+    if (tipo) {
+      url.searchParams.append('tipo', tipo)
+    }
+    if (pagina) {
+      url.searchParams.append('pagina', pagina)
+    }
+
+    const response = await fetch(url, {
       credentials: 'include',
     })
+
+
     const data = await response.json()
-    console.log('linea 11 servicio ingredientres pidiendo data',data);
+    console.log('linea 11 servicio ingredientres pidiendo data', data);
     this.ingredientesUsuario.value = data.resultados
   }
 

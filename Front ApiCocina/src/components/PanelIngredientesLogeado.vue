@@ -9,7 +9,7 @@ const tipo = ref('')
 const pagina = ref(1)
 
 const servicioIngredientes = servicioIngredientesLogeado
-servicioIngredientes.cargarIngredientes()
+servicioIngredientes.cargarIngredientesLogeado()
 const ingredientes = servicioIngredientes.ingredientesUsuario
 
 const service = new ServicioIngredientes()
@@ -23,10 +23,8 @@ defineExpose({
 })
 
 
-
-
 function buscar() {
-  service.cargarIngredientes({ nombre: nombre.value, tipo: tipo.value, pagina: pagina.value })
+  servicioIngredientes.cargarIngredientesLogeado({ nombre: nombre.value, tipo: tipo.value, pagina: pagina.value })
 }
 
 function lanzarBusqueda() {
