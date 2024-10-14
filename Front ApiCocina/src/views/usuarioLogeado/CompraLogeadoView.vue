@@ -1,14 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import  {servicioRecetasLogeado}  from '../../servicios/serviciosLogeado/servicioRecetasLogeado'
+import { servicioRecetasLogeado } from '../../servicios/serviciosLogeado/servicioRecetasLogeado'
 import html2pdf from 'html2pdf.js'
 
-const props = defineProps({
-  usuarioId: Number
-})
-
-console.log(props.usuarioId);
 
 const servicio = servicioRecetasLogeado
 
@@ -19,13 +14,13 @@ const compraAgregada = ref([])
 const elementoAgregado = ref({
   nombre: '',
 })
-console.log(recetaSeleccionada);
+
 const router = useRouter()
 
 const generarPDFRef = ref(null)
 
 function recuperarRecetasLocalStorage() {
-  recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetasUsuario') || '[]') 
+  recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetasUsuario') || '[]')
   seleccionarRecetaPorIndice()
 }
 
@@ -38,6 +33,7 @@ function seleccionarReceta(receta) {
 function seleccionarRecetaPorIndice() {
   if (recetasRecuperadas.value.length > 0) {
     recetaSeleccionada.value = recetasRecuperadas.value[indiceActual.value]
+    console.log(recetaSeleccionada.value);
   } else {
     recetaSeleccionada.value = null
     window.alert('No hay recetas guardadas, por favor crea una receta en la zona de RECETAS')
@@ -58,18 +54,20 @@ function recetaAnterior() {
     seleccionarRecetaPorIndice()
   }
 }
-function guardarRecetaDB() { 
+function guardarRecetaDB() {
 
   const recetaParaGuardar = recetaSeleccionada.value
-  servicio.guardarRecetaUsuario(props.usuarioId, recetaParaGuardar);
+  servicio.guardarRecetaUsuario(recetaParaGuardar);
 }
 
-/* function guardarRecetaDB() { 
-  servicio.guardarRecetaUsuario(props.usuarioId, recetaSeleccionada.value);
-}
- */
+
 function borarRecetaDB() {
-  
+  if (recetaSeleccionada.value && recetaSeleccionada.value.id) {
+    servicio.borrarRecetaUsuario(recetaSeleccionada.value.id);
+    borrarReceta();
+  } else {
+    alert("La receta no está en la base de datos.");
+  }
 }
 
 function borrarReceta() {
@@ -79,13 +77,14 @@ function borrarReceta() {
   } else {
     localStorage.setItem('recetasUsuario', JSON.stringify(recetasFiltradas)); // Guarda el array filtrado si no está vacío
   }
-  recuperarRecetas();
-  recetaSeleccionada.value = null;
+  recetasRecuperadas.value = recetasFiltradas
+  alert("Receta borrada exitosamente.")
+/*   recuperarRecetas();
+  recetaSeleccionada.value = null; */
 }
 
 function borrarTodasLasRecetas() {
   localStorage.removeItem('recetasUsuario');
-  recuperarRecetas();
   recetaSeleccionada.value = null;
   router.push({ name: 'datosUsuario' })
 }
@@ -101,10 +100,10 @@ function extraerIngredientes(recetas) {
     ['principal', 'acompañamiento', 'condimentos'].forEach(seccion => {
       if (receta[seccion]) {
         receta[seccion].forEach(ingrediente => {
-          const clave = ingrediente.name;
+          const clave = ingrediente.nombre;
           if (!ingredientesMap[clave]) {
             ingredientesMap[clave] = {
-              nombre: ingrediente.name,
+              nombre: ingrediente.nombre,
               cantidad: ingrediente.cantidad,
               tipo: ingrediente.tipo,
               principal: ingrediente.principal,
@@ -157,9 +156,8 @@ const generarPDF = () => {
 <template>
   <div class="pagRecetas">
     <div v-for="receta in recetasRecuperadas" :key="receta.nombre">
-      <button @click="seleccionarReceta(receta)" 
-      :class="{ 'recetaActiva':  recetaSeleccionada.nombre === receta.nombre }"  
-      >{{ receta.nombre }}</button>
+      <button @click="seleccionarReceta(receta)"
+        :class="{ 'recetaActiva': recetaSeleccionada.nombre === receta.nombre }">{{ receta.nombre }}</button>
     </div>
   </div>
   <div v-if="recetaSeleccionada" class="container">
@@ -174,7 +172,7 @@ const generarPDF = () => {
       <h2>Principal</h2>
       <div class="listaIngredientes">
         <ol>
-          <li v-for="ingrediente in recetaSeleccionada.principal" :key="ingrediente.id">{{ ingrediente.name }} - {{
+          <li v-for="ingrediente in recetaSeleccionada.principal" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
       ingrediente.cantidad
     }} Grs</li>
         </ol>
@@ -182,20 +180,21 @@ const generarPDF = () => {
       <h2>Acompañamiento</h2>
       <div class="listaIngredientes">
         <ol>
-          <li v-for="ingrediente in recetaSeleccionada.acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{
+          <li v-for="ingrediente in recetaSeleccionada.acompanamiento" :key="ingrediente.id">{{ ingrediente.nombre }} -
+            {{
       ingrediente.cantidad }} Grs</li>
         </ol>
       </div>
       <h2>Condimentos</h2>
       <div class="listaIngredientes">
         <ol>
-          <li v-for="ingrediente in recetaSeleccionada.condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{
+          <li v-for="ingrediente in recetaSeleccionada.condimentos" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
       ingrediente.cantidad }} Grs</li>
         </ol>
       </div>
       <h2><strong>Descripción:</strong></h2>
       <div class="descripcionFinal">
-      <pre>{{ recetaSeleccionada.descripcion }}</pre>
+        <pre>{{ recetaSeleccionada.descripcion }}</pre>
       </div>
       <div class="guardarReceta">
         <h3>Guarda o borra tu receta en la base de datos</h3>
@@ -229,9 +228,9 @@ const generarPDF = () => {
       <h2>Puedes agregar productos a la lista de la compra</h2>
       <div class="agregarCompra">
         <input type="text" v-model="elementoAgregado.nombre" placeholder="Nombre del producto">
-        <button @click="agregarAListaDeCompra" >Agregar a la lista de la compra</button>
-        <button @click="borrarCompraAgregada" >BORRAR COMPRA AGREGADA</button>
-      </div> 
+        <button @click="agregarAListaDeCompra">Agregar a la lista de la compra</button>
+        <button @click="borrarCompraAgregada">BORRAR COMPRA AGREGADA</button>
+      </div>
       <div class="btnPdf">
         <button @click="generarPDF">Generar PDF</button>
       </div>
@@ -360,7 +359,7 @@ const generarPDF = () => {
 }
 
 .guardarReceta button:hover {
-  color:black;
+  color: black;
   background-color: #84ff95;
 }
 
@@ -513,5 +512,4 @@ const generarPDF = () => {
   background-color: rgb(248, 242, 190);
   cursor: pointer;
 }
-
 </style>

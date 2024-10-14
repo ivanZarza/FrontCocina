@@ -19,7 +19,7 @@ recuperarRecetas()
 function recuperarRecetas() {
   recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetas') || '[]') 
   seleccionarRecetaPorIndice()
-
+  console.log(recetasRecuperadas.value);
 }
 
 function seleccionarReceta(receta) {
@@ -79,10 +79,10 @@ function extraerIngredientes(recetas) {
     ['principal', 'acompañamiento', 'condimentos'].forEach(seccion => {
       if (receta[seccion]) {
         receta[seccion].forEach(ingrediente => {
-          const clave = ingrediente.name;
+          const clave = ingrediente.nombre;
           if (!ingredientesMap[clave]) {
             ingredientesMap[clave] = {
-              nombre: ingrediente.name,
+              nombre: ingrediente.nombre,
               cantidad: ingrediente.cantidad,
               tipo: ingrediente.tipo,
               principal: ingrediente.principal,
@@ -150,7 +150,7 @@ const generarPDF = () => {
       <h2>Principal</h2>
       <div class="listaIngredientes">
         <ol>
-          <li v-for="ingrediente in recetaSeleccionada.principal" :key="ingrediente.id">{{ ingrediente.name }} - {{
+          <li v-for="ingrediente in recetaSeleccionada.principal" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
       ingrediente.cantidad
     }} Grs</li>
         </ol>
@@ -158,14 +158,14 @@ const generarPDF = () => {
       <h2>Acompañamiento</h2>
       <div class="listaIngredientes">
         <ol>
-          <li v-for="ingrediente in recetaSeleccionada.acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{
+          <li v-for="ingrediente in recetaSeleccionada.acompanamiento" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
       ingrediente.cantidad }} Grs</li>
         </ol>
       </div>
       <h2>Condimentos</h2>
       <div class="listaIngredientes">
         <ol>
-          <li v-for="ingrediente in recetaSeleccionada.condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{
+          <li v-for="ingrediente in recetaSeleccionada.condimentos" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
       ingrediente.cantidad }} Grs</li>
         </ol>
       </div>

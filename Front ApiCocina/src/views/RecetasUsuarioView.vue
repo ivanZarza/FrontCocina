@@ -122,6 +122,7 @@ function agregarReceta() {
   window.alert('Receta agregada a la lista de la compra con éxito')
   window.location.reload()
 }
+
 </script>
 
 <template>
@@ -190,7 +191,8 @@ function agregarReceta() {
       </div>
       <div v-if="mostrarPanelIngredientes">
         <div class="panel">
-          <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef" />
+          <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" 
+          ref="panelIngredientesRef" />
         </div>
       </div>
       <div class="resumen" v-if="mostrarResumen">

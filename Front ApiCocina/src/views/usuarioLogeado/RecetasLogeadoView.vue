@@ -191,7 +191,6 @@ function agregarReceta() {
           <PanelIngredientesLogeado 
             @ingredienteSeleccionado= "agregarIngrediente" 
             ref="panelIngredientesLogeadoRef"
-            :=""
             />
         </div>
       </div>

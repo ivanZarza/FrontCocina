@@ -56,9 +56,12 @@ const cargarDatos = async () => {
       acompanamiento: receta.acompanamiento,
       condimentos: receta.condimentos,
       descripcion: receta.descripcion,
+      id: receta.id,
+      usuarioId: receta.usuarioId,
     })
     localStorage.setItem(`recetasUsuario`, JSON.stringify(recetas))
   }
+  console.log(recetas);
   onMounted(cargarDatos)
 </script>
 
