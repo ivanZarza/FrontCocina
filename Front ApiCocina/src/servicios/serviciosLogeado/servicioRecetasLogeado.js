@@ -37,7 +37,6 @@ class ServicioRecetasLogeado {
       const data = await response.json()
       this.recetaGuardada.value = data
       alert("Receta guardada con éxito")
-      return 'Receta guardada con éxito'
     } catch (error) {
       // Manejo de errores de la solicitud o de la red
       console.error("Error al guardar la receta del usuario:", error);
