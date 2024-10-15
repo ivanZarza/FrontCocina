@@ -36,6 +36,7 @@ class ServicioRecetasLogeado {
       // Opcional: Retornar la respuesta del servidor, por ejemplo, en formato JSON
       const data = await response.json()
       this.recetaGuardada.value = data
+      console.log(this.recetaGuardada.value)
       alert("Receta guardada con éxito")
     } catch (error) {
       // Manejo de errores de la solicitud o de la red
@@ -46,7 +47,7 @@ class ServicioRecetasLogeado {
 
 
   async borrarRecetaUsuario(recetaId) {
-    await fetch(`http://localhost:3000//api/listadelacompra/me/recetas/${recetaId}`, {
+    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/recetas/${recetaId}`, {
       method: 'DELETE',
       credentials: 'include',
     })

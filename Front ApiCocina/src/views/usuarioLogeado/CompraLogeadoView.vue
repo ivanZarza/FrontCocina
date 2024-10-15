@@ -54,17 +54,25 @@ function recetaAnterior() {
     seleccionarRecetaPorIndice()
   }
 }
-function guardarRecetaDB() {
 
-  const recetaParaGuardar = recetaSeleccionada.value
-  servicio.guardarRecetaUsuario(recetaParaGuardar);
+async function guardarRecetaDB() {
+  const recetaParaGuardar = recetaSeleccionada.value;
+  // Asumiendo que guardarRecetaUsuario ahora devuelve el objeto recetaGuardada
+  await servicio.guardarRecetaUsuario(recetaParaGuardar);
+  alert("Receta guardada exitosamente.")
 }
-
 
 function borarRecetaDB() {
   if (recetaSeleccionada.value && recetaSeleccionada.value.id) {
     servicio.borrarRecetaUsuario(recetaSeleccionada.value.id);
+    console.log(recetaSeleccionada.value.id);
     borrarReceta();
+    if(indiceActual.value > 0) {
+      indiceActual.value--
+    } else {
+      indiceActual.value = 0
+      router.push({ name: 'datosUsuario' })
+    }
   } else {
     alert("La receta no está en la base de datos.");
   }
