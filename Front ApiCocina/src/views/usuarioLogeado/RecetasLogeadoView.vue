@@ -2,6 +2,7 @@
 import PanelIngredientesLogeado from '../../components/PanelIngredientesLogeado.vue'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
+import toastr from 'toastr'
 
 const nombreReceta = ref('')
 const numeroDePersonas = ref(1)
@@ -117,8 +118,22 @@ function agregarReceta() {
   })
 
   localStorage.setItem(`recetasUsuario`, JSON.stringify(recetas))
-  window.alert('Receta agregada a la lista de la compra con éxito')
-  window.location.reload()
+  toastr.success('Receta guardada correctamente', 'Éxito', {
+  closeButton: true,
+  progressBar: true,
+  showDuration: 1000,
+  hideDuration: 1000,
+  showEasing: 'swing',
+  hideEasing: 'linear',
+  showMethod: 'slideDown',
+  positionClass: 'toast-bottom-right',
+  toastClass: 'toast-receta',
+  timeOut: 3000,
+  onHidden: () => {
+    window.location.reload()
+  } 
+})
+
 }
 </script>
 
@@ -462,5 +477,14 @@ div.p5.active {
 .resumen {
   scrollbar-width: auto; /* "auto" o "thin" */ 
   scrollbar-color: #888 #f1f1f1; /* [Thumb] [Track] */
+}
+
+.toast-receta {
+  background-color: #ffa9fb !important;
+  color: #63235f !important;
+  padding: 20px;
+  width: 300px;
+  height: 200px;
+  font-size: large;
 }
 </style>
