@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { servicioRecetasLogeado } from '../../servicios/serviciosLogeado/servicioRecetasLogeado'
+import VentanaToast from '../../components/VentanaToast.vue'
 import html2pdf from 'html2pdf.js'
 
 
@@ -14,6 +15,9 @@ const compraAgregada = ref([])
 const elementoAgregado = ref({
   nombre: '',
 })
+
+const verToast = ref(false)
+const mensajeToast = ref('')
 
 const router = useRouter()
 
@@ -36,8 +40,10 @@ function seleccionarRecetaPorIndice() {
     console.log(recetaSeleccionada.value);
   } else {
     recetaSeleccionada.value = null
-    window.alert('No hay recetas guardadas, por favor crea una receta en la zona de RECETAS')
-    router.push({ name: 'datosUsuario' })
+    window.alert('No hay recetas guardadas en la base de datos')
+    setTimeout(() => {
+      router.push({ name: 'datosUsuario' })
+    }, 2000)
   }
 }
 
@@ -59,24 +65,10 @@ async function guardarRecetaDB() {
   const recetaParaGuardar = recetaSeleccionada.value;
   // Asumiendo que guardarRecetaUsuario ahora devuelve el objeto recetaGuardada
   await servicio.guardarRecetaUsuario(recetaParaGuardar);
-  alert("Receta guardada exitosamente.")
+  mensajeToast.value = 'Receta guardada en tu base de datos.'
+  mostrarToast()
 }
 
-function borarRecetaDB() {
-  if (recetaSeleccionada.value && recetaSeleccionada.value.id) {
-    servicio.borrarRecetaUsuario(recetaSeleccionada.value.id);
-    console.log(recetaSeleccionada.value.id);
-    borrarReceta();
-    if(indiceActual.value > 0) {
-      indiceActual.value--
-    } else {
-      indiceActual.value = 0
-      router.push({ name: 'datosUsuario' })
-    }
-  } else {
-    alert("La receta no está en la base de datos.");
-  }
-}
 
 function borrarReceta() {
   const recetasFiltradas = recetasRecuperadas.value.filter(receta => receta.nombre !== recetaSeleccionada.value.nombre);
@@ -86,9 +78,8 @@ function borrarReceta() {
     localStorage.setItem('recetasUsuario', JSON.stringify(recetasFiltradas)); // Guarda el array filtrado si no está vacío
   }
   recetasRecuperadas.value = recetasFiltradas
-  alert("Receta borrada exitosamente.")
-/*   recuperarRecetas();
-  recetaSeleccionada.value = null; */
+  mensajeToast.value = 'Receta borrada de la lista de la compra.'
+  mostrarToast()
 }
 
 function borrarTodasLasRecetas() {
@@ -159,6 +150,12 @@ const generarPDF = () => {
   }
 }
 
+function mostrarToast() {
+  verToast.value = true;
+  setTimeout(() => {
+    verToast.value = false
+  }, 2000)
+}
 </script>
 
 <template>
@@ -205,9 +202,8 @@ const generarPDF = () => {
         <pre>{{ recetaSeleccionada.descripcion }}</pre>
       </div>
       <div class="guardarReceta">
-        <h3>Guarda o borra tu receta en la base de datos</h3>
+        <h3>Guarda tu receta en la base de datos</h3>
         <button @click="guardarRecetaDB">GUARDA TU RECETA</button>
-        <button @click="borarRecetaDB">BORRA LA RECETA</button>
       </div>
       <div class="borrarRecetas">
         <h3>Borra la receta seleccionada o todas las recetas de la lista de la compra</h3>
@@ -242,6 +238,9 @@ const generarPDF = () => {
       <div class="btnPdf">
         <button @click="generarPDF">Generar PDF</button>
       </div>
+    </div>
+    <div>
+      <VentanaToast :verToast="verToast" :mensajeToast="mensajeToast" />
     </div>
   </div>
 

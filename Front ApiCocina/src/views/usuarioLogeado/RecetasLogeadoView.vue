@@ -1,9 +1,9 @@
 <script setup>
 import PanelIngredientesLogeado from '../../components/PanelIngredientesLogeado.vue'
+import VentanaToast from '../../components/VentanaToast.vue'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
-import VueToast from 'vue-toast-notification'
-import 'vue-toast-notification/dist/theme-sugar.css'
+
 
 const nombreReceta = ref('')
 const numeroDePersonas = ref(1)
@@ -29,6 +29,17 @@ const panelIngredientesLogeadoRef = ref(null)
 const mostrarPanelIngredientesLogeado = ref(false)
 const mostrarResumen = ref(false)
 
+const verToast = ref(false);
+const mensajeToast = ref('¡Receta agragada a la lista de la compra!');
+
+function mostrarToast() {
+  verToast.value = true;
+  setTimeout(() => {
+    verToast.value = false
+    window.location.reload()
+  }, 2000)
+
+}
 
 function llamarLimpiarPanel() {
   if (panelIngredientesLogeadoRef.value) {
@@ -120,17 +131,7 @@ function agregarReceta() {
 
   localStorage.setItem(`recetasUsuario`, JSON.stringify(recetas))
 
-  VueToast.open({
-  message: 'Operación exitosa',
-  type: 'success',
-  position: 'bottom-right',
-  duration: 5000,
-  dismissible: true,
-/*   onClose: () => {
-    window.location.reload()
-  } */
-})
-
+  mostrarToast()
 }
 </script>
 
@@ -241,6 +242,9 @@ function agregarReceta() {
       </div>
     </div>
   </div>
+  <div class="toast">
+  <VentanaToast :verToast="verToast" :mensajeToast="mensajeToast" />
+</div>
 </template>
 
 <!-- no consigo que se active la clase active en los divs p1, p2, p3, p4 y p5, cuando hago click en los botones SIGUIENTE, el valor de divActivo.value cambia correctamente, pero no se activa la clase active en los divs, ¿qué estoy haciendo mal? -->
@@ -475,5 +479,6 @@ div.p5.active {
   scrollbar-width: auto; /* "auto" o "thin" */ 
   scrollbar-color: #888 #f1f1f1; /* [Thumb] [Track] */
 }
+
 
 </style>

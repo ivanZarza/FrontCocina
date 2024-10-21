@@ -1,12 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { servicioDatosUsuario } from '../../servicios/serviciosLogeado/servicioDatosLogeado';
+import { servicioRecetasLogeado } from '../../servicios/serviciosLogeado/servicioRecetasLogeado'
 import { useRouter } from 'vue-router';
+import VentanaToast from '../../components/VentanaToast.vue'
+
+const servicio = servicioRecetasLogeado
 
 const router = useRouter()
 const usuario = ref({})
 const recetas = ref([])
 const ingredientes = ref([])
+const verToast = ref(false)
+const mensajeToast = ref('')
 
 
 
@@ -46,9 +52,15 @@ const cargarDatos = async () => {
   }
 }
 
-  function AListaDeLaCompra(receta) {
-    let recetas = JSON.parse(localStorage.getItem("recetasUsuario")) || [];
+function AListaDeLaCompra(receta) {
+  let recetas = JSON.parse(localStorage.getItem("recetasUsuario")) || [];
 
+  // Verificar si ya existe una receta con el mismo nombre
+  const recetaExistente = recetas.find(r => r.nombre === receta.nombre);
+
+  if (recetaExistente) {
+    mensajeToast.value = 'La receta ya existe en la lista de la compra';
+  } else {
     recetas.push({
       nombre: receta.nombre,
       numeroDePersonas: receta.numeroDePersonas,
@@ -58,11 +70,29 @@ const cargarDatos = async () => {
       descripcion: receta.descripcion,
       id: receta.id,
       usuarioId: receta.usuarioId,
-    })
-    localStorage.setItem(`recetasUsuario`, JSON.stringify(recetas))
+    });
+    localStorage.setItem(`recetasUsuario`, JSON.stringify(recetas));
+    mensajeToast.value = 'Receta añadida a la lista de la compra';
   }
-  console.log(recetas);
-  onMounted(cargarDatos)
+
+  mostrarToast();
+}
+
+function borrarRecetaDB(recetaId) {
+  servicio.borrarRecetaUsuario(recetaId)
+  mensajeToast.value = 'Receta eliminada de la base de datos'
+  mostrarToast()
+  cargarDatos()
+}
+
+function mostrarToast() {
+  verToast.value = true;
+  setTimeout(() => {
+    verToast.value = false
+  }, 2000)
+}
+
+onMounted(cargarDatos)
 </script>
 
 <template>
@@ -78,6 +108,8 @@ const cargarDatos = async () => {
               <h3>Nombre: {{ receta.nombre }} para {{ receta.numeroDePersonas }} personas</h3>
               <h3>¿Quieres pasar esta receta a la lista de la compra?</h3>
               <button @click="AListaDeLaCompra(receta)">SI</button>
+              <h3>¿Quieres borrar la receta de la base de datos?</h3>
+              <button @click="borrarRecetaDB(receta.id)">BORRAR RECETA</button>
             </div>
           </div>
         </div>
@@ -95,6 +127,9 @@ const cargarDatos = async () => {
         </div>
       </div>
     </div>
+  </div>
+  <div>
+    <VentanaToast :verToast="verToast" :mensajeToast="mensajeToast" />
   </div>
 </template>
 
