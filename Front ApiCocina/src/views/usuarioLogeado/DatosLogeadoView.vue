@@ -43,11 +43,9 @@ const cargarDatos = async () => {
 
     return recetas.value, ingredientes.value
   } catch (error) {
-    console.error('Error al obtener los datos del usuario:', error);
-    // Verifica si el error es debido a un problema de autenticación (401 o 403)
+    console.error('Error al obtener los datos del usuario:', error)
     if (error.message.includes('403') || error.message.includes('401')) {
-      // Redirige al usuario a la página de login
-      router.push({ name: 'login' }); // Asegúrate de que 'login' corresponde al nombre de la ruta de login en tu configuración de Vue Router
+      router.push({ name: 'login' })
     }
   }
 }

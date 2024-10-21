@@ -6,13 +6,11 @@ const service = servicioUsuario
 service.obtenerUsuario()
 const usuario = service.usuario
 
-console.log('paginaUsuario linea 9', usuario);
 </script>
 
 <template>
   <div class="container">
     <div class="nav">
-      <h2>Esta es tu barra de navegacion personal</h2>
       <nav>
         <router-link :to="{ name: 'datosUsuario'}">MIS DATOS</router-link>
         <router-link :to="{ name: 'panelUsuario'}">INGREDIENTES</router-link>
@@ -58,16 +56,17 @@ console.log('paginaUsuario linea 9', usuario);
   color: #fff6f6;
   background-color: #e62dff;
   margin: 10px;
+  font-size: 1.3rem;
 }
 
 nav {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-around;
   width: 50%;
-  margin-top: 20px;
   background-color: #e62dff;
-  gap: 15px;
+  gap: 20px;
   /* Cambia el color de fondo de la barra de navegación */
 }
 
@@ -85,9 +84,11 @@ nav a:hover {
 }
 
 nav a.router-link-exact-active {
-  color: #e62dff;
-  border: 2px solid #ffffff;
-  background-color: #ffffff;
+  color: #ffffff;
+  border: 3px solid #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  font-style: oblique;
 }
 
 .funcional {

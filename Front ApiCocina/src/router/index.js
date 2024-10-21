@@ -1,6 +1,7 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Cookies from 'js-cookie'
 
 
 
@@ -82,6 +83,17 @@ const router = createRouter({
       ]
     }
   ]
+
+})
+
+router.beforeEach((to, from, next) => {
+  const authToken = Cookies.get('auth_token');
+
+  if (to.name !== 'login' && !authToken) {
+    next({ name: 'login' });
+  } else {
+    next();
+  }
 })
 
 export default router
