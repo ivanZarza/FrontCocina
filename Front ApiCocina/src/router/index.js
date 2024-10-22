@@ -59,26 +59,31 @@ const router = createRouter({
           path: 'datos',
           name: 'datosUsuario',
           component: () => import('../views/usuarioLogeado/DatosLogeadoView.vue'),
+          meta: { requiresAuth: true },
         },
         {
           path: 'recetas',
           name: 'recetasUsuario',
           component: () => import('../views/usuarioLogeado/RecetasLogeadoView.vue'),
+          meta: { requiresAuth: true },
         },
         {
           path: 'panel',
           name: 'panelUsuario',
           component: () => import('../views/usuarioLogeado/PanelLogeadoView.vue'),
+          meta: { requiresAuth: true },
         },
         {
           path: 'listacompra',
           name: 'compraUsuario',
           component: () => import('../views/usuarioLogeado/CompraLogeadoView.vue'),
+          meta: { requiresAuth: true },
         },
         {
           path: 'logout',
           name: 'logout',
-          component: () => import('../views/usuarioLogeado/LogoutUsuarioView.vue')
+          component: () => import('../views/usuarioLogeado/LogoutUsuarioView.vue'),
+          meta: { requiresAuth: true },
         },
       ]
     }
@@ -89,7 +94,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authToken = Cookies.get('auth_token');
 
-  if (to.name !== 'login' && !authToken) {
+  if (to.meta.requiresAuth && !authToken) {
     next({ name: 'login' });
   } else {
     next();

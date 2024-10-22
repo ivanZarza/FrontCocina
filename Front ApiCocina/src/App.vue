@@ -8,9 +8,9 @@ import { RouterLink, RouterView } from 'vue-router'
     <header>
       <nav>
         <RouterLink to="/">INICIO</RouterLink>
-<!--         <RouterLink :to="{ name: 'ingredientes' }">INGREDIENTES</RouterLink>
-        <RouterLink :to="{ name: 'tipos' }">CLASES DE INGREDIENTES</RouterLink> -->
-        <RouterLink :to="{ name: 'panel' }">CREAR, MODIFICAR O BORRAR</RouterLink>
+        <!-- <RouterLink :to="{ name: 'ingredientes' }">INGREDIENTES</RouterLink> -->
+        <!-- <RouterLink :to="{ name: 'tipos' }">CLASES DE INGREDIENTES</RouterLink> -->
+        <!-- <RouterLink :to="{ name: 'panel' }">CREAR, MODIFICAR O BORRAR</RouterLink> -->
         <RouterLink :to="{ name: 'registro' }">REGISTRO</RouterLink>
         <RouterLink :to="{ name: 'login' }">LOGIN</RouterLink>
         <RouterLink  :to="{ name: 'usuario' }">USUARIO</RouterLink>
