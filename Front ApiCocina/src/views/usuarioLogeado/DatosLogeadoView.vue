@@ -81,7 +81,9 @@ function borrarRecetaDB(recetaId) {
   servicio.borrarRecetaUsuario(recetaId)
   mensajeToast.value = 'Receta eliminada de la base de datos'
   mostrarToast()
-  cargarDatos()
+  setTimeout(() => {
+    cargarDatos()
+  }, 2100)
 }
 
 function mostrarToast() {
