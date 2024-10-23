@@ -40,7 +40,8 @@ function seleccionarRecetaPorIndice() {
     console.log(recetaSeleccionada.value);
   } else {
     recetaSeleccionada.value = null
-    window.alert('No hay recetas guardadas en la base de datos')
+    mensajeToast.value = 'No hay recetas guardadas en tu lista de la compra.'
+    mostrarToast()
     setTimeout(() => {
       router.push({ name: 'datosUsuario' })
     }, 2000)

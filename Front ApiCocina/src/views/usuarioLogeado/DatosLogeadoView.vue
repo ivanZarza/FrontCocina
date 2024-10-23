@@ -45,11 +45,9 @@ const cargarDatos = async () => {
   } catch (error) {
     mensajeToast.value = error.message
     mostrarToast()
-    if (error.message.includes('403') || error.message.includes('401')) {
-      setTimeout(() => {
-        router.push({ name: 'login' })
-      }, 2500)
-    }
+    setTimeout(() => {
+      router.push({ name: 'login' })
+    }, 2100)
   }
 }
 
