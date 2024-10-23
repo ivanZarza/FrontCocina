@@ -14,8 +14,8 @@ export class ServicioDatosUsuario {
       })
 
       if (!response.ok) {
-        // Lanza un error con el estado de la respuesta para ser manejado por el componente
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Error al obtener los datos  ${response.status}`);
       }
 
       const data = await response.json();

@@ -21,6 +21,7 @@ async function registrar({nombre, apellidos, contraseña,contraseña2}) {
   })
   mensajeToast.value = 'Usuario registrado correctamente'
   mostrarToast()
+  
 } catch (error) {
   console.error(error)
   mensajeToast.value = error.message

@@ -34,7 +34,7 @@ const entrar = async () => {
 
   } catch (error) {
     console.error(error)
-    mensajeToast.value = 'Error al loguear el usuario'
+    mensajeToast.value = error.message
     mostrarToast()
   }
 }

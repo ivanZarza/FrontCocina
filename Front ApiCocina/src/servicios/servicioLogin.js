@@ -1,3 +1,4 @@
+import { error } from 'toastr';
 import { ref } from 'vue'
 
 class ServicioLogin {
@@ -23,8 +24,8 @@ class ServicioLogin {
       })
 
       if (!response.ok) {
-        // Lanza un error si la respuesta no es exitosa
-        throw new Error('Error al loguear usuario: ' + response.status);
+        const errorData = await response.json();
+        throw new Error(errorData.error ||'Error al loguear usuario: ' + response.status);
       }
 
       const data = await response.json();

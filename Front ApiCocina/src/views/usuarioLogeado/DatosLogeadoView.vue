@@ -43,9 +43,12 @@ const cargarDatos = async () => {
 
     return recetas.value, ingredientes.value
   } catch (error) {
-    console.error('Error al obtener los datos del usuario:', error)
+    mensajeToast.value = error.message
+    mostrarToast()
     if (error.message.includes('403') || error.message.includes('401')) {
-      router.push({ name: 'login' })
+      setTimeout(() => {
+        router.push({ name: 'login' })
+      }, 2500)
     }
   }
 }
