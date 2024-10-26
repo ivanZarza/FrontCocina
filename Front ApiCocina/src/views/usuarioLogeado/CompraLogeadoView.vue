@@ -40,11 +40,8 @@ function seleccionarRecetaPorIndice() {
     console.log(recetaSeleccionada.value);
   } else {
     recetaSeleccionada.value = null
-    mensajeToast.value = 'No hay recetas guardadas en tu lista de la compra.'
-    mostrarToast()
-    setTimeout(() => {
+    window.alert('No hay recetas que mostrar, por favor crea una receta en la zona de "CREAR RECETEAS" o añade una receta guardada, desde la zona "MIS DATOS" .' )
       router.push({ name: 'datosUsuario' })
-    }, 2000)
   }
 }
 

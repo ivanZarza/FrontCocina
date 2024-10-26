@@ -11,15 +11,13 @@ const acompanamiento = ref([])
 const condimentos = ref([])
 const descripcion = ref('')
 
-const mostrarDiv2 = ref(false)
-const mostrarDiv3 = ref(false)
-const mostrarDiv4 = ref(false)
-const mostrarDiv5 = ref(false)
-
+const div1 = ref(true)
 const div2 = ref(null)
 const div3 = ref(null)
 const div4 = ref(null)
 const div5 = ref(null)
+
+
 
 const divActivo = ref(1)
 
@@ -35,65 +33,68 @@ function llamarLimpiarPanel() {
   }
 }
 
-function mostrarSiguienteDiv2() {
-  mostrarDiv2.value = true
-  mostrarPanelIngredientes.value = true
-  nextTick(() => {
-    if (div2.value) {
-      div2.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }
-    llamarLimpiarPanel()
-  })
-}
 
-function mostrarSiguienteDiv3() {
-  mostrarDiv3.value = true
-  nextTick(() => {
-    if (div3.value) {
-      div3.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }
-    llamarLimpiarPanel()
-  })
-}
+function mostrarDiv(numero) {
+  divActivo.value = numero
 
-function mostrarSiguienteDiv4() {
-  mostrarDiv4.value = true
-  nextTick(() => {
-    if (div4.value) {
-      div4.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    switch (numero) {
+      case 1:
+      mostrarPanelIngredientes.value = false
+      nextTick(() => {
+        div1.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      })
+        break
+      case 2:
+        div2.value = true
+        mostrarPanelIngredientes.value = true
+        nextTick(() => {
+          div2.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        })
+        break
+      case 3:
+        div3.value = true
+        nextTick(() => {
+          div3.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        })
+        break
+      case 4:
+        div4.value = true
+        nextTick(() => {
+          div4.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        })
+        break
+      case 5:
+        div5.value = true
+        nextTick(() => {
+          div5.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        })
+        break
     }
+    if (numero !== 5) {
     llamarLimpiarPanel()
-  })
-}
+  }
+  }
 
-function mostrarSiguienteDiv5() {
-  mostrarDiv5.value = true
-  nextTick(() => {
-    if (div5.value) {
-      div5.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }
-    llamarLimpiarPanel()
-  })
-}
+
 
 function agregarIngrediente(ingrediente) {
 
-  if (mostrarDiv2.value && !mostrarDiv3.value) {
+  if (divActivo.value === 2) {
     principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
   }
 
-  if (mostrarDiv3.value && !mostrarDiv4.value) {
+  if (divActivo.value === 3) {
     acompanamiento.value.push(cantidadAcompañamiento(ingrediente, numeroDePersonas.value))
   }
 
-  if (mostrarDiv4.value && !mostrarDiv5.value) {
+  if (divActivo.value === 4) {
     condimentos.value.push(cantidadCondimento(ingrediente, numeroDePersonas.value))
   }
 
-  if (mostrarDiv5.value) {
+  if (divActivo.value === 5) {
     return
   }
-}
+} 
 
 function resultado() {
   principal.value = dividirPorCantidadDeIngredientes(principal.value)
@@ -133,7 +134,8 @@ function agregarReceta() {
     </div>
     <div class="contenedor">
       <div class="pasos">
-        <div class="p1" :class="{ 'active': divActivo.value === 1 }">
+
+        <div class="p1" :class="{ 'active': divActivo.value === 1 }" v-if="div1" ref="div1">
           <h2>PASO 1</h2>
           <h3>Ingresa el número de personas</h3>
           <div class="numero-personas">
@@ -141,9 +143,10 @@ function agregarReceta() {
               <input type="number" v-model="numeroDePersonas" min="1" />
             </label>
           </div>
-          <button @click="mostrarSiguienteDiv2">SIGUIENTE</button>
+          <button @click="mostrarDiv(2)">SIGUIENTE</button>
         </div>
-        <div class="p2" :class="{ 'active': divActivo.value === 2 }" v-if="mostrarDiv2" ref="div2">
+
+        <div class="p2" :class="{ 'active': divActivo.value === 2 }" v-if="div2" ref="div2">
           <h2>PASO 2</h2>
           <h3>Elige el ingrediente principal</h3>
           <div class="listaIngredientes">
@@ -153,9 +156,10 @@ function agregarReceta() {
               </li>
             </ol>
           </div>
-          <button @click="mostrarSiguienteDiv3">SIGUIENTE</button>
+          <button @click="mostrarDiv(3)">SIGUIENTE</button>
         </div>
-        <div class="p3" :class="{ 'active': divActivo.value === 3 }" v-if="mostrarDiv3" ref="div3">
+
+        <div class="p3" :class="{ 'active': divActivo.value === 3 }" v-if="div3" ref="div3">
           <h2>PASO 3</h2>
           <h3>Elige el acompañamiento</h3>
           <div class="listaIngredientes">
@@ -165,9 +169,10 @@ function agregarReceta() {
               </li>
             </ol>
           </div>
-          <button @click="mostrarSiguienteDiv4">SIGUIENTE</button>
+          <button @click="mostrarDiv(4)">SIGUIENTE</button>
         </div>
-        <div class="p4" :class="{ 'active': divActivo.value === 4 }" v-if="mostrarDiv4" ref="div4">
+
+        <div class="p4" :class="{ 'active': divActivo.value === 4 }" v-if="div4" ref="div4">
           <h2>PASO 4</h2>
           <h3>Elige los condimentos para hacer la receta</h3>
           <div class="listaIngredientes">
@@ -177,9 +182,10 @@ function agregarReceta() {
               </li>
             </ol>
           </div>
-          <button @click="mostrarSiguienteDiv5">SIGUIENTE</button>
+          <button @click="mostrarDiv(5)">SIGUIENTE</button>
         </div>
-        <div class="p5" :class="{ 'active': divActivo.value === 5 }" v-if="mostrarDiv5" ref="div5">
+
+        <div class="p5" :class="{ 'active': divActivo.value === 5 }" v-if="div5" ref="div5">
           <h2>PASO 5</h2>
           <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
           <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
@@ -189,6 +195,7 @@ function agregarReceta() {
           </div>
         </div>
       </div>
+
       <div v-if="mostrarPanelIngredientes">
         <div class="panel">
           <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" 
