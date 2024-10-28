@@ -1,5 +1,6 @@
 <script setup>
 import PanelIngredientes from '../components/PanelIngredientes.vue'
+import VentanaToast from '../components/VentanaToast.vue'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
@@ -11,12 +12,13 @@ const acompanamiento = ref([])
 const condimentos = ref([])
 const descripcion = ref('')
 
-const div1 = ref(true)
+const explicacion = ref(true)
+
+const div1 = ref(null)
 const div2 = ref(null)
 const div3 = ref(null)
 const div4 = ref(null)
 const div5 = ref(null)
-
 
 
 const divActivo = ref(1)
@@ -26,6 +28,16 @@ const panelIngredientesRef = ref(null)
 const mostrarPanelIngredientes = ref(false)
 const mostrarResumen = ref(false)
 
+const mensajeToast = ref('')
+const verToast = ref(false)
+
+function mostrarToast(mensaje) {
+  mensajeToast.value = mensaje
+  verToast.value = true
+  setTimeout(() => {
+    verToast.value = false
+  }, 2000)
+}
 
 function llamarLimpiarPanel() {
   if (panelIngredientesRef.value) {
@@ -33,51 +45,43 @@ function llamarLimpiarPanel() {
   }
 }
 
+const divMap = {
+  1: div1,
+  2: div2,
+  3: div3,
+  4: div4,
+  5: div5
+}
 
 function mostrarDiv(numero) {
   divActivo.value = numero
 
-    switch (numero) {
-      case 1:
-      mostrarPanelIngredientes.value = false
-      nextTick(() => {
-        div1.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      })
-        break
-      case 2:
-        div2.value = true
-        mostrarPanelIngredientes.value = true
-        nextTick(() => {
-          div2.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        })
-        break
-      case 3:
-        div3.value = true
-        nextTick(() => {
-          div3.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        })
-        break
-      case 4:
-        div4.value = true
-        nextTick(() => {
-          div4.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        })
-        break
-      case 5:
-        div5.value = true
-        nextTick(() => {
-          div5.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        })
-        break
-    }
-    if (numero !== 5) {
-    llamarLimpiarPanel()
-  }
+  if (numero === 1) {
+    explicacion.value = false
   }
 
+  const div = divMap[numero]
+  if (div) {
+    div.value = true
+    nextTick(() => {
+      mostrarPanelIngredientes.value = true
+      div.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      llamarLimpiarPanel()
+    })
+  }
+
+  if (numero === 5) {
+    mostrarPanelIngredientes.value = true
+  }
+}
 
 
 function agregarIngrediente(ingrediente) {
+
+  if (divActivo.value === 1) {
+
+  }
+
 
   if (divActivo.value === 2) {
     principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
@@ -94,7 +98,7 @@ function agregarIngrediente(ingrediente) {
   if (divActivo.value === 5) {
     return
   }
-} 
+}
 
 function resultado() {
   principal.value = dividirPorCantidadDeIngredientes(principal.value)
@@ -120,22 +124,39 @@ function agregarReceta() {
   })
 
   localStorage.setItem(`recetas`, JSON.stringify(recetas))
-  window.alert('Receta agregada a la lista de la compra con éxito')
-  window.location.reload()
+  mostrarToast('Receta añadida a la lista de la compra')
+  setTimeout(() => {
+    window.location.reload()
+  }, 2100)
 }
 
 </script>
 
 <template>
   <div class="recetas-usuario-view">
+    <div class="indice">
+<button v-if="div1" @click="mostrarDiv(1)">PASO 1</button>
+<button v-if="div2" @click="mostrarDiv(2)">PASO 2</button>
+<button v-if="div3" @click="mostrarDiv(3)">PASO 3</button>
+<button v-if="div4" @click="mostrarDiv(4)">PASO 4</button>
+<button v-if="div5"@click="mostrarDiv(5)">PASO 5</button>
+</div>
     <div>
       <h1>Recetas</h1>
       <h2>Crear receta</h2>
+      <div class="explicacion" v-if="explicacion">
+        <h2>En este apartado podrás crear tus propias recetas, siguiendo los pasos que se te indican a continuación.
+        </h2>
+        <h2>Primero, introduce el número de personas para las que quieres hacer la receta.</h2>
+        <h2>Después, elige el ingrediente principal, el acompañamiento y los condimentos.</h2>
+        <h2>Finalmente, escribe una descripción de la receta y si quieres, compártela con la comunidad.</h2>
+        <button @click="mostrarDiv(1)">¿Empezamos?</button>
+      </div>
     </div>
     <div class="contenedor">
       <div class="pasos">
 
-        <div class="p1" :class="{ 'active': divActivo.value === 1 }" v-if="div1" ref="div1">
+        <div :class="['p1',{ 'active': divActivo === 1 }]" v-if="div1" ref="div1">
           <h2>PASO 1</h2>
           <h3>Ingresa el número de personas</h3>
           <div class="numero-personas">
@@ -143,103 +164,118 @@ function agregarReceta() {
               <input type="number" v-model="numeroDePersonas" min="1" />
             </label>
           </div>
-          <button @click="mostrarDiv(2)">SIGUIENTE</button>
+          <div class="contenedor-botones">
+            <button @click="mostrarDiv(2)">SIGUIENTE</button>
+          </div>
         </div>
 
-        <div class="p2" :class="{ 'active': divActivo.value === 2 }" v-if="div2" ref="div2">
+        <div :class="['p2',{ 'active': divActivo === 2 }]" v-if="div2" ref="div2">
           <h2>PASO 2</h2>
           <h3>Elige el ingrediente principal</h3>
           <div class="listaIngredientes">
             <ol>
               <li v-for="(ingrediente, i) in principal" :key="i">
-                {{ ingrediente.name }}
+                {{ ingrediente.nombre }}
               </li>
             </ol>
           </div>
+          <div class="contenedor-botones">
+          <button @click="mostrarDiv(1)">ANTERIOR</button>
           <button @click="mostrarDiv(3)">SIGUIENTE</button>
         </div>
+      </div>
 
-        <div class="p3" :class="{ 'active': divActivo.value === 3 }" v-if="div3" ref="div3">
-          <h2>PASO 3</h2>
-          <h3>Elige el acompañamiento</h3>
-          <div class="listaIngredientes">
-            <ol>
-              <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
-                {{ ingrediente.name }}
-              </li>
-            </ol>
-          </div>
+      <div :class="['p3',{ 'active': divActivo === 3 }]" v-if="div3" ref="div3">
+        <h2>PASO 3</h2>
+        <h3>Elige el acompañamiento</h3>
+        <div class="listaIngredientes">
+          <ol>
+            <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
+              {{ ingrediente.nombre }}
+            </li>
+          </ol>
+        </div>
+        <div class="contenedor-botones">
+          <button @click="mostrarDiv(2)">ANTERIOR</button>
           <button @click="mostrarDiv(4)">SIGUIENTE</button>
         </div>
+      </div>
 
-        <div class="p4" :class="{ 'active': divActivo.value === 4 }" v-if="div4" ref="div4">
-          <h2>PASO 4</h2>
-          <h3>Elige los condimentos para hacer la receta</h3>
-          <div class="listaIngredientes">
-            <ol>
-              <li v-for="ingrediente in condimentos" :key="ingrediente.id">
-                {{ ingrediente.name }}
-              </li>
-            </ol>
-          </div>
+      <div :class="['p4',{ 'active': divActivo === 4 }]" v-if="div4" ref="div4">
+        <h2>PASO 4</h2>
+        <h3>Elige los condimentos para hacer la receta</h3>
+        <div class="listaIngredientes">
+          <ol>
+            <li v-for="ingrediente in condimentos" :key="ingrediente.id">
+              {{ ingrediente.nombre }}
+            </li>
+          </ol>
+        </div>
+        <div class="contenedor-botones">
+          <button @click="mostrarDiv(3)">ANTERIOR</button>
           <button @click="mostrarDiv(5)">SIGUIENTE</button>
         </div>
+      </div>
 
-        <div class="p5" :class="{ 'active': divActivo.value === 5 }" v-if="div5" ref="div5">
-          <h2>PASO 5</h2>
-          <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
-          <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
-          <div class="descripcion">
-            <textarea v-model="descripcion"></textarea>
+      <div  :class="['p5', { 'active': divActivo === 5 }]" v-if="div5" ref="div5">
+        <h2>PASO 5</h2>
+        <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
+        <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
+        <div class="descripcion">
+          <textarea v-model="descripcion"></textarea>
+          <div class="contenedor-botones">
+            <button @click="mostrarDiv(4)">ANTERIOR</button>
             <button @click="resultado">FINALIZAR</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <div v-if="mostrarPanelIngredientes">
-        <div class="panel">
-          <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" 
-          ref="panelIngredientesRef" />
-        </div>
+    <div v-if="mostrarPanelIngredientes">
+      <div class="panel">
+        <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef" />
       </div>
-      <div class="resumen" v-if="mostrarResumen">
-        <h2>Resumen de la Receta</h2>
-        <h3>Para {{ numeroDePersonas }} {{ numeroDePersonas === 1 ? 'persona' : 'personas' }}</h3>
-        <h3>Principal</h3>
-        <div class="listaIngredientes">
-          <ol>
-            <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.name }} - {{ ingrediente.cantidad
-              }} Grs</li>
-          </ol>
-        </div>
-        <h3>Acompañamiento</h3>
-        <div class="listaIngredientes">
-          <ol>
-            <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.name }} - {{
-          ingrediente.cantidad }} Grs</li>
-          </ol>
-        </div>
-        <h3>Condimentos</h3>
-        <div class="listaIngredientes">
-          <ol>
-            <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.name }} - {{
-          ingrediente.cantidad }} Grs</li>
-          </ol>
-        </div>
-        <h3><strong>Descripción:</strong></h3>
-        <pre class="descripcionFinal">{{ descripcion }}</pre>
-        <div class="textoFinal">
-          <h3>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h3>
-          <h3>Agrega un nombre a tu receta</h3>
-          <input type="text" v-model="nombreReceta" />
-          <button @click="agregarReceta()">AGREGAR A LA LISTA DE LA COMPRA</button>
-        </div>
+    </div>
+    <div class="resumen" v-if="mostrarResumen">
+      <h2>Resumen de la Receta</h2>
+      <h3>Para {{ numeroDePersonas }} {{ numeroDePersonas === 1 ? 'persona' : 'personas' }}</h3>
+      <h3>Principal</h3>
+      <div class="listaIngredientes">
+        <ol>
+          <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
+        ingrediente.cantidad
+      }} Grs</li>
+        </ol>
+      </div>
+      <h3>Acompañamiento</h3>
+      <div class="listaIngredientes">
+        <ol>
+          <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
+        ingrediente.cantidad }} Grs</li>
+        </ol>
+      </div>
+      <h3>Condimentos</h3>
+      <div class="listaIngredientes">
+        <ol>
+          <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
+        ingrediente.cantidad }} Grs</li>
+        </ol>
+      </div>
+      <h3><strong>Descripción:</strong></h3>
+      <pre class="descripcionFinal">{{ descripcion }}</pre>
+      <div class="textoFinal">
+        <h3>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h3>
+        <h3>Agrega un nombre a tu receta</h3>
+        <input type="text" v-model="nombreReceta" />
+        <button @click="agregarReceta()">AGREGAR A LA LISTA DE LA COMPRA</button>
       </div>
     </div>
   </div>
+  </div>
+<div>
+  <VentanaToast :verToast="verToast" :mensajeToast="mensajeToast" />
+</div>
 </template>
-
-<!-- no consigo que se active la clase active en los divs p1, p2, p3, p4 y p5, cuando hago click en los botones SIGUIENTE, el valor de divActivo.value cambia correctamente, pero no se activa la clase active en los divs, ¿qué estoy haciendo mal? -->
 
 <style scoped>
 *,
@@ -250,9 +286,40 @@ function agregarReceta() {
   box-sizing: border-box;
 }
 
+.indice {
+  margin: none;
+  position:sticky;
+  top: 0;
+  right: 0;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+
+}
+
+.indice button {
+  margin: none;
+  height: 50px;
+  padding: 10px;
+  border: none;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: rgb(255, 255, 255);
+  color: rgb(133, 133, 133);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.indice button:hover {
+  background-color: rgb(129, 129, 129);
+  color: white;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
 .recetas-usuario-view {
   width: 100%;
-  min-height: 100vh;
+  min-height: 200vh;
   text-align: center;
   background-color: #ffffbe;
 }
@@ -369,10 +436,14 @@ li {
   font-size: 1rem;
 }
 
-button {
+.p1 button,
+.p2 button,
+.p3 button,
+.p4 button,
+.p5 button {
   background-color: rgb(86, 126, 245);
   border: none;
-  color: rgb(20, 20, 20);
+  color: rgb(255, 255, 255);
   padding: 10px 20px;
   text-align: center;
   margin: 10px;
@@ -380,7 +451,11 @@ button {
   margin-top: auto;
 }
 
-button:hover {
+.p1 button:hover,
+.p2 button:hover,
+.p3 button:hover,
+.p4 button:hover,
+.p5 button:hover {
   background-color: rgb(0, 26, 102);
   color: white;
 }
@@ -423,13 +498,8 @@ button:hover {
   white-space: pre-wrap;
 }
 
-/* esto no me lo aplica */
-div.p1.active,
-div.p2.active,
-div.p3.active,
-div.p4.active,
-div.p5.active {
-  border: rgb(0, 26, 102) 3px solid;
+.active {
+  border: royalblue 10px solid;
 }
 
 .textoFinal {
@@ -448,4 +518,5 @@ div.p5.active {
   background-color: #ffffff;
   color: #63235f;
 }
+
 </style>
