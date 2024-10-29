@@ -1,6 +1,8 @@
 <script setup>
+import PasosIngredientes from '../components/PasosIngredientes.vue'
 import PanelIngredientes from '../components/PanelIngredientes.vue'
 import VentanaToast from '../components/VentanaToast.vue'
+import IndicePasos from '../components/IndicePasos.vue'
 import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../helpers/cantidades.helper'
 import { ref, nextTick } from 'vue'
 
@@ -135,11 +137,15 @@ function agregarReceta() {
 <template>
   <div class="recetas-usuario-view">
     <div class="indice">
-<button v-if="div1" @click="mostrarDiv(1)">PASO 1</button>
-<button v-if="div2" @click="mostrarDiv(2)">PASO 2</button>
-<button v-if="div3" @click="mostrarDiv(3)">PASO 3</button>
-<button v-if="div4" @click="mostrarDiv(4)">PASO 4</button>
-<button v-if="div5"@click="mostrarDiv(5)">PASO 5</button>
+<IndicePasos
+      :div1="div1"
+      :div2="div2"
+      :div3="div3"
+      :div4="div4"
+      :div5="div5"
+      :divActivo="divActivo"
+      @mostrarDiv="mostrarDiv"
+    />
 </div>
     <div>
       <h1>Recetas</h1>
@@ -170,6 +176,11 @@ function agregarReceta() {
         </div>
 
         <div :class="['p2',{ 'active': divActivo === 2 }]" v-if="div2" ref="div2">
+          <PasosIngredientes :principal="principal" @mostrarDiv="mostrarDiv" />
+        </div>
+
+
+<!--         <div :class="['p2',{ 'active': divActivo === 2 }]" v-if="div2" ref="div2">
           <h2>PASO 2</h2>
           <h3>Elige el ingrediente principal</h3>
           <div class="listaIngredientes">
@@ -183,7 +194,7 @@ function agregarReceta() {
           <button @click="mostrarDiv(1)">ANTERIOR</button>
           <button @click="mostrarDiv(3)">SIGUIENTE</button>
         </div>
-      </div>
+      </div> -->
 
       <div :class="['p3',{ 'active': divActivo === 3 }]" v-if="div3" ref="div3">
         <h2>PASO 3</h2>
@@ -296,26 +307,8 @@ function agregarReceta() {
   flex-direction: row;
   align-items: center;
   justify-content: start;
-
 }
 
-.indice button {
-  margin: none;
-  height: 50px;
-  padding: 10px;
-  border: none;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: rgb(255, 255, 255);
-  color: rgb(133, 133, 133);
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.indice button:hover {
-  background-color: rgb(129, 129, 129);
-  color: white;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
-}
 
 .recetas-usuario-view {
   width: 100%;
