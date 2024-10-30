@@ -2,7 +2,9 @@
 
 
 defineProps({
-  principal: Array
+  ingredientes: Array,
+  siguiente: Number,
+  anterior: Number
 })
 
 defineEmits(['mostrarDiv'])
@@ -11,18 +13,35 @@ defineEmits(['mostrarDiv'])
 
 <template>
   <div class="pasosIngredientes">
-          <h2>PASO 2</h2>
-          <h3>Elige el ingrediente principal</h3>
           <div class="listaIngredientes">
             <ol>
-              <li v-for="(ingrediente, i) in principal" :key="i">
+              <li v-for="(ingrediente, i) in ingredientes" :key="i">
                 {{ ingrediente.nombre }}
               </li>
             </ol>
           </div>
           <div class="contenedor-botones">
-            <button @click="$emit('mostrarDiv', 1)">ANTERIOR</button>
-            <button @click="$emit('mostrarDiv', 3)">SIGUIENTE</button>
+            <button @click="$emit('mostrarDiv', anterior)">ANTERIOR</button>
+            <button @click="$emit('mostrarDiv', siguiente)">SIGUIENTE</button>
         </div>
       </div>
 </template>
+
+<style scoped>
+
+button {
+  background-color: rgb(86, 126, 245);
+  border: none;
+  color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  text-align: center;
+  margin: 10px;
+  border-radius: 10px;
+  margin-top: auto;
+}
+
+button:hover {
+  background-color: rgb(0, 26, 102);
+  color: white;
+}
+</style>

@@ -176,56 +176,21 @@ function agregarReceta() {
         </div>
 
         <div :class="['p2',{ 'active': divActivo === 2 }]" v-if="div2" ref="div2">
-          <PasosIngredientes :principal="principal" @mostrarDiv="mostrarDiv" />
-        </div>
-
-
-<!--         <div :class="['p2',{ 'active': divActivo === 2 }]" v-if="div2" ref="div2">
           <h2>PASO 2</h2>
           <h3>Elige el ingrediente principal</h3>
-          <div class="listaIngredientes">
-            <ol>
-              <li v-for="(ingrediente, i) in principal" :key="i">
-                {{ ingrediente.nombre }}
-              </li>
-            </ol>
-          </div>
-          <div class="contenedor-botones">
-          <button @click="mostrarDiv(1)">ANTERIOR</button>
-          <button @click="mostrarDiv(3)">SIGUIENTE</button>
+          <PasosIngredientes :ingredientes="principal" :anterior="1" :siguiente="3"  @mostrarDiv="mostrarDiv" />
         </div>
-      </div> -->
 
       <div :class="['p3',{ 'active': divActivo === 3 }]" v-if="div3" ref="div3">
         <h2>PASO 3</h2>
         <h3>Elige el acompañamiento</h3>
-        <div class="listaIngredientes">
-          <ol>
-            <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">
-              {{ ingrediente.nombre }}
-            </li>
-          </ol>
-        </div>
-        <div class="contenedor-botones">
-          <button @click="mostrarDiv(2)">ANTERIOR</button>
-          <button @click="mostrarDiv(4)">SIGUIENTE</button>
-        </div>
+        <PasosIngredientes :ingredientes="acompanamiento" :anterior="2" :siguiente="4"  @mostrarDiv="mostrarDiv" />
       </div>
 
       <div :class="['p4',{ 'active': divActivo === 4 }]" v-if="div4" ref="div4">
         <h2>PASO 4</h2>
         <h3>Elige los condimentos para hacer la receta</h3>
-        <div class="listaIngredientes">
-          <ol>
-            <li v-for="ingrediente in condimentos" :key="ingrediente.id">
-              {{ ingrediente.nombre }}
-            </li>
-          </ol>
-        </div>
-        <div class="contenedor-botones">
-          <button @click="mostrarDiv(3)">ANTERIOR</button>
-          <button @click="mostrarDiv(5)">SIGUIENTE</button>
-        </div>
+        <PasosIngredientes :ingredientes="condimentos" :anterior="3" :siguiente="5"  @mostrarDiv="mostrarDiv" />
       </div>
 
       <div  :class="['p5', { 'active': divActivo === 5 }]" v-if="div5" ref="div5">
