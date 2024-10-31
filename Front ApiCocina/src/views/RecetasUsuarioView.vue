@@ -148,15 +148,14 @@ function agregarReceta() {
     />
 </div>
     <div>
-      <h1>Recetas</h1>
-      <h2>Crear receta</h2>
+      <h1>CREA TU RECETA</h1>
       <div class="explicacion" v-if="explicacion">
         <h2>En este apartado podrás crear tus propias recetas, siguiendo los pasos que se te indican a continuación.
         </h2>
         <h2>Primero, introduce el número de personas para las que quieres hacer la receta.</h2>
         <h2>Después, elige el ingrediente principal, el acompañamiento y los condimentos.</h2>
         <h2>Finalmente, escribe una descripción de la receta y si quieres, compártela con la comunidad.</h2>
-        <button @click="mostrarDiv(1)">¿Empezamos?</button>
+        <button class="btn" @click="mostrarDiv(1)">¿Empezamos?</button>
       </div>
     </div>
     <div class="contenedor">
@@ -171,7 +170,7 @@ function agregarReceta() {
             </label>
           </div>
           <div class="contenedor-botones">
-            <button @click="mostrarDiv(2)">SIGUIENTE</button>
+            <button class="btn" @click="mostrarDiv(2)">SIGUIENTE</button>
           </div>
         </div>
 
@@ -290,6 +289,33 @@ function agregarReceta() {
   justify-content: space-between;
 }
 
+.explicaciom {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
+}
+
+.explicacion h2 {
+  margin: 50px;
+}
+
+.explicacion .btn{
+  background-color:#2c3e50;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  border:none;
+  font-size: 1.5rem;
+}
+
+.explicacion .btn:hover {
+  background-color: rgb(51, 102, 255);
+  color: white;
+}
+
 .pasos {
   width: 50%;
   display: flex;
@@ -358,6 +384,28 @@ li {
   font-size: 2.5rem;
 }
 
+.p1 .contenedor-botones {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.p1 .btn {
+  background-color:#2c3e50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border:none;
+  margin: 10px;
+}
+
+.p1 .btn:hover {
+  background-color: rgb(51, 102, 255);
+  color: white;
+}
+
 .p2 {
   background-color: lightgreen;
 }
@@ -394,29 +442,6 @@ li {
   font-size: 1rem;
 }
 
-.p1 button,
-.p2 button,
-.p3 button,
-.p4 button,
-.p5 button {
-  background-color: rgb(86, 126, 245);
-  border: none;
-  color: rgb(255, 255, 255);
-  padding: 10px 20px;
-  text-align: center;
-  margin: 10px;
-  border-radius: 10px;
-  margin-top: auto;
-}
-
-.p1 button:hover,
-.p2 button:hover,
-.p3 button:hover,
-.p4 button:hover,
-.p5 button:hover {
-  background-color: rgb(0, 26, 102);
-  color: white;
-}
 
 .panel {
   position: fixed;
@@ -457,7 +482,7 @@ li {
 }
 
 .active {
-  border: royalblue 10px solid;
+  border: #2c3e50 3px solid;
 }
 
 .textoFinal {

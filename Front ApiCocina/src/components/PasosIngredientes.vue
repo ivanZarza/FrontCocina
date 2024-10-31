@@ -21,27 +21,32 @@ defineEmits(['mostrarDiv'])
             </ol>
           </div>
           <div class="contenedor-botones">
-            <button @click="$emit('mostrarDiv', anterior)">ANTERIOR</button>
-            <button @click="$emit('mostrarDiv', siguiente)">SIGUIENTE</button>
+            <button  class="btn" @click="$emit('mostrarDiv', anterior)">ANTERIOR</button>
+            <button  class="btn" @click="$emit('mostrarDiv', siguiente)">SIGUIENTE</button>
         </div>
       </div>
 </template>
 
 <style scoped>
 
-button {
-  background-color: rgb(86, 126, 245);
-  border: none;
-  color: rgb(255, 255, 255);
-  padding: 10px 20px;
-  text-align: center;
-  margin: 10px;
-  border-radius: 10px;
-  margin-top: auto;
+contenedor-botones{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-button:hover {
-  background-color: rgb(0, 26, 102);
+.btn{
+  background-color:#2c3e50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border:none;
+  margin: 10px;
+}
+
+.btn:hover {
+  background-color: rgb(51, 102, 255);
   color: white;
 }
 </style>
