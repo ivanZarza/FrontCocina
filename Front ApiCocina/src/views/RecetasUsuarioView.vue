@@ -162,8 +162,10 @@ function agregarReceta() {
       <div class="pasos">
 
         <div :class="['p1',{ 'active': divActivo === 1 }]" v-if="div1" ref="div1">
-          <h2>PASO 1</h2>
+          <div>
+          <h2 class="texto-pasos">PASO 1</h2>
           <h3>Ingresa el número de personas</h3>
+        </div>
           <div class="numero-personas">
             <label><span>Número de personas:</span>
               <input type="number" v-model="numeroDePersonas" min="1" />
@@ -175,27 +177,35 @@ function agregarReceta() {
         </div>
 
         <div :class="['p2',{ 'active': divActivo === 2 }]" v-if="div2" ref="div2">
-          <h2>PASO 2</h2>
+          <div>
+          <h2 class="texto-pasos">PASO 2</h2>
           <h3>Elige el ingrediente principal</h3>
+        </div>
           <PasosIngredientes :ingredientes="principal" :anterior="1" :siguiente="3"  @mostrarDiv="mostrarDiv" />
         </div>
 
       <div :class="['p3',{ 'active': divActivo === 3 }]" v-if="div3" ref="div3">
-        <h2>PASO 3</h2>
+        <div >
+        <h2 class="texto-pasos">PASO 3</h2>
         <h3>Elige el acompañamiento</h3>
+      </div>
         <PasosIngredientes :ingredientes="acompanamiento" :anterior="2" :siguiente="4"  @mostrarDiv="mostrarDiv" />
       </div>
 
       <div :class="['p4',{ 'active': divActivo === 4 }]" v-if="div4" ref="div4">
-        <h2>PASO 4</h2>
+        <div>
+        <h2 class="texto-pasos">PASO 4</h2>
         <h3>Elige los condimentos para hacer la receta</h3>
+      </div>
         <PasosIngredientes :ingredientes="condimentos" :anterior="3" :siguiente="5"  @mostrarDiv="mostrarDiv" />
       </div>
 
       <div  :class="['p5', { 'active': divActivo === 5 }]" v-if="div5" ref="div5">
-        <h2>PASO 5</h2>
+        <div>
+        <h2 class="texto-pasos" >PASO 5</h2>
         <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
         <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
+      </div>
         <div class="descripcion">
           <textarea v-model="descripcion"></textarea>
           <div class="contenedor-botones">
@@ -334,21 +344,19 @@ function agregarReceta() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   border-radius: 20%;
   padding: 30px;
   min-height: 300px;
-  margin: 20px;
+  margin: 10px;
   gap: 10px;
 }
 
-ol {
-  width: 100%;
-}
-
-li {
-  text-align: center;
-  text-transform: capitalize;
+.texto-pasos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+margin: 20px;
 }
 
 .p1 {

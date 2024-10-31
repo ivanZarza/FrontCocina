@@ -36,6 +36,16 @@ contenedor-botones{
   justify-content: space-between;
 }
 
+
+ol {
+  width: 100%;
+}
+
+li {
+  text-align: center;
+  text-transform: capitalize;
+}
+
 .btn{
   background-color:#2c3e50;
   color: white;
