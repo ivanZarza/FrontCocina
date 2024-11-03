@@ -17,7 +17,6 @@ function mostrarDiv(numero) {
 </script>
 
 <template>
-
   <button v-if="div1" @click="mostrarDiv(1)" :class="['button', { 'active': divActivo === 1 }]">PASO 1</button>
   <button v-if="div2" @click="mostrarDiv(2)" :class="['button', { 'active': divActivo === 2 }]">PASO 2</button>
   <button v-if="div3" @click="mostrarDiv(3)" :class="['button', { 'active': divActivo === 3 }]">PASO 3</button>

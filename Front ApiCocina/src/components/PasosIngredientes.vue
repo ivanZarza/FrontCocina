@@ -2,6 +2,8 @@
 
 
 defineProps({
+  titulo: String,
+  informacion: String,
   ingredientes: Array,
   siguiente: Number,
   anterior: Number
@@ -12,6 +14,10 @@ defineEmits(['mostrarDiv'])
 </script>
 
 <template>
+  <div>
+    <h2>{{ titulo }}</h2>
+    <h3>{{ informacion }}</h3>
+  </div>
   <div class="pasosIngredientes">
           <div class="listaIngredientes">
             <ol>
@@ -29,7 +35,7 @@ defineEmits(['mostrarDiv'])
 
 <style scoped>
 
-contenedor-botones{
+.contenedor-botones{
   width: 100%;
   display: flex;
   flex-direction: row;

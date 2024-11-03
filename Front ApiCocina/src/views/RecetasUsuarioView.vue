@@ -1,49 +1,68 @@
 <script setup>
-import PasosIngredientes from '../components/PasosIngredientes.vue'
-import PanelIngredientes from '../components/PanelIngredientes.vue'
-import VentanaToast from '../components/VentanaToast.vue'
-import IndicePasos from '../components/IndicePasos.vue'
-import { cantidadPrincipal, cantidadAcompañamiento, cantidadCondimento, dividirPorCantidadDeIngredientes } from './../helpers/cantidades.helper'
-import { ref, nextTick } from 'vue'
+import ExplicacionRecetas from "../components/ExplicacionRecetas.vue";
+import PrimerPaso from "../components/PrimerPaso.vue";
+import PasosIngredientes from "../components/PasosIngredientes.vue";
+import QuintoPaso from "../components/QuintoPaso.vue";
+import PanelIngredientes from "../components/PanelIngredientes.vue";
+import ResumenReceta from "../components/ResumenReceta.vue";
+import VentanaToast from "../components/VentanaToast.vue";
+import IndicePasos from "../components/IndicePasos.vue";
+import {
+  cantidadPrincipal,
+  cantidadAcompañamiento,
+  cantidadCondimento,
+  dividirPorCantidadDeIngredientes,
+} from "./../helpers/cantidades.helper";
+import { ref, nextTick } from "vue";
 
+const numeroDePersonas = ref(1);
+const principal = ref([]);
+const acompanamiento = ref([]);
+const condimentos = ref([]);
+const descripcion = ref("");
+const nombreReceta = ref("");
+const explicacion = ref(true);
 
-const nombreReceta = ref('')
-const numeroDePersonas = ref(1)
-const principal = ref([])
-const acompanamiento = ref([])
-const condimentos = ref([])
-const descripcion = ref('')
+const div1 = ref(false);
+const div2 = ref(false);
+const div3 = ref(false);
+const div4 = ref(false);
+const div5 = ref(false);
 
-const explicacion = ref(true)
+const divActivo = ref(0);
 
-const div1 = ref(null)
-const div2 = ref(null)
-const div3 = ref(null)
-const div4 = ref(null)
-const div5 = ref(null)
+const panelIngredientesRef = ref(null);
 
+const mostrarPanelIngredientes = ref(false);
+const mostrarResumen = ref(false);
 
-const divActivo = ref(1)
-
-const panelIngredientesRef = ref(null)
-
-const mostrarPanelIngredientes = ref(false)
-const mostrarResumen = ref(false)
-
-const mensajeToast = ref('')
-const verToast = ref(false)
+const mensajeToast = ref("");
+const verToast = ref(false);
 
 function mostrarToast(mensaje) {
-  mensajeToast.value = mensaje
-  verToast.value = true
+  mensajeToast.value = mensaje;
+  verToast.value = true;
   setTimeout(() => {
-    verToast.value = false
-  }, 2000)
+    verToast.value = false;
+  }, 2000);
+}
+
+function actualizarNumeroDePersonas(numero) {
+  numeroDePersonas.value = numero;
+}
+
+function ActualizarDescripcion(texto) {
+  descripcion.value = texto;
+  console.log(descripcion.value);
+}
+
+function actualizarNombreReceta(nombre) {
+  nombreReceta.value = nombre;
 }
 
 function llamarLimpiarPanel() {
   if (panelIngredientesRef.value) {
-    panelIngredientesRef.value.limpiarPanel()
+    panelIngredientesRef.value.limpiarPanel();
   }
 }
 
@@ -52,65 +71,66 @@ const divMap = {
   2: div2,
   3: div3,
   4: div4,
-  5: div5
-}
+  5: div5,
+};
 
 function mostrarDiv(numero) {
-  divActivo.value = numero
+  divActivo.value = numero;
 
   if (numero === 1) {
-    explicacion.value = false
+    explicacion.value = false;
   }
 
-  const div = divMap[numero]
+  const div = divMap[numero];
   if (div) {
-    div.value = true
+    div.value = true;
     nextTick(() => {
-      mostrarPanelIngredientes.value = true
-      div.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      llamarLimpiarPanel()
-    })
+      mostrarPanelIngredientes.value = true;
+      div.value.scrollIntoView({ behavior: "smooth", block: "center" });
+      llamarLimpiarPanel();
+    });
   }
 
   if (numero === 5) {
-    mostrarPanelIngredientes.value = true
+    mostrarPanelIngredientes.value = true;
   }
 }
 
-
 function agregarIngrediente(ingrediente) {
-
   if (divActivo.value === 1) {
-
   }
 
-
   if (divActivo.value === 2) {
-    principal.value.push(cantidadPrincipal(ingrediente, numeroDePersonas.value))
+    principal.value.push(
+      cantidadPrincipal(ingrediente, numeroDePersonas.value)
+    );
   }
 
   if (divActivo.value === 3) {
-    acompanamiento.value.push(cantidadAcompañamiento(ingrediente, numeroDePersonas.value))
+    acompanamiento.value.push(
+      cantidadAcompañamiento(ingrediente, numeroDePersonas.value)
+    );
   }
 
   if (divActivo.value === 4) {
-    condimentos.value.push(cantidadCondimento(ingrediente, numeroDePersonas.value))
+    condimentos.value.push(
+      cantidadCondimento(ingrediente, numeroDePersonas.value)
+    );
   }
 
   if (divActivo.value === 5) {
-    return
+    return;
   }
 }
 
 function resultado() {
-  principal.value = dividirPorCantidadDeIngredientes(principal.value)
-  console.log(principal.value)
-  acompanamiento.value = dividirPorCantidadDeIngredientes(acompanamiento.value)
-  condimentos.value = dividirPorCantidadDeIngredientes(condimentos.value)
+  principal.value = dividirPorCantidadDeIngredientes(principal.value);
+  acompanamiento.value = dividirPorCantidadDeIngredientes(acompanamiento.value);
+  condimentos.value = dividirPorCantidadDeIngredientes(condimentos.value);
   nextTick(() => {
-    mostrarPanelIngredientes.value = false
-    mostrarResumen.value = true
-  })
+    mostrarPanelIngredientes.value = false;
+    mostrarResumen.value = true;
+  });
 }
 
 function agregarReceta() {
@@ -118,148 +138,136 @@ function agregarReceta() {
 
   recetas.push({
     nombre: nombreReceta.value,
-    numeroDePersonas: numeroDePersonas.value,
+    numeroDePersonas: numeroDePersonas,
     principal: principal.value,
     acompanamiento: acompanamiento.value,
     condimentos: condimentos.value,
-    descripcion: descripcion.value
-  })
+    descripcion: descripcion.value,
+  });
 
-  localStorage.setItem(`recetas`, JSON.stringify(recetas))
-  mostrarToast('Receta añadida a la lista de la compra')
+  localStorage.setItem(`recetas`, JSON.stringify(recetas));
+  mostrarToast("Receta añadida a la lista de la compra");
   setTimeout(() => {
-    window.location.reload()
-  }, 2100)
+    window.location.reload();
+  }, 2100);
 }
-
 </script>
 
 <template>
   <div class="recetas-usuario-view">
     <div class="indice">
-<IndicePasos
-      :div1="div1"
-      :div2="div2"
-      :div3="div3"
-      :div4="div4"
-      :div5="div5"
-      :divActivo="divActivo"
-      @mostrarDiv="mostrarDiv"
-    />
-</div>
-    <div>
-      <h1>CREA TU RECETA</h1>
-      <div class="explicacion" v-if="explicacion">
-        <h2>En este apartado podrás crear tus propias recetas, siguiendo los pasos que se te indican a continuación.
-        </h2>
-        <h2>Primero, introduce el número de personas para las que quieres hacer la receta.</h2>
-        <h2>Después, elige el ingrediente principal, el acompañamiento y los condimentos.</h2>
-        <h2>Finalmente, escribe una descripción de la receta y si quieres, compártela con la comunidad.</h2>
-        <button class="btn" @click="mostrarDiv(1)">¿Empezamos?</button>
-      </div>
+      <IndicePasos
+        :div1="true"
+        :div2="true"
+        :div3="true"
+        :div4="true"
+        :div5="true"
+        :divActivo="divActivo"
+        @mostrarDiv="mostrarDiv"
+      />
     </div>
+
+    <div class="explicacion" v-if="explicacion">
+      <ExplicacionRecetas @mostrarDiv="mostrarDiv" />
+    </div>
+
     <div class="contenedor">
       <div class="pasos">
-
-        <div :class="['p1',{ 'active': divActivo === 1 }]" v-if="div1" ref="div1">
-          <div>
-          <h2 class="texto-pasos">PASO 1</h2>
-          <h3>Ingresa el número de personas</h3>
-        </div>
-          <div class="numero-personas">
-            <label><span>Número de personas:</span>
-              <input type="number" v-model="numeroDePersonas" min="1" />
-            </label>
-          </div>
-          <div class="contenedor-botones">
-            <button class="btn" @click="mostrarDiv(2)">SIGUIENTE</button>
-          </div>
+        <div
+          :class="['p1', { active: divActivo === 1 }]"
+          v-if="div1"
+          ref="div1"
+        >
+          <PrimerPaso
+            :numeroDePersonas="numeroDePersonas"
+            @mostrarDiv="mostrarDiv"
+            @cantidadDePersonas="actualizarNumeroDePersonas"
+          />
         </div>
 
-        <div :class="['p2',{ 'active': divActivo === 2 }]" v-if="div2" ref="div2">
-          <div>
-          <h2 class="texto-pasos">PASO 2</h2>
-          <h3>Elige el ingrediente principal</h3>
+        <div
+          :class="['p2', { active: divActivo === 2 }]"
+          v-if="div2"
+          ref="div2"
+        >
+          <PasosIngredientes
+            :ingredientes="principal"
+            :anterior="1"
+            :siguiente="3"
+            :titulo="'PASO 2'"
+            :informacion="'Elige el ingrediente principal'"
+            @mostrarDiv="mostrarDiv"
+          />
         </div>
-          <PasosIngredientes :ingredientes="principal" :anterior="1" :siguiente="3"  @mostrarDiv="mostrarDiv" />
+
+        <div
+          :class="['p3', { active: divActivo === 3 }]"
+          v-if="div3"
+          ref="div3"
+        >
+          <PasosIngredientes
+            :ingredientes="acompanamiento"
+            :anterior="2"
+            :siguiente="4"
+            :titulo="'PASO 3'"
+            :informacion="'Elige el acompañamiento'"
+            @mostrarDiv="mostrarDiv"
+          />
         </div>
 
-      <div :class="['p3',{ 'active': divActivo === 3 }]" v-if="div3" ref="div3">
-        <div >
-        <h2 class="texto-pasos">PASO 3</h2>
-        <h3>Elige el acompañamiento</h3>
-      </div>
-        <PasosIngredientes :ingredientes="acompanamiento" :anterior="2" :siguiente="4"  @mostrarDiv="mostrarDiv" />
-      </div>
+        <div
+          :class="['p4', { active: divActivo === 4 }]"
+          v-if="div4"
+          ref="div4"
+        >
+          <PasosIngredientes
+            :ingredientes="condimentos"
+            :anterior="3"
+            :siguiente="5"
+            :titulo="'PASO 4'"
+            :informacion="'Elige los condimentos'"
+            @mostrarDiv="mostrarDiv"
+          />
+        </div>
 
-      <div :class="['p4',{ 'active': divActivo === 4 }]" v-if="div4" ref="div4">
-        <div>
-        <h2 class="texto-pasos">PASO 4</h2>
-        <h3>Elige los condimentos para hacer la receta</h3>
-      </div>
-        <PasosIngredientes :ingredientes="condimentos" :anterior="3" :siguiente="5"  @mostrarDiv="mostrarDiv" />
-      </div>
-
-      <div  :class="['p5', { 'active': divActivo === 5 }]" v-if="div5" ref="div5">
-        <div>
-        <h2 class="texto-pasos" >PASO 5</h2>
-        <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
-        <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
-      </div>
-        <div class="descripcion">
-          <textarea v-model="descripcion"></textarea>
-          <div class="contenedor-botones">
-            <button @click="mostrarDiv(4)">ANTERIOR</button>
-            <button @click="resultado">FINALIZAR</button>
-          </div>
+        <div
+          :class="['p5', { active: divActivo === 5 }]"
+          v-if="div5"
+          ref="div5"
+        >
+          <QuintoPaso
+            @textoDescripcion="ActualizarDescripcion"
+            @mostrarDiv="mostrarDiv"
+            @resultado="resultado"
+          />
         </div>
       </div>
-    </div>
 
-    <div v-if="mostrarPanelIngredientes">
-      <div class="panel">
-        <PanelIngredientes @ingredienteSeleccionado="agregarIngrediente" ref="panelIngredientesRef" />
+      <div v-if="mostrarPanelIngredientes">
+        <div class="panel">
+          <PanelIngredientes
+            @ingredienteSeleccionado="agregarIngrediente"
+            ref="panelIngredientesRef"
+          />
+        </div>
       </div>
-    </div>
-    <div class="resumen" v-if="mostrarResumen">
-      <h2>Resumen de la Receta</h2>
-      <h3>Para {{ numeroDePersonas }} {{ numeroDePersonas === 1 ? 'persona' : 'personas' }}</h3>
-      <h3>Principal</h3>
-      <div class="listaIngredientes">
-        <ol>
-          <li v-for="ingrediente in principal" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
-        ingrediente.cantidad
-      }} Grs</li>
-        </ol>
-      </div>
-      <h3>Acompañamiento</h3>
-      <div class="listaIngredientes">
-        <ol>
-          <li v-for="ingrediente in acompanamiento" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
-        ingrediente.cantidad }} Grs</li>
-        </ol>
-      </div>
-      <h3>Condimentos</h3>
-      <div class="listaIngredientes">
-        <ol>
-          <li v-for="ingrediente in condimentos" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
-        ingrediente.cantidad }} Grs</li>
-        </ol>
-      </div>
-      <h3><strong>Descripción:</strong></h3>
-      <pre class="descripcionFinal">{{ descripcion }}</pre>
-      <div class="textoFinal">
-        <h3>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h3>
-        <h3>Agrega un nombre a tu receta</h3>
-        <input type="text" v-model="nombreReceta" />
-        <button @click="agregarReceta()">AGREGAR A LA LISTA DE LA COMPRA</button>
+
+      <div class="resumen" v-if="mostrarResumen">
+        <ResumenReceta
+          :numeroDePersonas="numeroDePersonas"
+          :principal="principal"
+          :acompanamiento="acompanamiento"
+          :condimentos="condimentos"
+          :descripcion="descripcion"
+          @agregarReceta="agregarReceta"
+          @actualizarNombreReceta="actualizarNombreReceta"
+        />
       </div>
     </div>
   </div>
+  <div>
+    <VentanaToast :verToast="verToast" :mensajeToast="mensajeToast" />
   </div>
-<div>
-  <VentanaToast :verToast="verToast" :mensajeToast="mensajeToast" />
-</div>
 </template>
 
 <style scoped>
@@ -273,7 +281,7 @@ function agregarReceta() {
 
 .indice {
   margin: none;
-  position:sticky;
+  position: sticky;
   top: 0;
   right: 0;
   height: 50px;
@@ -282,7 +290,6 @@ function agregarReceta() {
   align-items: center;
   justify-content: start;
 }
-
 
 .recetas-usuario-view {
   width: 100%;
@@ -312,12 +319,12 @@ function agregarReceta() {
   margin: 50px;
 }
 
-.explicacion .btn{
-  background-color:#2c3e50;
+.explicacion .btn {
+  background-color: #2c3e50;
   color: white;
   padding: 20px;
   border-radius: 5px;
-  border:none;
+  border: none;
   font-size: 1.5rem;
 }
 
@@ -345,7 +352,7 @@ function agregarReceta() {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  border-radius: 20%;
+  border-radius: 20px;
   padding: 30px;
   min-height: 300px;
   margin: 10px;
@@ -356,7 +363,7 @@ function agregarReceta() {
   display: flex;
   flex-direction: column;
   align-items: center;
-margin: 20px;
+  margin: 20px;
 }
 
 .p1 {
@@ -377,7 +384,6 @@ margin: 20px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
 }
 
 .numero-personas input {
@@ -401,11 +407,11 @@ margin: 20px;
 }
 
 .p1 .btn {
-  background-color:#2c3e50;
+  background-color: #2c3e50;
   color: white;
   padding: 10px;
   border-radius: 5px;
-  border:none;
+  border: none;
   margin: 10px;
 }
 
@@ -450,7 +456,6 @@ margin: 20px;
   font-size: 1rem;
 }
 
-
 .panel {
   position: fixed;
   top: 30%;
@@ -467,7 +472,7 @@ margin: 20px;
   top: 25%;
   right: 8%;
   width: 40%;
-  max-height: 630px;
+  max-height: 700px;
   /* Limita la altura máxima del div */
   overflow-y: auto;
   /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
@@ -479,7 +484,7 @@ margin: 20px;
   gap: 5px;
   padding: 5px;
   background-color: #ffa9fb;
-  border-radius: 20%;
+  border-radius: 20px;
   margin-bottom: 150px;
 }
 
@@ -509,5 +514,4 @@ margin: 20px;
   background-color: #ffffff;
   color: #63235f;
 }
-
 </style>
