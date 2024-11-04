@@ -27,13 +27,23 @@ defineEmits(['mostrarDiv'])
             </ol>
           </div>
           <div class="contenedor-botones">
-            <button  class="btn" @click="$emit('mostrarDiv', anterior)">ANTERIOR</button>
-            <button  class="btn" @click="$emit('mostrarDiv', siguiente)">SIGUIENTE</button>
+            <button  class="btn" @click.prevent.stop="$emit('mostrarDiv', anterior)">ANTERIOR</button>
+            <button  class="btn" @click.prevent.stop="$emit('mostrarDiv', siguiente)">SIGUIENTE</button>
         </div>
       </div>
 </template>
 
 <style scoped>
+
+h2 {
+  margin: 2px;
+  text-align: center;
+}
+
+h3 {
+  margin: 2px;
+  text-align: center;
+}
 
 .contenedor-botones{
   width: 100%;

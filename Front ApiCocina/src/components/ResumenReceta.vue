@@ -58,6 +58,50 @@ watch(nombreReceta, (value) => {
     <h3>¿QUIERES PASAR TU RECETA A LA LISTA DE LA COMPRA?</h3>
     <h3>Agrega un nombre a tu receta</h3>
     <input type="text" v-model="nombreReceta" />
-    <button @click="$emit('agregarReceta')">AGREGAR A LA LISTA DE LA COMPRA</button>
+    <button class="btn" @click="$emit('agregarReceta')">AGREGAR A LA LISTA DE LA COMPRA</button>
   </div>
 </template>
+
+<style scoped>
+
+.descripcionFinal {
+  font-size: 1rem;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.active {
+  border: #2c3e50 3px solid;
+}
+
+.textoFinal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.textoFinal input {
+  width: 50%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  color: #63235f;
+}
+
+.btn {
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin: 10px;
+}
+
+.btn:hover {
+  background-color: rgb(51, 102, 255);
+  color: white;
+}
+</style>

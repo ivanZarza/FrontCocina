@@ -33,6 +33,17 @@ watch (numeroDePersonas, (value) => {
 </template>
 
 <style scoped>
+
+h2 {
+  margin: 2px;
+  text-align: center;
+}
+
+h3 {
+  margin: 3px;
+  text-align: center;
+}
+
 .numero-personas {
   display: flex;
   flex-direction: column;

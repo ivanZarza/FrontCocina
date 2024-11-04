@@ -13,7 +13,7 @@ import {
   cantidadCondimento,
   dividirPorCantidadDeIngredientes,
 } from "./../helpers/cantidades.helper";
-import { ref, nextTick } from "vue";
+import { ref, nextTick, watch } from "vue";
 
 const numeroDePersonas = ref(1);
 const principal = ref([]);
@@ -23,11 +23,11 @@ const descripcion = ref("");
 const nombreReceta = ref("");
 const explicacion = ref(true);
 
-const div1 = ref(false);
-const div2 = ref(false);
-const div3 = ref(false);
-const div4 = ref(false);
-const div5 = ref(false);
+const div1 = ref(null);
+const div2 = ref(null);
+const div3 = ref(null);
+const div4 = ref(null);
+const div5 = ref(null);
 
 const divActivo = ref(0);
 
@@ -66,6 +66,21 @@ function llamarLimpiarPanel() {
   }
 }
 
+const currentStep = ref(null);
+const availableSteps = ref(0);
+const pasosEl = ref(null);
+
+watch(currentStep, (value) => {
+  console.log("currentStep", {value, pasosEl}, pasosEl?.value.children[value - 1]);
+
+  nextTick(() => {
+    pasosEl?.value.children[value - 1]?.scrollIntoView({
+      behavior: "smooth", block: "center"
+    })
+    llamarLimpiarPanel()
+  });
+});
+
 const divMap = {
   1: div1,
   2: div2,
@@ -74,7 +89,12 @@ const divMap = {
   5: div5,
 };
 
-function mostrarDiv(numero) {
+function mostrarDiv (numero) {
+  currentStep.value = numero;
+  if (numero > availableSteps.value) {
+    availableSteps.value = numero;
+  }
+
   divActivo.value = numero;
 
   if (numero === 1) {
@@ -86,7 +106,7 @@ function mostrarDiv(numero) {
     div.value = true;
     nextTick(() => {
       mostrarPanelIngredientes.value = true;
-      div.value.scrollIntoView({ behavior: "smooth", block: "center" });
+      // div.value.scrollIntoView({ behavior: "smooth", block: "center" });
       llamarLimpiarPanel();
     });
   }
@@ -149,7 +169,7 @@ function agregarReceta() {
   mostrarToast("Receta añadida a la lista de la compra");
   setTimeout(() => {
     window.location.reload();
-  }, 2100);
+  }, 2000);
 }
 </script>
 
@@ -157,12 +177,8 @@ function agregarReceta() {
   <div class="recetas-usuario-view">
     <div class="indice">
       <IndicePasos
-        :div1="true"
-        :div2="true"
-        :div3="true"
-        :div4="true"
-        :div5="true"
-        :divActivo="divActivo"
+        :divsDisponibles="availableSteps"
+        :divActivo="currentStep"
         @mostrarDiv="mostrarDiv"
       />
     </div>
@@ -172,11 +188,11 @@ function agregarReceta() {
     </div>
 
     <div class="contenedor">
-      <div class="pasos">
+      <div class="pasos" ref="pasosEl">
         <div
           :class="['p1', { active: divActivo === 1 }]"
-          v-if="div1"
-          ref="div1"
+          v-if="availableSteps >= 1"
+          @click="mostrarDiv(1)"
         >
           <PrimerPaso
             :numeroDePersonas="numeroDePersonas"
@@ -187,8 +203,8 @@ function agregarReceta() {
 
         <div
           :class="['p2', { active: divActivo === 2 }]"
-          v-if="div2"
-          ref="div2"
+          v-if="availableSteps >= 2"
+          @click="mostrarDiv(2)"
         >
           <PasosIngredientes
             :ingredientes="principal"
@@ -202,8 +218,8 @@ function agregarReceta() {
 
         <div
           :class="['p3', { active: divActivo === 3 }]"
-          v-if="div3"
-          ref="div3"
+          v-if="availableSteps >= 3"
+          @click="mostrarDiv(3)"
         >
           <PasosIngredientes
             :ingredientes="acompanamiento"
@@ -217,8 +233,8 @@ function agregarReceta() {
 
         <div
           :class="['p4', { active: divActivo === 4 }]"
-          v-if="div4"
-          ref="div4"
+          v-if="availableSteps >= 4"
+          @click="mostrarDiv(4)"
         >
           <PasosIngredientes
             :ingredientes="condimentos"
@@ -232,8 +248,8 @@ function agregarReceta() {
 
         <div
           :class="['p5', { active: divActivo === 5 }]"
-          v-if="div5"
-          ref="div5"
+          v-if="availableSteps >= 5"
+          @click="mostrarDiv(5)"
         >
           <QuintoPaso
             @textoDescripcion="ActualizarDescripcion"
@@ -243,7 +259,7 @@ function agregarReceta() {
         </div>
       </div>
 
-      <div v-if="mostrarPanelIngredientes">
+      <div v-if="currentStep >= 1 && currentStep < 5">
         <div class="panel">
           <PanelIngredientes
             @ingredienteSeleccionado="agregarIngrediente"
@@ -251,8 +267,7 @@ function agregarReceta() {
           />
         </div>
       </div>
-
-      <div class="resumen" v-if="mostrarResumen">
+      <div class="resumen" v-else-if="currentStep >= 5">
         <ResumenReceta
           :numeroDePersonas="numeroDePersonas"
           :principal="principal"
@@ -263,6 +278,9 @@ function agregarReceta() {
           @actualizarNombreReceta="actualizarNombreReceta"
         />
       </div>
+      
+
+      
     </div>
   </div>
   <div>
@@ -295,7 +313,7 @@ function agregarReceta() {
   width: 100%;
   min-height: 200vh;
   text-align: center;
-  background-color: #ffffbe;
+  background-color: var(--color-amarillo);
 }
 
 .contenedor {
@@ -351,40 +369,15 @@ function agregarReceta() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   border-radius: 20px;
   padding: 30px;
   min-height: 300px;
   margin: 10px;
   gap: 10px;
+  background-color: var(--color-azul);
 }
 
-.texto-pasos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
-}
-
-.p1 {
-  background-color: lightblue;
-}
-
-.numero-personas {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.numero-personas label {
-  font-size: 1.2rem;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
 .numero-personas input {
   width: 80px;
@@ -396,64 +389,6 @@ function agregarReceta() {
   background-color: rgb(217, 243, 252);
   text-align: center;
   font-size: 2.5rem;
-}
-
-.p1 .contenedor-botones {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.p1 .btn {
-  background-color: #2c3e50;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  margin: 10px;
-}
-
-.p1 .btn:hover {
-  background-color: rgb(51, 102, 255);
-  color: white;
-}
-
-.p2 {
-  background-color: lightgreen;
-}
-
-.p3 {
-  background-color: lightcoral;
-}
-
-.p4 {
-  background-color: lightsteelblue;
-}
-
-.p5 {
-  background-color: lightseagreen;
-}
-
-.p5 .descripcion {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.p5 .descripcion textarea {
-  width: 100%;
-  height: 150px;
-  border-radius: 10px;
-  border: 1px solid #cccccc;
-  background-color: #ffa9fb;
-  margin: 10px;
-  resize: none;
-  padding: 10px;
-  font-size: 1rem;
 }
 
 .panel {
@@ -488,30 +423,8 @@ function agregarReceta() {
   margin-bottom: 150px;
 }
 
-.descripcionFinal {
-  font-size: 1rem;
-  text-align: center;
-  white-space: pre-wrap;
-}
-
 .active {
   border: #2c3e50 3px solid;
 }
 
-.textoFinal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.textoFinal input {
-  width: 50%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
-  color: #63235f;
-}
 </style>

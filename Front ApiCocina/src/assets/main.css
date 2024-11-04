@@ -1,3 +1,12 @@
+:root {
+  --color-azul: #bbd8f2;
+  --color-amarillo: #f0f38e;
+  --color-rojo: #f2cab3;
+  --color-malva: #dfc2f2;
+  --color-verde: #d4d94a;
+  --color-gris: #eee;
+}
+
 *,
 *:before,
 *:after {

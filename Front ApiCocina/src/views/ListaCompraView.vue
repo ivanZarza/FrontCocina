@@ -1,84 +1,90 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import html2pdf from 'html2pdf.js'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import html2pdf from "html2pdf.js";
 
-const recetasRecuperadas = ref([])
-const recetaSeleccionada = ref(recetasRecuperadas.value[0])
-const indiceActual = ref(0)
-const compraAgregada = ref([])
+const recetasRecuperadas = ref([]);
+const recetaSeleccionada = ref(recetasRecuperadas.value[0]);
+const indiceActual = ref(0);
+const compraAgregada = ref([]);
 const elementoAgregado = ref({
-  nombre: '',
-})
+  nombre: "",
+});
 
-const generarPDFRef = ref(null)
+const generarPDFRef = ref(null);
 
-const router = useRouter()
-recuperarRecetas()
+const router = useRouter();
+recuperarRecetas();
 
 function recuperarRecetas() {
-  recetasRecuperadas.value = JSON.parse(localStorage.getItem('recetas') || '[]') 
-  seleccionarRecetaPorIndice()
+  recetasRecuperadas.value = JSON.parse(
+    localStorage.getItem("recetas") || "[]"
+  );
+  seleccionarRecetaPorIndice();
   console.log(recetasRecuperadas.value);
 }
 
 function seleccionarReceta(receta) {
-  recetaSeleccionada.value = receta
+  recetaSeleccionada.value = receta;
 }
 
 function seleccionarRecetaPorIndice() {
   if (recetasRecuperadas.value.length > 0) {
-    recetaSeleccionada.value = recetasRecuperadas.value[indiceActual.value]
+    recetaSeleccionada.value = recetasRecuperadas.value[indiceActual.value];
   } else {
-    recetaSeleccionada.value = null
-    window.alert('No hay recetas guardadas, por favor crea una receta en la zona de RECETAS')
-    router.push({ name: 'recetas' })
+    recetaSeleccionada.value = null;
+    window.alert(
+      "No hay recetas guardadas, por favor crea una receta en la zona de RECETAS"
+    );
+    router.push({ name: "recetas" });
   }
 }
 
 function siguienteReceta() {
   if (indiceActual.value < recetasRecuperadas.value.length - 1) {
-    indiceActual.value++
-    seleccionarRecetaPorIndice()
+    indiceActual.value++;
+    seleccionarRecetaPorIndice();
   }
 }
 
 function recetaAnterior() {
   if (indiceActual.value > 0) {
-    indiceActual.value--
-    seleccionarRecetaPorIndice()
+    indiceActual.value--;
+    seleccionarRecetaPorIndice();
   }
 }
 
 function borrarReceta() {
-  const recetasFiltradas = recetasRecuperadas.value.filter(receta => receta.nombre !== recetaSeleccionada.value.nombre);
+  const recetasFiltradas = recetasRecuperadas.value.filter(
+    (receta) => receta.nombre !== recetaSeleccionada.value.nombre
+  );
   if (recetasFiltradas.length === 0) {
-    localStorage.removeItem('recetas'); // Elimina la entrada si el array está vacío
+    localStorage.removeItem("recetas"); // Elimina la entrada si el array está vacío
   } else {
-    localStorage.setItem('recetas', JSON.stringify(recetasFiltradas)); // Guarda el array filtrado si no está vacío
+    localStorage.setItem("recetas", JSON.stringify(recetasFiltradas)); // Guarda el array filtrado si no está vacío
   }
   recuperarRecetas();
   recetaSeleccionada.value = null;
 }
 
 function borrarTodasLasRecetas() {
-  localStorage.removeItem('recetas');
+  localStorage.removeItem("recetas");
   recuperarRecetas();
   recetaSeleccionada.value = null;
-  router.push({ name: 'recetas' })
+  router.push({ name: "recetas" });
 }
 
-//explica que hace la funcion extraerIngredientes y la ejecuta con las recetas recuperadas del localStorage 
+//explica que hace la funcion extraerIngredientes y la ejecuta con las recetas recuperadas del localStorage
 //extrae los ingredientes de las recetas y los guarda en un array de objetos con la cantidad total de cada ingrediente
 //con la cantidad total de cada ingrediente que se necesita para todas las recetas
 
 function extraerIngredientes(recetas) {
   const ingredientesMap = {};
 
-  recetas.forEach(receta => {
-    ['principal', 'acompañamiento', 'condimentos'].forEach(seccion => {
+  recetas.forEach((receta) => {
+    ["principal", "acompañamiento", "condimentos"].forEach((seccion) => {
       if (receta[seccion]) {
-        receta[seccion].forEach(ingrediente => {
+        receta[seccion].forEach((ingrediente) => {
           const clave = ingrediente.nombre;
           if (!ingredientesMap[clave]) {
             ingredientesMap[clave] = {
@@ -87,7 +93,7 @@ function extraerIngredientes(recetas) {
               tipo: ingrediente.tipo,
               principal: ingrediente.principal,
               acompañamiento: ingrediente.acompañamiento,
-              condimento: ingrediente.condimento
+              condimento: ingrediente.condimento,
             };
           } else {
             ingredientesMap[clave].cantidad += ingrediente.cantidad;
@@ -103,33 +109,31 @@ function extraerIngredientes(recetas) {
 
 const todosLosIngredientes = extraerIngredientes(recetasRecuperadas.value);
 
-
 function agregarAListaDeCompra() {
-  compraAgregada.value.push({ ...elementoAgregado.value })
+  compraAgregada.value.push({ ...elementoAgregado.value });
   elementoAgregado.value = {
-    nombre: '',
+    nombre: "",
     cantidad: 0,
-  }
+  };
 }
 
 function borraRCompraAgregada() {
-  compraAgregada.value = []
+  compraAgregada.value = [];
 }
 
 const generarPDF = () => {
   const options = {
     margin: 1,
-    filename: 'lista-de-compras.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
+    filename: "lista-de-compras.pdf",
+    image: { type: "jpeg", quality: 0.98 },
     html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-  }
+    jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+  };
 
   if (generarPDFRef.value) {
     html2pdf().set(options).from(generarPDFRef.value).save();
   }
-}
-
+};
 </script>
 
 <template>
@@ -138,75 +142,128 @@ const generarPDF = () => {
       <button @click="seleccionarReceta(receta)">{{ receta.nombre }}</button>
     </div>
   </div>
+
   <div v-if="recetaSeleccionada" class="container">
     <div class="resumen">
+
       <div class="pag">
         <button @click="recetaAnterior">RECETA ANTERIOR</button>
         <button @click="siguienteReceta">SIGUIENTE RECETA</button>
       </div>
-      <h1>Receta: {{ recetaSeleccionada.nombre }}</h1>
-      <h2>Para {{ recetaSeleccionada.numeroDePersonas }} {{ recetaSeleccionada.numeroDePersonas === 1 ? 'persona' :
-      'personas' }}</h2>
-      <h2>Principal</h2>
-      <div class="listaIngredientes">
-        <ol>
-          <li v-for="ingrediente in recetaSeleccionada.principal" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
-      ingrediente.cantidad
-    }} Grs</li>
-        </ol>
+
+      <div class="datosRecetas">
+        <div class="cabezeraResumen">
+        <h1>Receta: {{ recetaSeleccionada.nombre }}</h1>
+        <h2>
+          Para {{ recetaSeleccionada.numeroDePersonas }}
+          {{
+            recetaSeleccionada.numeroDePersonas === 1 ? "persona" : "personas"
+          }}
+        </h2>
       </div>
-      <h2>Acompañamiento</h2>
-      <div class="listaIngredientes">
-        <ol>
-          <li v-for="ingrediente in recetaSeleccionada.acompanamiento" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
-      ingrediente.cantidad }} Grs</li>
-        </ol>
+
+      <div class="pasosResumen">
+        <h2>Principal</h2>
+        <div class="listaIngredientes">
+          <ol>
+            <li
+              v-for="ingrediente in recetaSeleccionada.principal"
+              :key="ingrediente.id"
+            >
+              {{ ingrediente.nombre }} - {{ ingrediente.cantidad }} Grs
+            </li>
+          </ol>
+        </div>
       </div>
-      <h2>Condimentos</h2>
-      <div class="listaIngredientes">
-        <ol>
-          <li v-for="ingrediente in recetaSeleccionada.condimentos" :key="ingrediente.id">{{ ingrediente.nombre }} - {{
-      ingrediente.cantidad }} Grs</li>
-        </ol>
+      <div class="pasosResumen">
+        <h2>Acompañamiento</h2>
+        <div class="listaIngredientes">
+          <ol>
+            <li
+              v-for="ingrediente in recetaSeleccionada.acompanamiento"
+              :key="ingrediente.id"
+            >
+              {{ ingrediente.nombre }} - {{ ingrediente.cantidad }} Grs
+            </li>
+          </ol>
+        </div>
       </div>
-      <h2><strong>Descripción:</strong></h2>
-      <pre class="descripcionFinal">{{ recetaSeleccionada.descripcion }}</pre>
+
+      <div class="pasosResumen">
+        <h2>Condimentos</h2>
+        <div class="listaIngredientes">
+          <ol>
+            <li
+              v-for="ingrediente in recetaSeleccionada.condimentos"
+              :key="ingrediente.id"
+            >
+              {{ ingrediente.nombre }} - {{ ingrediente.cantidad }} Grs
+            </li>
+          </ol>
+        </div>
+      </div>
+      
+      <div class="pieResumen">
+        <h2><strong>Descripción:</strong></h2>
+        <pre class="descripcionFinal">{{ recetaSeleccionada.descripcion }}</pre>
+      </div>
+    </div>
+
       <div class="borrar">
         <button @click="borrarReceta">BORRAR RECETA SELECCIONADA</button>
         <button @click="borrarTodasLasRecetas">BORRAR TODAS LAS RECETAS</button>
       </div>
     </div>
+
     <div class="listaFinal">
       <div class="PDF" ref="generarPDFRef">
-        <h2>Estas son las cantidades de ingredientes que tienes que comprar para las recetas que has creado:</h2>
+        <h2>
+          Estas son las cantidades de ingredientes que tienes que comprar para
+          las recetas que has creado:
+        </h2>
         <div class="ingredientesFinales">
           <ul>
-            <li v-for="ingrediente in todosLosIngredientes" :key="ingrediente.nombre">{{ ingrediente.nombre }} - {{
-      ingrediente.cantidad }} Grs</li>
+            <li
+              v-for="ingrediente in todosLosIngredientes"
+              :key="ingrediente.nombre"
+            >
+              {{ ingrediente.nombre }} - {{ ingrediente.cantidad }} Grs
+            </li>
           </ul>
         </div>
+
         <div v-if="compraAgregada.length > 0" class="compraAñadida">
           <h2>Estos son los productos que añadiste</h2>
           <div class="ingredientesAñadidos">
             <ul>
-              <li v-for="producto in compraAgregada" :key="producto.nombre">{{ producto.nombre }} </li>
+              <li v-for="producto in compraAgregada" :key="producto.nombre">
+                {{ producto.nombre }}
+              </li>
             </ul>
           </div>
         </div>
       </div>
-      <h2>Puedes agregar productos a la lista de la compra</h2>
-      <div class="agregarCompra">
-        <input type="text" v-model="elementoAgregado.nombre" placeholder="Nombre del producto">
-        <button @click="agregarAListaDeCompra">Agregar a la lista de la compra</button>
-        <button @click="borraRCompraAgregada">BORRAR COMPRA AGREGADA</button>
+
+      <div class="compraAñadida">
+        <h2>Puedes agregar productos a la lista de la compra</h2>
+        <div class="agregarCompra">
+          <input
+            type="text"
+            v-model="elementoAgregado.nombre"
+            placeholder="Nombre del producto"
+          />
+          <button @click="agregarAListaDeCompra">
+            Agregar a la lista de la compra
+          </button>
+          <button @click="borraRCompraAgregada">BORRAR COMPRA AGREGADA</button>
+        </div>
       </div>
+
       <div class="btnPdf">
         <button @click="generarPDF">Generar PDF</button>
       </div>
     </div>
   </div>
-
-
 </template>
 
 <style scoped>
@@ -249,7 +306,6 @@ const generarPDF = () => {
   align-items: start;
   justify-content: space-around;
   background-color: darkcyan;
-
 }
 
 .resumen {
@@ -266,7 +322,6 @@ const generarPDF = () => {
   font-size: 0.9rem;
   margin: 20px;
   gap: 10px;
-
 }
 
 .resumen .pag {
@@ -351,7 +406,6 @@ const generarPDF = () => {
 }
 
 .ingredientesFinales ul {
-
   list-style-type: none;
 }
 
@@ -382,7 +436,6 @@ const generarPDF = () => {
   column-width: 200px;
   column-gap: 20px;
 }
-
 
 .ingredientesAñadidos ul {
   list-style-type: none;

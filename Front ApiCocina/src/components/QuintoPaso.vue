@@ -32,6 +32,16 @@ watch(descripcion, (value) => {
 
 <style scoped>
 
+h2 {
+  margin: 2px;
+  text-align: center;
+}
+
+h3 {
+  margin: 3px;
+  text-align: center;
+}
+
 .descripcion {
   width: 100%;
   display: flex;
