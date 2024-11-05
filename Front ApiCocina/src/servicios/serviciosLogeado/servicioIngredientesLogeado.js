@@ -1,5 +1,9 @@
 import { ref } from 'vue'
 
+const {
+  VITE_API_URL,
+} = import.meta.env
+
 class ServicioIngredientesLogeado {
   constructor() {
     this.ingredientesUsuario = ref([])
@@ -7,7 +11,7 @@ class ServicioIngredientesLogeado {
 
 
   async cargarIngredientesLogeado({ nombre = null, tipo = null, pagina = null } = {}) {
-    const url = new URL('http://localhost:3000/api/listadelacompra/me/ingredientes')
+    const url = new URL(`${VITE_API_URL}/api/listadelacompra/me/ingredientes`)
 
     if (nombre) {
       url.searchParams.append('nombre', nombre)
@@ -30,7 +34,7 @@ class ServicioIngredientesLogeado {
   }
 
   async agregarIngredienteUsuario(nuevoIngrediente) {
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/ingredientes`, {
+    const response = await fetch(`${VITE_API_URL}/api/listadelacompra/me/ingredientes`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -54,7 +58,7 @@ class ServicioIngredientesLogeado {
   }
 
   async borrarIngredienteUsuario() {
-    await fetch(`http://localhost:3000/api/listadelacompra/me/ingredientes`, {
+    await fetch(`${VITE_API_URL}/api/listadelacompra/me/ingredientes`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {

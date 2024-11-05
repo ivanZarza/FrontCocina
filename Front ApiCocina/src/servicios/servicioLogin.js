@@ -1,6 +1,10 @@
 import { error } from 'toastr';
 import { ref } from 'vue'
 
+const {
+  VITE_API_URL,
+} = import.meta.env
+
 class ServicioLogin {
   constructor() {
     this.datosLogin = ref({})
@@ -10,7 +14,7 @@ class ServicioLogin {
     try {
       console.log('loginUsuario', { nombre,apellidos, contraseña })
 
-      const response = await fetch('http://localhost:3000/api/listadelacompra/login', {
+      const response = await fetch(`${VITE_API_URL}/api/listadelacompra/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

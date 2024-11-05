@@ -1,5 +1,9 @@
 import { ref } from "vue"
 
+const {
+  VITE_API_URL,
+} = import.meta.env;
+
 class ServicioUsuario {
   constructor() {
     this.usuario = ref([])
@@ -7,7 +11,7 @@ class ServicioUsuario {
 
   async obtenerUsuario() {
 
-    const response = await fetch('http://localhost:3000/api/listadelacompra/me', {
+    const response = await fetch(`${VITE_API_URL}/api/listadelacompra/me`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -26,7 +30,7 @@ class ServicioUsuario {
 
   async actualizarUsuario({nombre, apellidos, contraseña }) {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me`, {
+    const response = await fetch(`${VITE_API_URL}/api/listadelacompra/me`, {
       method: 'PUT',
       credentials: 'include',
       headers: {
@@ -50,7 +54,7 @@ class ServicioUsuario {
 
   async eliminarUsuario() {
 
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me`, {
+    const response = await fetch(`${VITE_API_URL}/api/listadelacompra/me`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {

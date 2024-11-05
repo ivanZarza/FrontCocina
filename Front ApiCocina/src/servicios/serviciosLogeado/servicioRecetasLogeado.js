@@ -1,5 +1,9 @@
 import { ref } from "vue"
 
+const {
+  VITE_API_URL,
+} = import.meta.env;
+
 class ServicioRecetasLogeado {
   constructor() {
     this.recetasUsuario = ref([])
@@ -7,7 +11,7 @@ class ServicioRecetasLogeado {
   }
 
   async obtenerRecetasUsuario() {
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/recetas`,{
+    const response = await fetch(`${VITE_API_URL}/api/listadelacompra/me/recetas`,{
       credentials: 'include',
     })
     const data = await response.json()
@@ -17,7 +21,7 @@ class ServicioRecetasLogeado {
   async guardarRecetaUsuario(recetaJson) {
     try {
       // Corrección de la URL para eliminar el doble slash
-      const url = new URL(`http://localhost:3000/api/listadelacompra/me/recetas`);
+      const url = new URL(`${VITE_API_URL}/api/listadelacompra/me/recetas`);
   
       const response = await fetch(url, {
         method: 'POST',
@@ -46,7 +50,7 @@ class ServicioRecetasLogeado {
 
 
   async borrarRecetaUsuario(recetaId) {
-    const response = await fetch(`http://localhost:3000/api/listadelacompra/me/recetas/${recetaId}`, {
+    const response = await fetch(`${VITE_API_URL}/api/listadelacompra/me/recetas/${recetaId}`, {
       method: 'DELETE',
       credentials: 'include',
     })

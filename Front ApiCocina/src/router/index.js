@@ -18,11 +18,11 @@ const router = createRouter({
       name: 'ingredientes',
       component: () => import('../views/TodosIngredientesView.vue')
     },
-    {
-      path: '/ingredientes/tipo',
-      name: 'tipos',
-      component: () => import('../views/PorTipoView.vue')
-    },
+    // {
+    //   path: '/ingredientes/tipo',
+    //   name: 'tipos',
+    //   component: () => import('../views/PorTipoView.vue')
+    // },
     {
       path: '/ingredientes/panel',
       name: 'panel',

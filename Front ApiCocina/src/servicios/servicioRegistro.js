@@ -1,5 +1,11 @@
 import { ref } from 'vue'
 
+const {
+  VITE_API_URL,
+} = import.meta.env
+
+// const VITE_API_URL = import.meta.env.VITE_API_URL
+
 export class ServicioRegistro {
   constructor() {
     this.registros = ref([])
@@ -8,7 +14,7 @@ export class ServicioRegistro {
   async registrarUsuario({ nombre, apellidos, contraseña }) {
     try{
 
-    const response = await fetch('http://localhost:3000/api/listadelacompra/registro', {
+    const response = await fetch(`${VITE_API_URL}/api/listadelacompra/registro`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

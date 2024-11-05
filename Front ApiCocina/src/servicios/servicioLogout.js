@@ -1,9 +1,13 @@
 
+const {
+  VITE_API_URL,
+} = import.meta.env
+
 export class ServicioLogout {
 
   async logoutUsuario(){
     try {
-      const response = await fetch('http://localhost:3000/api/listadelacompra/logout', {
+      const response = await fetch(`${VITE_API_URL}/api/listadelacompra/logout`, {
         method: 'POST',
         credentials: 'include'
       });

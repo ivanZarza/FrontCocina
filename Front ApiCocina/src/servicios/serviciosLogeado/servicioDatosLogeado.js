@@ -1,5 +1,9 @@
 import { ref } from 'vue';
 
+const {
+  VITE_API_URL,
+} = import.meta.env;
+
 export class ServicioDatosUsuario {
   constructor() {
     this.datosUsuario = ref([]);
@@ -9,7 +13,7 @@ export class ServicioDatosUsuario {
 
   async obtenerDatosUsuario() {
     try {
-      const response = await fetch('http://localhost:3000/api/listadelacompra/me/datos', {
+      const response = await fetch(`${VITE_API_URL}/api/listadelacompra/me/datos`, {
         credentials: 'include',
       })
 

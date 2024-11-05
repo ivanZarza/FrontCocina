@@ -1,5 +1,9 @@
 import { ref } from "vue"
 
+const {
+  VITE_API_URL,
+} = import.meta.env;
+
 export default class ServicioIngredientes {
   constructor() {
     this.ingredientes = ref([])
@@ -8,7 +12,7 @@ export default class ServicioIngredientes {
 
   }
   async cargarIngredientes({ nombre = null, tipo = null, pagina = null } = {}) {
-    const url = new URL('http://localhost:3000/api/listadelacompra/ingredientes')
+    const url = new URL(`${VITE_API_URL}/api/listadelacompra/ingredientes`)
 
     if (nombre) {
       url.searchParams.append('nombre', nombre)
@@ -29,20 +33,20 @@ export default class ServicioIngredientes {
   }
 
   async cargarTipos() {
-    const response = await fetch('http://localhost:3000/api/listadelacompra/ingredientes/tipo', )
+    const response = await fetch(`${VITE_API_URL}/api/listadelacompra/ingredientes/tipo`, )
     const data = await response.json()
     this.tipos.value = data
   }
 
   async cargarPorTipo(tipo) {
-    const response = await fetch(`http://localhost:3000/ingredientes/tipo/${tipo}`)
+    const response = await fetch(`${VITE_API_URL}/ingredientes/tipo/${tipo}`)
     const data = await response.json()
     this.porTipo.value = data
   }
 
 
   async agregarIngrediente(ingrediente) {
-    const response = await fetch('http://localhost:3000/ingredientes', {
+    const response = await fetch(`${VITE_API_URL}/ingredientes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -53,14 +57,14 @@ export default class ServicioIngredientes {
   }
 
   async eliminarIngrediente(id) {
-    await fetch(`http://localhost:3000/ingredientes/${id}`, {
+    await fetch(`${VITE_API_URL}/ingredientes/${id}`, {
       method: 'DELETE'
     })
     this.ingredientes.value = this.ingredientes.value.filter(ingrediente => ingrediente.id !== id)
   }
 
   async actualizarIngrediente(ingrediente) {
-    await fetch(`http://localhost:3000/ingredientes/${ingrediente.id}`, {
+    await fetch(`${VITE_API_URL}/ingredientes/${ingrediente.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
