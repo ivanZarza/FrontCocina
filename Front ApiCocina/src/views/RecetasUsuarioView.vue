@@ -311,7 +311,6 @@ function agregarReceta() {
 
 .recetas-usuario-view {
   width: 100%;
-  min-height: 200vh;
   text-align: center;
   background-color: var(--color-amarillo);
 }
@@ -357,6 +356,7 @@ function agregarReceta() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 400px;
 }
 
 .p1,
@@ -364,19 +364,21 @@ function agregarReceta() {
 .p3,
 .p4,
 .p5 {
-  height: 80%;
-  width: 70%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   border-radius: 20px;
-  padding: 30px;
-  min-height: 300px;
+  padding: 10px;
+  min-height: 100px;
   margin: 10px;
   gap: 10px;
   background-color: var(--color-azul);
-}
+  cursor: pointer;
+  overflow: hidden;
+/*   max-height: 150px; /* Altura cuando no está activo */
+} 
 
 
 .numero-personas input {
@@ -403,11 +405,10 @@ function agregarReceta() {
 }
 
 .resumen {
-  position: fixed;
-  top: 25%;
+  position: sticky;
+  top: 15%;
   right: 8%;
   width: 40%;
-  max-height: 700px;
   /* Limita la altura máxima del div */
   overflow-y: auto;
   /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
@@ -418,13 +419,15 @@ function agregarReceta() {
   /* Cambiado de center a flex-start para manejar mejor el contenido cuando se desborda */
   gap: 5px;
   padding: 5px;
-  background-color: #ffa9fb;
+  background-color: var(--color-verde);
   border-radius: 20px;
   margin-bottom: 150px;
 }
 
 .active {
   border: #2c3e50 3px solid;
+  width: 50%;
+  min-height: 300px;
 }
 
 </style>

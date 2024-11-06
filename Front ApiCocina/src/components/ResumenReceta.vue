@@ -64,6 +64,10 @@ watch(nombreReceta, (value) => {
 
 <style scoped>
 
+*  {
+  margin: 3px;
+}
+
 .descripcionFinal {
   font-size: 1rem;
   text-align: center;

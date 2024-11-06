@@ -281,7 +281,6 @@ const generarPDF = () => {
   flex-direction: row;
   justify-content: center;
   gap: 10px;
-  background-color: darkcyan;
 }
 
 .pagRecetas button {
@@ -305,7 +304,6 @@ const generarPDF = () => {
   flex-direction: row;
   align-items: start;
   justify-content: space-around;
-  background-color: darkcyan;
 }
 
 .resumen {

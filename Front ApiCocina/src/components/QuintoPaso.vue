@@ -19,7 +19,6 @@ watch(descripcion, (value) => {
   <div>
     <h2 class="texto-pasos">PASO 5</h2>
     <h3>Finaliza la receta escribiendo una descripcion si es necesario</h3>
-    <h3>¿Qué tal si compartes tu receta con la comunidad?</h3>
   </div>
   <div class="descripcion">
     <textarea v-model="descripcion"></textarea>
@@ -55,7 +54,7 @@ textarea {
   max-height: 150px;
   border-radius: 10px;
   border: 1px solid #cccccc;
-  background-color: #ffa9fb;
+  background-color: #eee;
   margin: 10px;
   resize: none;
   padding: 10px;

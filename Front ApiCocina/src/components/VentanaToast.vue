@@ -29,13 +29,13 @@ const props=defineProps({
     position: fixed;
     top: 50px;
     right: 50px;
-    min-width: 200px;
-    background-color: #727272;
+    width: 300px;
+    background-color: #858585;
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    border-radius: 30px;
+    border-radius: 20px;
   }
 
   .toast.visible {
@@ -51,8 +51,7 @@ const props=defineProps({
 
   h2 {
     color: white;
-    background-color: #727272;
-    padding: 10px;
+    padding: 0px 10px;
     border-radius: 5px;
     right: 0;
   }

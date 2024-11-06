@@ -26,17 +26,18 @@ defineEmits(['mostrarDiv'])
               </li>
             </ol>
           </div>
+        </div>
           <div class="contenedor-botones">
             <button  class="btn" @click.prevent.stop="$emit('mostrarDiv', anterior)">ANTERIOR</button>
             <button  class="btn" @click.prevent.stop="$emit('mostrarDiv', siguiente)">SIGUIENTE</button>
         </div>
-      </div>
 </template>
 
 <style scoped>
 
+
 h2 {
-  margin: 2px;
+
   text-align: center;
 }
 
@@ -49,7 +50,7 @@ h3 {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 

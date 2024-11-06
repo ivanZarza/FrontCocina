@@ -83,13 +83,13 @@ function limpiarPanel() {
       <div class="buscador">
         <input type="search" v-model="nombre" placeholder="Busca por una palabra">
       </div>
-      <button @click.prevent="lanzarBusqueda">Buscar</button>
+      <button class="btn" @click.prevent="lanzarBusqueda">Buscar</button>
     </form>
   </div>
   <div class="paginacion">
-    <button @click="paginaAnterior" :disabled="pagina === 1">Anterior</button>
+    <button class="btn" @click="paginaAnterior" :disabled="pagina === 1">Anterior</button>
     <span>Página {{ pagina }}</span>
-    <button @click="paginaSiguiente">Siguiente</button>
+    <button class="btn" @click="paginaSiguiente">Siguiente</button>
   </div>
   <div class="prueba">
     <div class="card" v-for="ingrediente in ingredientes" :key="ingrediente.id" @click="cambiarSeleccion(ingrediente)"
@@ -144,25 +144,21 @@ input {
   padding: 10px;
   margin: 10px 0;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
 }
 
-button {
-  background-color: #b5bafd;
+.btn {
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
   border: none;
-  color: black;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;
+  margin: 10px;
 }
 
-button:hover {
-  background-color: #949bf8;
+.btn:hover {
+  background-color: rgb(51, 102, 255);
+  color: white;
 }
 
 .paginacion {
@@ -173,23 +169,7 @@ button:hover {
   margin: 10px;
 }
 
-.paginacion button {
-  background-color: #abffb2;
-  border: none;
-  color: black;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;
-}
 
-.paginacion button:hover {
-  background-color: #69ff69;
-}
 
 .prueba {
   display: grid;
