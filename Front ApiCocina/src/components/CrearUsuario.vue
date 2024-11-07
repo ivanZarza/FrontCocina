@@ -62,7 +62,7 @@ function enviarDatos() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgb(255, 212, 42);
+  background-color: var(--color-verde);  
   text-align: center;
   border-radius: 250px;
   margin-top: -100px;
@@ -72,7 +72,7 @@ function enviarDatos() {
 width: 200px;
 height: 200px;
   padding: 40px;
-  background-color: cornflowerblue;
+  background-color:  var(--color-azul-oscuro);
   color: rgb(255, 255, 255);
   border: 3px solid rgb(255, 212, 42);
   border-radius: 100px;
@@ -91,7 +91,7 @@ right: -10px;
   width: 140px;
 height: 140px;
   padding: 30px;
-  background-color: cornflowerblue;
+  background-color:  var(--color-azul-oscuro);
   color: rgb(255, 255, 255);
   border: 3px solid rgb(255, 212, 42);
   border-radius: 70px;
@@ -122,7 +122,7 @@ margin-left: -50px;
 .contenedor1 input {
   width: 250%;
   padding: 2px;
-  border: 2px solid cornflowerblue;
+  border: 2px solid  var(--color-azul-oscuro);
   border-radius: 20px;
 }
 
@@ -132,14 +132,14 @@ margin-left: -50px;
   height: 100px;
   font-size: large;
   padding: 10px;
-  background-color: cornflowerblue;
-  color: rgb(255, 255, 255);
+  background-color:  var(--color-azul-oscuro);
+  color:  var(--color-gris);
   border: 2px solid rgb(255, 212, 42);
   border-radius: 50px;
 }
 
 .contenedor1 button:hover {
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 89, 255);
+  background-color: var(--color-azul-claro);
+  color:var(--color-gris);
 }
 </style>
