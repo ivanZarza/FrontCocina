@@ -184,7 +184,7 @@ input {
   color: black;
   font-size: 1rem;
   text-align: center;
-  background-color: #ffaed7;
+  background-color: var(--color-rojo);
   padding: 3px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -193,8 +193,8 @@ input {
 
 
 .card.seleccionado {
-  background-color: white;
-  box-shadow: inset 0 0 10px #ff0180;
+  background-color: var(--color-verde);
+  box-shadow: inset 0 0 2px #000000;
   ;
 }
 

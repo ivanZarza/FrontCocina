@@ -86,6 +86,7 @@ function mostrarToast() {
 .form {
   justify-content: center;
   text-align: center;
+  color: white;
 }
 
 h2 {
@@ -121,7 +122,7 @@ span {
 }
 
 .enlace:hover {
-  color: var(--color-azul-claro);
+  color: var(--color-verde);
 }
 
 </style>

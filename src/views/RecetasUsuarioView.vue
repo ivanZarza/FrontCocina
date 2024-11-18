@@ -312,7 +312,7 @@ function agregarReceta() {
 .recetas-usuario-view {
   width: 100%;
   text-align: center;
-  background-color: var(--color-amarillo);
+  background-color: var(--color-borde);
 }
 
 .contenedor {
@@ -334,20 +334,6 @@ function agregarReceta() {
 
 .explicacion h2 {
   margin: 50px;
-}
-
-.explicacion .btn {
-  background-color: #2c3e50;
-  color: white;
-  padding: 20px;
-  border-radius: 5px;
-  border: none;
-  font-size: 1.5rem;
-}
-
-.explicacion .btn:hover {
-  background-color: rgb(51, 102, 255);
-  color: white;
 }
 
 .pasos {
@@ -374,9 +360,10 @@ function agregarReceta() {
   min-height: 100px;
   margin: 10px;
   gap: 10px;
-  background-color: var(--color-azul);
+  background-color: var(--color-amarillo);
   cursor: pointer;
   overflow: hidden;
+  border: 1px solid var(--color-azul-oscuro);
 /*   max-height: 150px; /* Altura cuando no está activo */
 } 
 
@@ -386,7 +373,7 @@ function agregarReceta() {
   height: 80px;
   margin: 10px;
   padding: 5px;
-  border-radius: 10px;
+  border-radius: 20px;
   border: 1px solid #cccccc;
   background-color: rgb(217, 243, 252);
   text-align: center;
@@ -395,13 +382,19 @@ function agregarReceta() {
 
 .panel {
   position: fixed;
-  top: 30%;
-  right: 0;
-  width: 50%;
+  top: 20%;
+  right: 10%;
+/*   width: 50%; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: var(--color-amarillo);
+  border: 1px solid var(--color-azul-oscuro);
+  border-radius: 20px;
+  padding:20px;
+  gap: 10px;
+  margin: 20px;
 }
 
 .resumen {
@@ -419,13 +412,15 @@ function agregarReceta() {
   /* Cambiado de center a flex-start para manejar mejor el contenido cuando se desborda */
   gap: 5px;
   padding: 5px;
-  background-color: var(--color-verde);
+  background-color: var(--color-amarillo);
   border-radius: 20px;
+  border: 1px solid var(--color-azul-oscuro);
   margin-bottom: 150px;
 }
 
 .active {
-  border: #2c3e50 3px solid;
+  border: var(--color-verde) 2px solid;
+  box-shadow:  0px 0px 3px;
   width: 50%;
   min-height: 300px;
 }

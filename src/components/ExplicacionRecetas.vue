@@ -28,17 +28,8 @@ defineEmits(['mostrarDiv'])
   }
 
   .btn{
-  background-color:#2c3e50;
-  color: white;
-  padding: 20px;
-  border-radius: 5px;
-  border:none;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
-.btn:hover {
-  background-color: rgb(51, 102, 255);
-  color: white;
-}
 
 </style>
