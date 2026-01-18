@@ -1,0 +1,1 @@
+import{_ as a,o as t,c as s,a as o,t as r,n}from"./index-Bd3iIt6k.js";const c={__name:"VentanaToast",props:{verToast:{type:Boolean,required:!0},mensajeToast:{type:String,required:!0}},setup(e){return(i,l)=>(t(),s("div",{class:n(["toast",{visible:e.verToast}])},[o("h2",null,r(e.mensajeToast),1)],2))}},_=a(c,[["__scopeId","data-v-8ea007de"]]);export{_ as V};
